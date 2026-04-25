@@ -40,22 +40,6 @@ As of March 2026, the recommended default models are:
 - **Opus**: `claude-opus-4-6` (most capable)
 - **Haiku**: `claude-haiku-4-5-20251001` (fastest)
 
-## Testing Your Configuration
-
-```bash
-# Check environment variables
-env | grep ANTHROPIC
-
-# Check user settings
-cat ~/.claude/settings.json
-
-# Start Claude with explicit model for this session
-claude --model claude-sonnet-4-6
-
-# Check what model the current session is using
-# (Look for "You are powered by" in the session environment info)
-```
-
 ## Related Documentation
 
 - Model configuration: https://code.claude.com/docs/en/model-config.md
