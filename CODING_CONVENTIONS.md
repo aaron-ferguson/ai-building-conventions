@@ -1,0 +1,216 @@
+# Programming Conventions
+
+This file defines coding expectations for this project. It is loaded into AI context at the start of every session. When making any change — new code, edits, or refactors — run the **Review Checklist** at the bottom before finalizing.
+
+---
+
+## Tier 1 — Always Apply
+
+These rules have no exceptions. Apply them to every line written.
+
+### Naming
+- Name things exactly what they are. `createJiraBugFromDiscrepancy()` not `processItem()`.
+- Functions are verbs: `fetchPage`, `buildAdfBlock`, `compareScreenshots`.
+- Files are named for what they do: `login.js`, `compare.js`, `report.js`.
+- No abbreviations unless universally understood (`url`, `id`, `api`).
+
+### Single Responsibility
+- Each file does one thing. If you find yourself writing `// --- Section 2 ---`, that's a second file.
+- Each function does one thing. If it needs a comment to explain what it does, it should be a named function instead.
+
+### Fail Loudly and Early
+- Validate required inputs at the top of every script and function boundary.
+- Throw descriptive errors — never silently return `null` or `undefined` on failure.
+- Do not catch errors unless you are explicitly handling them. Let them propagate.
+
+```js
+// Good
+assert(process.env.APP_USERNAME, 'APP_USERNAME env var is required');
+
+// Bad
+const user = process.env.APP_USERNAME || '';
+```
+
+### Explicit Over Implicit
+- No magic numbers or magic strings — define them as named constants.
+- No clever one-liners that require a second read to understand.
+- Side effects must be obvious from the function name or clearly documented at the call site.
+
+### Constants at the Boundary
+- All shared identifiers (API field IDs, project keys, cloud IDs, base URLs) live in a single `constants.js` (or equivalent) imported everywhere.
+- Never hardcode these values inline — even once.
+
+### Shallow Nesting
+- Max 2 levels of nesting inside a function. Extract early-return guards or named functions instead.
+- Prefer flat over nested data structures when the shape is under your control.
+
+### YAGNI — Don't Build for Hypothetical Requirements
+- Only build what is needed for the current task.
+- Do not add parameters, options, config flags, or code paths "in case we need it later."
+- If a future requirement arrives, add it then — with full context. Speculative code is always wrong in ways you can't predict.
+
+### Comments Explain Why, Not What
+- Code should be self-documenting — if a comment is needed to explain *what* code does, rename or restructure instead.
+- Comments are for *why* a decision was made: non-obvious tradeoffs, external constraints, known limitations.
+
+```js
+// Bad — explains what, which the code already says
+// Loop through issues and build ticket objects
+const tickets = issues.map(buildTicket);
+
+// Good — explains why
+// Jira rejects ADF with trailing newlines; strip before sending
+const body = content.trimEnd();
+```
+
+### Command-Query Separation
+- A function either **returns a value** or **causes a side effect** — not both.
+- Fetching data: returns a value, causes no side effects.
+- Saving/sending/mutating: causes a side effect, returns nothing meaningful (or a success/error signal only).
+- Mixing both in one function makes behavior unpredictable and hard to test.
+
+```js
+// Bad — fetches AND saves, unclear what the return value means
+async function fetchAndSaveIssues() { ... }
+
+// Good — separated
+const issues = await fetchIssues();
+await saveIssues(issues);
+```
+
+### Immutability Preference
+- Do not mutate inputs. If a function receives an object or array, return a new one instead of modifying it.
+- Mutations that happen inside a function are invisible to the caller and a common source of silent bugs.
+
+```js
+// Bad — mutates the input
+function addStatus(issue) {
+  issue.status = 'open';
+  return issue;
+}
+
+// Good — returns a new object
+function addStatus(issue) {
+  return { ...issue, status: 'open' };
+}
+```
+
+---
+
+## Tier 2 — Apply When Triggered
+
+These are sound principles that create unnecessary complexity when applied too early. Each has a specific trigger condition. Do not apply them before the trigger is met.
+
+### DRY — Extract when you hit the third repetition
+**Trigger:** The same logic appears in 3 or more places, and the logic is stable (not still changing).
+- Before the third instance: duplication is acceptable.
+- At the third instance: extract a named function or module.
+- Do not DRY things that are still evolving — premature abstraction is worse than duplication.
+
+### Deep Modules — Wrap when the interface stabilizes
+**Trigger:** A module has been in use across 2+ callers and its internal implementation has changed at least once.
+- At that point, define a clean public interface and hide the internals.
+- A deep module has a simple entry point and complex internals — not a shallow wrapper over complexity.
+
+### Test Coverage — Write tests when logic is proven and stable
+**Trigger:** A pure function is finalized, a bug is fixed, or a data transform is used in production.
+- Pure functions and data transforms: write a unit test when the function is complete.
+- Bug fixes: always write a regression test.
+- Integration code (API calls, Playwright): test after the integration is proven; mock at the boundary.
+- Do not write tests for code that is still being shaped — tests lock in behavior prematurely.
+
+### Shared Utilities — Extract when copied across files
+**Trigger:** A helper function has been copied (not just written once) into a second file.
+- At that point, move it to a shared `utils.js` or domain-specific utility module.
+- Do not create utility files speculatively.
+
+### Interface Abstraction — Generalize when you have two implementations
+**Trigger:** You are writing a second implementation of something that already exists.
+- At that point, define a shared interface or base pattern both implementations follow.
+- Do not abstract for a hypothetical second implementation that doesn't exist yet.
+
+### Dependency Injection — Pass dependencies in when testing gets painful
+**Trigger:** A function has 2+ external dependencies (API clients, file system, browser) and is difficult to test without running the real thing.
+- At that point, accept dependencies as parameters instead of instantiating them inside the function.
+- This makes the function testable by passing in a mock, and makes its dependencies explicit to the caller.
+
+```js
+// Bad — hardcoded dependency, untestable in isolation
+async function fetchIssues() {
+  const client = new JiraClient(process.env.TOKEN);
+  return client.get('/issues');
+}
+
+// Good — dependency injected, testable with a mock
+async function fetchIssues(client) {
+  return client.get('/issues');
+}
+```
+
+---
+
+## Tier 3 — Revisit When the Codebase Matures
+
+These are the right long-term practices. They are not yet warranted, but they should be adopted deliberately as the project scales. Flag this section for review when:
+- The codebase spans 10+ files with shared dependencies, or
+- More than one person is making regular changes, or
+- A bug escaped to production that a test would have caught.
+
+**Practices to adopt at that point:**
+- Full integration test suite with CI enforcement.
+- Strict module boundary documentation (what each module exposes and hides).
+- Code review checklist enforcement before merge.
+
+---
+
+## Review Checklist
+
+Run this before finalizing any change — new code, edit, or refactor.
+
+```
+NAMING
+  [ ] Functions and files are named for exactly what they do
+  [ ] No ambiguous names, no single-letter variables outside loops
+
+RESPONSIBILITY
+  [ ] Each function does one thing
+  [ ] Each file has one clear purpose
+
+SAFETY
+  [ ] Required inputs are validated at the top
+  [ ] Errors are thrown, not silently swallowed
+  [ ] No hardcoded strings or magic numbers (use constants.js)
+
+COMPLEXITY
+  [ ] Nesting is 2 levels or fewer inside functions
+  [ ] No clever code that requires a second read
+  [ ] No speculative code — only what the current task requires (YAGNI)
+
+SIDE EFFECTS
+  [ ] Functions either return a value or cause a side effect — not both
+  [ ] Inputs are not mutated — new values are returned instead
+
+COMMENTS
+  [ ] Comments explain why, not what
+  [ ] If a comment explains what the code does, rename or restructure instead
+
+TIER 2 TRIGGERS — check before adding abstraction
+  [ ] DRY extraction: is this the 3rd+ instance of this logic?
+  [ ] Test added: is this a pure function, bug fix, or stable transform?
+  [ ] Utility extraction: was this actually copied from another file?
+  [ ] Interface abstraction: does a second implementation actually exist?
+  [ ] Dependency injection: does this function have 2+ external deps that make it untestable?
+
+TIER 3 CHECK — is it time to level up?
+  [ ] Are we at 10+ files with shared dependencies?
+  [ ] Has a bug escaped that a test would have caught?
+  [ ] Is more than one person making regular changes?
+```
+
+---
+
+## What This File Is Not
+
+- It is not a style guide — use a linter and formatter for that (ESLint + Prettier).
+- It is not exhaustive — if a principle isn't here, default to KISS.
+- It is not permanent — update it when a Tier 2 trigger is consistently met across the project, or when a Tier 3 threshold is crossed.
