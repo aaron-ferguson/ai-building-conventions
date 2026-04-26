@@ -16,6 +16,12 @@ This file defines testing expectations for all projects. It is loaded into AI co
 - **Scope to the change** — run the minimum suite that validates the change; full-suite runs are expensive and rarely needed.
 - **Green phase:** check exit code and failure lines only — don't review every line of output.
 
+## Dev Server Cleanup
+
+- **Stop the dev server after testing** — if you started a dev server for E2E or manual testing, stop it when done to prevent port conflicts on subsequent test runs
+- **Command:** `pkill -f "npm run dev"` or manually stop the running process in its terminal
+- **Why:** prevents "address already in use" errors when starting the dev server again
+
 ## Test Isolation
 
 - **Isolate at the boundary** — tests must not depend on external state or running services. Mock or stub all dependencies beyond the unit or module under test.
