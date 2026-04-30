@@ -36,6 +36,13 @@ const user = process.env.APP_USERNAME || '';
 - No clever one-liners that require a second read to understand.
 - Side effects must be obvious from the function name or clearly documented at the call site.
 
+### Use Types
+Prefer typed code in all new work. TypeScript over JavaScript; Python with full type hints.
+
+- Types are the cheapest form of documentation — they make intent explicit without requiring runtime tracing.
+- Untyped code hides what values can be and is a common source of silent bugs.
+- If adding to an existing untyped codebase, type the module you are touching.
+
 ### Constants at the Boundary
 - All shared identifiers (API field IDs, project keys, cloud IDs, base URLs) live in a single `constants.js` (or equivalent) imported everywhere.
 - Never hardcode these values inline — even once.
@@ -112,13 +119,6 @@ These are sound principles that create unnecessary complexity when applied too e
 - At that point, define a clean public interface and hide the internals.
 - A deep module has a simple entry point and complex internals — not a shallow wrapper over complexity.
 
-### Test Coverage — Write tests when logic is proven and stable
-**Trigger:** A pure function is finalized, a bug is fixed, or a data transform is used in production.
-- Pure functions and data transforms: write a unit test when the function is complete.
-- Bug fixes: always write a regression test.
-- Integration code (API calls, Playwright): test after the integration is proven; mock at the boundary.
-- Do not write tests for code that is still being shaped — tests lock in behavior prematurely.
-
 ### Shared Utilities — Extract when copied across files
 **Trigger:** A helper function has been copied (not just written once) into a second file.
 - At that point, move it to a shared `utils.js` or domain-specific utility module.
@@ -194,9 +194,11 @@ COMMENTS
   [ ] Comments explain why, not what
   [ ] If a comment explains what the code does, rename or restructure instead
 
+TESTING
+  [ ] Tests written before implementation — see TESTING_CONVENTIONS.md
+
 TIER 2 TRIGGERS — check before adding abstraction
   [ ] DRY extraction: is this the 3rd+ instance of this logic?
-  [ ] Test added: is this a pure function, bug fix, or stable transform?
   [ ] Utility extraction: was this actually copied from another file?
   [ ] Interface abstraction: does a second implementation actually exist?
   [ ] Dependency injection: does this function have 2+ external deps that make it untestable?
@@ -209,8 +211,34 @@ TIER 3 CHECK — is it time to level up?
 
 ---
 
+## Working with AI
+
+AI coding tools (Claude Code, Copilot, Cursor) are the default development workflow. The conventions above already produce code that AI tools reason about well — explicit, typed, named, and flat. Two additional practices matter.
+
+### Review AI Output Like a Junior Engineer's PR
+
+AI-generated code is confident, fluent, and sometimes subtly wrong. Treat every AI-generated diff as a PR from a smart junior who may have missed a constraint.
+
+- Does this match the intent, or just the letter of the instruction?
+- Are there edge cases the AI didn't handle?
+- Does this introduce any security vulnerabilities (injection, over-permissioning, exposed secrets)?
+- Does this follow the conventions in this repo, or did the AI default to its own style?
+
+Never ship AI-generated code without reading it. Test coverage is the primary defense against accumulated AI errors.
+
+### What Not to Delegate to AI
+
+- **Architectural decisions** — AI generates plausible architecture that fits common patterns, not your specific constraints.
+- **Security-sensitive design** — always review auth flows, credential handling, and access control yourself.
+- **Judgment calls about what to build** — that is product thinking, not code generation.
+
+Use AI for: implementation within a defined structure, boilerplate, refactoring to a known pattern, test generation for known behavior.
+
+---
+
 ## What This File Is Not
 
 - It is not a style guide — use a linter and formatter for that (ESLint + Prettier).
 - It is not exhaustive — if a principle isn't here, default to KISS.
+- It does not define testing standards — those are in `TESTING_CONVENTIONS.md`.
 - It is not permanent — update it when a Tier 2 trigger is consistently met across the project, or when a Tier 3 threshold is crossed.
