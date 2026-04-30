@@ -20,28 +20,28 @@ If you set a model in `~/.claude/settings.json` but sessions still use a differe
 2. **VS Code terminal inheritance** - VS Code inherits environment from its parent process
 3. **Shell config** - Check `.zshrc`, `.zshenv`, `.bash_profile`
 
-## Solution: Model Alias Mapping
+## Use Alias Names, Not Pinned Versions
 
-Instead of setting `ANTHROPIC_MODEL` directly (which overrides all settings), use the alias mapping environment variables:
+Refer to models by their tier alias (`sonnet`, `opus`, `haiku`) rather than pinning to specific version strings. Claude Code resolves aliases to the current recommended version for that tier automatically — no manual updates needed when models are upgraded.
 
-```bash
-# In ~/.zshrc or ~/.bash_profile
-export ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-4-6
-export ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4-6
-export ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-haiku-4-5-20251001
+```json
+// Good — in settings.json
+{ "model": "sonnet" }
+
+// Bad — pins to a specific version that will go stale
+{ "model": "claude-sonnet-4-6" }
 ```
 
-This maps the short aliases (`sonnet`, `opus`, `haiku`) to specific model versions while still respecting your settings.json for other configurations.
+If you are setting model env vars in `~/.zshrc` to work around VS Code inheritance issues, use the alias mapping variables rather than `ANTHROPIC_MODEL` (which overrides all settings):
 
-## Current Configuration
-
-As of March 2026, the recommended default models are:
-- **Sonnet**: `claude-sonnet-4-6` (latest)
-- **Opus**: `claude-opus-4-6` (most capable)
-- **Haiku**: `claude-haiku-4-5-20251001` (fastest)
+```bash
+# Maps the alias to whatever the current default is — no version pinning
+export ANTHROPIC_DEFAULT_SONNET_MODEL=sonnet
+export ANTHROPIC_DEFAULT_OPUS_MODEL=opus
+export ANTHROPIC_DEFAULT_HAIKU_MODEL=haiku
+```
 
 ## Related Documentation
 
-- Model configuration: https://code.claude.com/docs/en/model-config.md
-- Settings precedence: https://code.claude.com/docs/en/settings.md
-- Claude API models: https://platform.claude.com/docs/en/about-claude/models/overview.md
+- Model configuration: https://docs.anthropic.com/en/docs/claude-code/settings
+- Claude API models: https://docs.anthropic.com/en/docs/about-claude/models/overview
