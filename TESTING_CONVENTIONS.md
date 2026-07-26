@@ -9,12 +9,18 @@ This file defines testing expectations for all projects. It is loaded into AI co
 - **TDD always:** write tests first → confirm red → implement → confirm green → commit. No exceptions for functional changes.
 - **Failing tests are victories** — they catch bugs before users do. Never treat a test failure as a problem to paper over.
 - **Never claim false success** — if a test fails, report it immediately and completely.
-- **Never auto-run tests** — always prompt the user. Running the full suite costs tokens and time; let the user decide when to run.
+- **Run tests as part of the TDD cycle** — after implementing, run the scoped suite automatically. Reserve full-suite runs for explicit user requests.
 
 ## Running Tests
 
 - **Scope to the change** — run the minimum suite that validates the change; full-suite runs are expensive and rarely needed.
 - **Green phase:** check exit code and failure lines only — don't review every line of output.
+
+## Test Output
+
+- **Lean by default** — configure test runners and reporters for minimal output: no per-test pass lines, no full stack traces on success, summary only. Verbosity should not increase token usage when everything is green.
+- **Dig deeper on demand** — when a failure needs investigation, temporarily increase verbosity (e.g. `--reporter=verbose`, `--silent=false`, added `console.log`) to get the signal needed, then revert to lean defaults once resolved.
+- **No test-internal logging by default** — do not add `console.log` or debug output inside tests unless actively troubleshooting. Remove it before committing.
 
 ## Dev Server Cleanup
 
