@@ -20,13 +20,20 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 ## Testing
 
 - TDD always: write the test first → confirm red → implement → confirm green → commit. No exceptions.
-- Never auto-run tests — prompt the user to run them.
+- Run tests as part of the normal TDD cycle — after implementing, run the scoped suite automatically.
+- Configure test output to be lean by default (summary + failures only). Add verbosity temporarily when troubleshooting, then revert.
 
 ## Git
 
 - Atomic commits. Imperative mood, sentence case: `Add`, `Fix`, `Update`, `Remove`.
 - Stage specific files. Never `git add .` or `git add -A`.
 - Never push without explicit user approval.
+
+## Security
+
+- Secrets never appear in source, config, commits, or AI context. Keychain + env vars only.
+- All external input is validated server-side. The client is never the authority.
+- LLM output is untrusted input — validate it like anything user-supplied.
 
 ## AI Workflow
 
@@ -37,12 +44,16 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 
 ## Load for More Detail
 
-Read these when the current task warrants it:
+Read these when the current task warrants it (all live alongside this file in `AI_CODING_CONVENTIONS/`):
 
-- **Coding rules + Review Checklist** → `ai-coding-conventions/CODING_CONVENTIONS.md`
-- **Testing** (TDD cycle, isolation, what to test) → `ai-coding-conventions/TESTING_CONVENTIONS.md`
-- **Architecture** (modular monolith, vertical slices) → `ai-coding-conventions/ARCHITECTURE_CONVENTIONS.md`
-- **Git** (destructive commands, branch management) → `ai-coding-conventions/GIT_CONVENTIONS.md`
-- **Building AI features** (evals, RAG, observability) → `ai-coding-conventions/AI_PRODUCT_CONVENTIONS.md`
-- **MCP setup** (token security, Keychain pattern) → `ai-coding-conventions/MCP_CONVENTIONS.md`
-- **Model config** (alias mapping, settings precedence) → `ai-coding-conventions/CLAUDE_CODE_MODEL_CONFIG.md`
+- **Coding rules + Review Checklist** → `CODING_CONVENTIONS.md`
+- **Testing** (TDD cycle, isolation, what to test) → `TESTING_CONVENTIONS.md`
+- **Architecture** (modular monolith, vertical slices) → `ARCHITECTURE_CONVENTIONS.md`
+- **Security** (secrets, trust boundaries, injection, AI-specific risks) → `SECURITY_CONVENTIONS.md`
+- **Dependencies** (when a package earns its place, lockfiles, supply chain) → `DEPENDENCY_CONVENTIONS.md`
+- **Documentation** (README baseline, decision records, CLAUDE.md upkeep) → `DOCUMENTATION_CONVENTIONS.md`
+- **Deployment** (topology, rollback, production readiness) → `DEPLOYMENT_CONVENTIONS.md`
+- **Git** (destructive commands, branch management) → `GIT_CONVENTIONS.md`
+- **Building AI features** (evals, RAG, observability) → `AI_PRODUCT_CONVENTIONS.md`
+- **MCP setup** (token security, Keychain pattern) → `MCP_CONVENTIONS.md`
+- **Model config** (alias mapping, settings precedence) → `CLAUDE_CODE_MODEL_CONFIG.md`

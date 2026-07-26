@@ -181,6 +181,11 @@ SAFETY
   [ ] Errors are thrown, not silently swallowed
   [ ] No hardcoded strings or magic numbers (use constants.js)
 
+SECURITY
+  [ ] No secrets in the diff — not even "temporarily"
+  [ ] External input validated server-side, not just in the UI
+  [ ] Change touches auth/credentials/data visibility? → run SECURITY_CONVENTIONS.md security pass
+
 COMPLEXITY
   [ ] Nesting is 2 levels or fewer inside functions
   [ ] No clever code that requires a second read
