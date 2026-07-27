@@ -31,6 +31,7 @@ Accessibility is not a feature or a late-stage audit — it's a property of corr
 - Use the project's design-system components rather than hand-rolling controls. Accessible components are accessibility done once, correctly, and reused — don't rebuild a control the system already provides and get its a11y wrong.
 - The design system is the source of truth for accessible color tokens and interaction patterns; align to it rather than inventing local variants.
 - The specific design system, and any audit tooling it exposes, is named in the company profile (`companies/<name>/`). A project with no company profile uses whatever design system it declares in its own CLAUDE.md.
+- **No design system yet?** Don't invent one up front. See `ui-conventions.md` → "Design System: Adopt, Emerge, then Formalize" — the accessibility rules in this file apply immediately regardless, including to hand-rolled components.
 
 ## Verify, Don't Assume
 

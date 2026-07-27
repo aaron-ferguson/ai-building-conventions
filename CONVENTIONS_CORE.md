@@ -52,7 +52,7 @@ Every project declares two things in its CLAUDE.md:
 - company: none | <name>                # loads companies/<name>/ (gitignored) — see companies/_template.md
 ```
 
-These are two independent axes. **Neither lowers the bar.** The standard for code quality, testing, security, privacy, and AI practice is the same on a solo weekend project as on a court-facing one — building good habits is the whole point. `collaboration` flexes only the human process around merging and shipping. `company` *adds* constraints; it never subtracts.
+These are two independent axes. **Neither lowers the bar.** The standard for code quality, testing, security, privacy, and AI practice is the same on a solo weekend project as on a customer-facing one — building good habits is the whole point. `collaboration` flexes only the human process around merging and shipping. `company` *adds* constraints; it never subtracts.
 
 Everything in these conventions is one of two kinds:
 
@@ -77,6 +77,7 @@ Read these when the current task warrants it (all live alongside this file in `A
 - **Testing** (TDD cycle, isolation, what to test) → `testing-conventions.md`
 - **Architecture** (modular monolith, vertical slices) → `architecture-conventions.md`
 - **API design** (contracts, versioning, compatibility) → `api-conventions.md`
+- **UI / frontend** (components, styling, design-system bootstrapping) → `ui-conventions.md`
 - **Accessibility** (WCAG AA default, semantic UI, design-system reuse) → `accessibility-conventions.md`
 
 **Safety & data**
