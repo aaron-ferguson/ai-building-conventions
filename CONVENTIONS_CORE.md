@@ -31,7 +31,7 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 
 ## Security
 
-- Secrets never appear in source, config, commits, or AI context. Keychain + env vars only.
+- Secrets never appear in source, config, commits, or AI context. OS secret store + env vars only.
 - All external input is validated server-side. The client is never the authority.
 - LLM output is untrusted input — validate it like anything user-supplied.
 
@@ -94,5 +94,5 @@ Read these when the current task warrants it (all live alongside this file in `A
 
 **AI & tooling**
 - **Building AI features** (evals, grounding, redaction, guardrails, human-in-loop, cost) → `ai-product-conventions.md`
-- **MCP setup** (token security, Keychain pattern) → `mcp-conventions.md`
+- **MCP setup** (token security, secret-store pattern) → `mcp-conventions.md`
 - **Model config** (alias mapping, settings precedence) → `claude-code-model-config.md`

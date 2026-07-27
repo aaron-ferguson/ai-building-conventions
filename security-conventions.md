@@ -7,7 +7,7 @@ This file defines security expectations for all projects. It is loaded into AI c
 ## Secrets Never Touch the Repo
 
 - No token, key, password, or connection string appears in source, config, commit history, or AI conversation context — ever. Not "temporarily," not in a comment, not in an example.
-- Secrets live in the macOS Keychain and reach processes as environment variables — see `mcp-conventions.md` for the pattern.
+- Secrets live in a secure OS secret store (macOS Keychain, Windows Credential Manager, Linux Secret Service, or a dedicated secrets manager) and reach processes as environment variables — see `mcp-conventions.md` for the pattern.
 - `.env` and `.env.*` are gitignored in every project (see `git-conventions.md`). Provide a committed `.env.example` with variable names only.
 - Before any commit that touched config: scan the staged diff for anything that looks like a credential.
 - If a secret leaks: rotate at the source first, then clean up. Removing it from the code does not un-leak it.
@@ -21,7 +21,7 @@ This file defines security expectations for all projects. It is loaded into AI c
 ## The Server Is the Authority
 
 - The client is a rendering surface, not a decision-maker. Permissions, prices, scores, game state, and data visibility are computed and enforced server-side.
-- Never send the client data it isn't allowed to see and rely on the UI to hide it. If it crossed the wire, it's exposed. (Bomb Busters' `projectClientState()` hand-isolation invariant is this rule applied.)
+- Never send client data shouldn't be seen and rely on the UI to hide it. If it's sent, it's exposed.
 - Authorization is checked on every request, not just at login. Default deny.
 
 ## No Injection Paths
