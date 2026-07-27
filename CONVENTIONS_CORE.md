@@ -42,18 +42,55 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 
 ---
 
+## Profiles & How Overrides Work
+
+Every project declares two things in its CLAUDE.md:
+
+```markdown
+## Profile
+- collaboration: solo | collaborative   # merge/review ceremony — see COLLABORATION_MODES.md
+- company: none | <name>                # loads companies/<name>/ (gitignored) — see companies/_TEMPLATE.md
+```
+
+These are two independent axes. **Neither lowers the bar.** The standard for code quality, testing, security, privacy, and AI practice is the same on a solo weekend project as on a court-facing one — building good habits is the whole point. `collaboration` flexes only the human process around merging and shipping. `company` *adds* constraints; it never subtracts.
+
+Everything in these conventions is one of two kinds:
+
+- **Principles** — justified by correctness or safety (TDD, fail-loudly, validate at the boundary, no secrets in the repo, use types, YAGNI, accessibility). **Non-negotiable.** No project or company overrides them; a company profile may only make them stricter.
+- **Preferences** — justified by consistency, where reasonable choices differ and none is strictly better (git branching strategy, commit format, formatter config, package manager, API style). The general repo picks a **default** so you don't re-litigate it; it can be overridden.
+
+Precedence for a preference (most-specific wins): **project CLAUDE.md > company profile > general default.** Principles sit above all of it. When a rule is an overridable preference, its file says so explicitly; assume everything else is a principle.
+
+---
+
 ## Load for More Detail
 
 Read these when the current task warrants it (all live alongside this file in `AI_CODING_CONVENTIONS/`):
 
+**Profiles & axes**
+- **Collaboration mode** (solo ↔ collaborative — what flexes, what doesn't) → `COLLABORATION_MODES.md`
+- **Company profiles** (isolated, gitignored; constraints + house preferences) → `companies/_TEMPLATE.md`
+
+**Craft**
 - **Coding rules + Review Checklist** → `CODING_CONVENTIONS.md`
 - **Testing** (TDD cycle, isolation, what to test) → `TESTING_CONVENTIONS.md`
 - **Architecture** (modular monolith, vertical slices) → `ARCHITECTURE_CONVENTIONS.md`
+- **API design** (contracts, versioning, compatibility) → `API_CONVENTIONS.md`
+- **Accessibility** (WCAG AA default, semantic UI, design-system reuse) → `ACCESSIBILITY_CONVENTIONS.md`
+
+**Safety & data**
 - **Security** (secrets, trust boundaries, injection, AI-specific risks) → `SECURITY_CONVENTIONS.md`
+- **Data privacy** (classification, PII in logs, redaction before egress) → `DATA_PRIVACY_CONVENTIONS.md`
 - **Dependencies** (when a package earns its place, lockfiles, supply chain) → `DEPENDENCY_CONVENTIONS.md`
+
+**Ship & operate**
 - **Documentation** (README baseline, decision records, CLAUDE.md upkeep) → `DOCUMENTATION_CONVENTIONS.md`
-- **Deployment** (topology, rollback, production readiness) → `DEPLOYMENT_CONVENTIONS.md`
 - **Git** (destructive commands, branch management) → `GIT_CONVENTIONS.md`
-- **Building AI features** (evals, RAG, observability) → `AI_PRODUCT_CONVENTIONS.md`
+- **CI/CD & code review** (checks, branch protection, PR process) → `CICD_CONVENTIONS.md`
+- **Deployment** (topology, rollback, production readiness) → `DEPLOYMENT_CONVENTIONS.md`
+- **Observability** (structured logs, error tracking, metrics) → `OBSERVABILITY_CONVENTIONS.md`
+
+**AI & tooling**
+- **Building AI features** (evals, grounding, redaction, guardrails, human-in-loop, cost) → `AI_PRODUCT_CONVENTIONS.md`
 - **MCP setup** (token security, Keychain pattern) → `MCP_CONVENTIONS.md`
 - **Model config** (alias mapping, settings precedence) → `CLAUDE_CODE_MODEL_CONFIG.md`

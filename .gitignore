@@ -1,0 +1,16 @@
+# Company-specific profiles are ISOLATED and never committed to this shared repo.
+# General conventions here are shareable (consulting, handoff, a future employer);
+# company constraints are not. See companies/_TEMPLATE.md for the rationale.
+#
+# To hand a client this repo: share the general files + only their own
+# companies/<name>/ folder. No company profile references any other company,
+# so there is no cross-contamination path.
+companies/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp

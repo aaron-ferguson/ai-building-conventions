@@ -37,8 +37,12 @@ Never use these as shortcuts around failing hooks or unexpected state. Investiga
 
 ## Branch Management
 
-- Default working branch is `main` unless the project specifies otherwise.
-- Do not create branches speculatively — only when required for a PR or parallel work stream.
+Branching *strategy* is a **preference, not a principle** — trunk-based, feature-branch, and GitFlow are all defensible, and none is strictly better for every context. The default below is the general-repo choice; a company profile or a project's CLAUDE.md may override it (`CONVENTIONS_CORE.md` → "How overrides work"). What does *not* flex is the pushing/destructive-command discipline above — that's principle-level.
+
+- **General default (solo):** work directly on `main`; create a branch only for parallel work or a risky spike. No PR overhead when you're the only writer.
+- **Collaborative mode:** changes land through pull requests on feature branches with branch protection on `main` — see `COLLABORATION_MODES.md` and `CICD_CONVENTIONS.md`.
+- **Company override:** if a company mandates a branching model (e.g. GitFlow, protected release branches), it's recorded in the company profile and wins for that company's projects.
+- Whatever the strategy: don't create branches speculatively — only when the workflow actually requires one.
 
 ## .gitignore Essentials
 
