@@ -77,7 +77,7 @@ Read these when the current task warrants it (all live alongside this file in `A
 - **Testing** (TDD cycle, isolation, what to test) → `testing-conventions.md`
 - **Architecture** (modular monolith, vertical slices) → `architecture-conventions.md`
 - **API design** (contracts, versioning, compatibility) → `api-conventions.md`
-- **UI / frontend** (components, styling, design-system bootstrapping) → `ui-conventions.md`
+- **UI / frontend & UX** (components, design systems, usability heuristics, UI states, forms, perceived performance) → `ui-conventions.md`
 - **Accessibility** (WCAG AA default, semantic UI, design-system reuse) → `accessibility-conventions.md`
 
 **Safety & data**
