@@ -186,6 +186,13 @@ SECURITY
   [ ] External input validated server-side, not just in the UI
   [ ] Change touches auth/credentials/data visibility? → run SECURITY_CONVENTIONS.md security pass
 
+PRIVACY & DATA
+  [ ] No PII/secrets in logs, traces, or analytics (identifiers, not contents)
+  [ ] New sensitive data, new egress destination, or data sent to a model? → run DATA_PRIVACY_CONVENTIONS.md pass
+
+USER-FACING UI
+  [ ] Semantic, keyboard-operable, AA contrast, uses the design system → see ACCESSIBILITY_CONVENTIONS.md
+
 COMPLEXITY
   [ ] Nesting is 2 levels or fewer inside functions
   [ ] No clever code that requires a second read
