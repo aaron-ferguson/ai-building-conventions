@@ -59,7 +59,7 @@ Carry the invariant; link the detail (`documentation-conventions.md`).
 
 ### 4. Verify it stayed lean
 
-Search the project's `CLAUDE.md` for `@` — there should be **exactly one** import, ending in `CONVENTIONS_CORE.md`. No other convention file, and no company profile, should be imported or pasted in.
+Check the project's `CLAUDE.md` imports (`@` lines) that point into this conventions directory: there should be **exactly one**, ending in `CONVENTIONS_CORE.md`. No other convention file, and no company profile, should be imported or pasted in. Imports unrelated to these conventions (a monorepo package's own `CLAUDE.md`, other project docs) are fine — leave them alone; this check is only about convention imports.
 
 ---
 
