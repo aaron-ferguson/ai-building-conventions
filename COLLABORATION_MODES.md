@@ -13,7 +13,7 @@ In each project's CLAUDE.md:
 ```markdown
 ## Profile
 - collaboration: solo        # or: collaborative
-- company: neumo             # or: none  (see companies/ — gitignored)
+- company: none              # or: <name> → loads companies/<name>/ (gitignored)
 ```
 
 Default to `solo` unless a second person makes regular changes. Promote to `collaborative` the moment that changes — it's a one-line edit, and the "When to promote" trigger below tells you when.
