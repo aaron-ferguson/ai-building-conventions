@@ -158,7 +158,7 @@ async function fetchIssues(client) {
 
 ## Tier 3 — Revisit When the Codebase Matures
 
-The practices a maturing project needs each have a fuller home elsewhere in these conventions — added since this tier was first written. Tier 3's job is the **trigger**: notice when a project has crossed into needing them, then go apply the real convention. Don't re-define those practices here; this is a signpost, not their home.
+The practices a maturing project needs each have a fuller home elsewhere in these conventions. Tier 3's job is the **trigger**: notice when a project has crossed into needing them, then go apply the real convention.
 
 Flag for review when any is true:
 - The codebase spans 10+ files with shared dependencies.
