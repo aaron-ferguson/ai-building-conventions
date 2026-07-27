@@ -68,7 +68,7 @@ Precedence for a preference (most-specific wins): **project CLAUDE.md > company 
 Read these when the current task warrants it (all live alongside this file in `AI_CODING_CONVENTIONS/`):
 
 **Profiles & axes**
-- **Wiring a project's CLAUDE.md** (import the core, link the rest) → `PROJECT_CLAUDE_TEMPLATE.md`
+- **Wiring a project into these conventions** (retrofit-first; import the core, link the rest) → `README.md`
 - **Collaboration mode** (solo ↔ collaborative — what flexes, what doesn't) → `COLLABORATION_MODES.md`
 - **Company profiles** (isolated, gitignored; constraints + house preferences) → `companies/_TEMPLATE.md`
 
