@@ -25,7 +25,7 @@ This file defines testing expectations for all projects. The essentials are summ
 ## Dev Server Cleanup
 
 - **Stop the dev server after testing** — if you started a dev server for E2E or manual testing, stop it when done to prevent port conflicts on subsequent test runs
-- **Command:** `pkill -f "npm run dev"` or manually stop the running process in its terminal
+- **How:** stop the process in its own terminal (`Ctrl+C`), or kill it by match — `pkill -f "npm run dev"` on macOS/Linux, `taskkill /F /IM node.exe` (or Stop-Process in PowerShell) on Windows
 - **Why:** prevents "address already in use" errors when starting the dev server again
 
 ## Test Isolation

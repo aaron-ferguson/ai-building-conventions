@@ -16,9 +16,9 @@ Claude Code determines which model to use based on this precedence order (highes
 
 If you set a model in `~/.claude/settings.json` but sessions still use a different model, check for:
 
-1. **Environment variables** - Run `env | grep ANTHROPIC` to check
+1. **Environment variables** - list them (`env | grep ANTHROPIC` on macOS/Linux; `Get-ChildItem Env:ANTHROPIC*` in PowerShell; `set ANTHROPIC` in cmd)
 2. **VS Code terminal inheritance** - VS Code inherits environment from its parent process
-3. **Shell config** - Check `.zshrc`, `.zshenv`, `.bash_profile`
+3. **Shell / startup config** - check your shell's startup files (`.zshrc`, `.zshenv`, `.bash_profile`, `.bashrc` on macOS/Linux; the PowerShell profile at `$PROFILE` on Windows)
 
 ## Use Alias Names, Not Pinned Versions
 
@@ -32,14 +32,16 @@ Refer to models by their tier alias (`sonnet`, `opus`, `haiku`) rather than pinn
 { "model": "claude-sonnet-4-6" }
 ```
 
-If you are setting model env vars in `~/.zshrc` to work around VS Code inheritance issues, use the alias mapping variables rather than `ANTHROPIC_MODEL` (which overrides all settings):
+If you are setting model env vars in your shell profile (or your system environment on Windows) to work around VS Code inheritance issues, use the alias mapping variables rather than `ANTHROPIC_MODEL` (which overrides all settings):
 
 ```bash
-# Maps the alias to whatever the current default is — no version pinning
+# macOS/Linux shell profile — maps the alias to whatever the current default is (no version pinning)
 export ANTHROPIC_DEFAULT_SONNET_MODEL=sonnet
 export ANTHROPIC_DEFAULT_OPUS_MODEL=opus
 export ANTHROPIC_DEFAULT_HAIKU_MODEL=haiku
 ```
+
+On Windows, set the same variables without `export` — via `setx ANTHROPIC_DEFAULT_SONNET_MODEL sonnet` (persists to the user environment) or System Properties → Environment Variables.
 
 ## Related Documentation
 
