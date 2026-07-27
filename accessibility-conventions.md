@@ -4,7 +4,7 @@ This file defines accessibility (a11y) expectations for any user-facing interfac
 
 Accessibility is not a feature or a late-stage audit — it's a property of correctly-built UI, the same way validated input is a property of correctly-built server code. Building it in costs almost nothing; retrofitting it costs a rewrite. For government and court products it is frequently a legal requirement, not a nicety.
 
-**Target:** WCAG 2.1 **AA** is the working default. A company profile may set a higher bar or a specific legal standard (e.g. Section 508) — that profile target wins (`companies/<name>/`).
+**Target:** WCAG 2.1 **AA** is the working default. See more details at https://www.w3.org/TR/WCAG22/. A company profile may set a higher bar or a specific legal standard (e.g. Section 508) — that profile target wins (`companies/<name>/`).
 
 ---
 
@@ -36,7 +36,7 @@ Accessibility is not a feature or a late-stage audit — it's a property of corr
 
 - Run automated checks (axe, Lighthouse, or the design system's audit tooling) as part of building UI — they catch the mechanical failures (missing labels, contrast, roles) cheaply.
 - Automated tools catch perhaps half of real issues. For anything non-trivial, do a keyboard-only pass and, where it matters, a screen-reader pass. Automated green is necessary, not sufficient.
-- Where UI is under test, include a11y assertions (roles, labels, focus) so regressions are caught like any other (`TESTING_CONVENTIONS.md`).
+- Where UI is under test, include a11y assertions (roles, labels, focus) so regressions are caught like any other (`testing-conventions.md`).
 
 ## By Collaboration Mode
 

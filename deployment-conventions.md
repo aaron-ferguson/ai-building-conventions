@@ -10,7 +10,7 @@ Every project's CLAUDE.md records, from day one:
 
 - **What hosts what** — platform, service names, URLs for each environment.
 - **Which account owns each piece** — hosting, DNS, database, and any third-party services. Account ambiguity is a real failure mode: two similar project names on different accounts will eventually cause a deploy to the wrong place.
-- **What triggers a deploy** — a push to a branch? A manual command? If pushing deploys, then the never-push-without-approval rule in `GIT_CONVENTIONS.md` is also the deploy gate.
+- **What triggers a deploy** — a push to a branch? A manual command? If pushing deploys, then the never-push-without-approval rule in `git-conventions.md` is also the deploy gate.
 
 If you can't answer "if I push this, what happens and where?", stop and find out before pushing.
 
@@ -36,7 +36,7 @@ Before an app has real users, it has:
 - **Meaningful logs** — enough server-side logging to reconstruct what happened. Never log secrets or PII.
 - **A smoke check** — one fast manual or scripted pass ("can I load the app and do the core action?") run after every production deploy.
 
-For AI features, observability requirements are stricter — see `AI_PRODUCT_CONVENTIONS.md`.
+For AI features, observability requirements are stricter — see `ai-product-conventions.md`.
 
 ## Versioning
 

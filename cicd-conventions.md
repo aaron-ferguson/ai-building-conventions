@@ -10,10 +10,10 @@ This file defines continuous integration, automated checks, and the code-review 
 
 The value of CI is a consistent, un-skippable gate that runs the same way regardless of who (or what) made the change. When a project has CI, it runs, at minimum:
 
-- **Tests** — the suite passes (`TESTING_CONVENTIONS.md`).
+- **Tests** — the suite passes (`testing-conventions.md`).
 - **Lint + format check** — the linter and formatter agree the code is clean (these are the style authority, not the conventions files).
-- **Typecheck** — typed code actually typechecks (`CODING_CONVENTIONS.md`).
-- **A secret scan** — no credential slipped into the diff (`SECURITY_CONVENTIONS.md`). Cheap insurance, worth it even solo.
+- **Typecheck** — typed code actually typechecks (`coding-conventions.md`).
+- **A secret scan** — no credential slipped into the diff (`security-conventions.md`). Cheap insurance, worth it even solo.
 
 CI runs the same checks you're supposed to run locally. It exists because "supposed to" fails silently and CI doesn't.
 
@@ -21,14 +21,14 @@ CI runs the same checks you're supposed to run locally. It exists because "suppo
 
 **Solo:**
 - Tests run locally in the TDD cycle. CI is *optional but recommended* once a project outlives a weekend — a green-check gate catches the mistake you'd otherwise push.
-- No PR or approval required. Commit to `main`, self-review against the `CODING_CONVENTIONS.md` checklist first.
+- No PR or approval required. Commit to `main`, self-review against the `coding-conventions.md` checklist first.
 - Branch protection is unnecessary overhead — you are the only writer.
 
 **Collaborative:**
 - CI is **required and enforced.** The checks above must pass before merge — no merging red, no exceptions negotiated per-PR.
 - **Branch protection is on:** no direct pushes to `main`; changes land through pull requests.
 - Every PR gets **at least one approving review from someone other than the author** before merge.
-- `--no-verify` and force-pushes to shared branches stay off (`GIT_CONVENTIONS.md`).
+- `--no-verify` and force-pushes to shared branches stay off (`git-conventions.md`).
 
 ## The Pull Request (Collaborative Mode)
 
@@ -38,18 +38,18 @@ CI runs the same checks you're supposed to run locally. It exists because "suppo
 
 ## Reviewing Code (Collaborative Mode)
 
-The reviewer runs the `CODING_CONVENTIONS.md` review checklist against someone else's change, plus:
+The reviewer runs the `coding-conventions.md` review checklist against someone else's change, plus:
 
 - Does it do what the PR says, and only that?
 - Are there edge cases or failure modes the author missed?
 - Does it match repo conventions, or introduce a divergent style?
-- Does it touch auth, data visibility, or sensitive data? → trigger the `SECURITY_CONVENTIONS.md` / `DATA_PRIVACY_CONVENTIONS.md` pass.
+- Does it touch auth, data visibility, or sensitive data? → trigger the `security-conventions.md` / `data-privacy-conventions.md` pass.
 
-**AI-generated diffs get a human author-of-record** who read and understood the change before requesting review (`CODING_CONVENTIONS.md` — "Review AI Output Like a Junior Engineer's PR"). "The AI wrote it" is never a reason a diff got less scrutiny — it's a reason it gets the same scrutiny a junior's PR would.
+**AI-generated diffs get a human author-of-record** who read and understood the change before requesting review (`coding-conventions.md` — "Review AI Output Like a Junior Engineer's PR"). "The AI wrote it" is never a reason a diff got less scrutiny — it's a reason it gets the same scrutiny a junior's PR would.
 
 ## Deploy Pipeline
 
-CD specifics — what a merge triggers, environment promotion, rollback — live in `DEPLOYMENT_CONVENTIONS.md`. The one rule that spans both: **a deploy is an explicit decision, never an automatic side effect the pipeline makes for you** without the approval gate.
+CD specifics — what a merge triggers, environment promotion, rollback — live in `deployment-conventions.md`. The one rule that spans both: **a deploy is an explicit decision, never an automatic side effect the pipeline makes for you** without the approval gate.
 
 ## Company Overrides
 

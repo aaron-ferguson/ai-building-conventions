@@ -48,8 +48,8 @@ Every project declares two things in its CLAUDE.md:
 
 ```markdown
 ## Profile
-- collaboration: solo | collaborative   # merge/review ceremony — see COLLABORATION_MODES.md
-- company: none | <name>                # loads companies/<name>/ (gitignored) — see companies/_TEMPLATE.md
+- collaboration: solo | collaborative   # merge/review ceremony — see collaboration-modes.md
+- company: none | <name>                # loads companies/<name>/ (gitignored) — see companies/_template.md
 ```
 
 These are two independent axes. **Neither lowers the bar.** The standard for code quality, testing, security, privacy, and AI practice is the same on a solo weekend project as on a court-facing one — building good habits is the whole point. `collaboration` flexes only the human process around merging and shipping. `company` *adds* constraints; it never subtracts.
@@ -69,29 +69,29 @@ Read these when the current task warrants it (all live alongside this file in `A
 
 **Profiles & axes**
 - **Wiring a project into these conventions** (retrofit-first; import the core, link the rest) → `README.md`
-- **Collaboration mode** (solo ↔ collaborative — what flexes, what doesn't) → `COLLABORATION_MODES.md`
-- **Company profiles** (isolated, gitignored; constraints + house preferences) → `companies/_TEMPLATE.md`
+- **Collaboration mode** (solo ↔ collaborative — what flexes, what doesn't) → `collaboration-modes.md`
+- **Company profiles** (isolated, gitignored; constraints + house preferences) → `companies/_template.md`
 
 **Craft**
-- **Coding rules + Review Checklist** → `CODING_CONVENTIONS.md`
-- **Testing** (TDD cycle, isolation, what to test) → `TESTING_CONVENTIONS.md`
-- **Architecture** (modular monolith, vertical slices) → `ARCHITECTURE_CONVENTIONS.md`
-- **API design** (contracts, versioning, compatibility) → `API_CONVENTIONS.md`
-- **Accessibility** (WCAG AA default, semantic UI, design-system reuse) → `ACCESSIBILITY_CONVENTIONS.md`
+- **Coding rules + Review Checklist** → `coding-conventions.md`
+- **Testing** (TDD cycle, isolation, what to test) → `testing-conventions.md`
+- **Architecture** (modular monolith, vertical slices) → `architecture-conventions.md`
+- **API design** (contracts, versioning, compatibility) → `api-conventions.md`
+- **Accessibility** (WCAG AA default, semantic UI, design-system reuse) → `accessibility-conventions.md`
 
 **Safety & data**
-- **Security** (secrets, trust boundaries, injection, AI-specific risks) → `SECURITY_CONVENTIONS.md`
-- **Data privacy** (classification, PII in logs, redaction before egress) → `DATA_PRIVACY_CONVENTIONS.md`
-- **Dependencies** (when a package earns its place, lockfiles, supply chain) → `DEPENDENCY_CONVENTIONS.md`
+- **Security** (secrets, trust boundaries, injection, AI-specific risks) → `security-conventions.md`
+- **Data privacy** (classification, PII in logs, redaction before egress) → `data-privacy-conventions.md`
+- **Dependencies** (when a package earns its place, lockfiles, supply chain) → `dependency-conventions.md`
 
 **Ship & operate**
-- **Documentation** (README baseline, decision records, CLAUDE.md upkeep) → `DOCUMENTATION_CONVENTIONS.md`
-- **Git** (destructive commands, branch management) → `GIT_CONVENTIONS.md`
-- **CI/CD & code review** (checks, branch protection, PR process) → `CICD_CONVENTIONS.md`
-- **Deployment** (topology, rollback, production readiness) → `DEPLOYMENT_CONVENTIONS.md`
-- **Observability** (structured logs, error tracking, metrics) → `OBSERVABILITY_CONVENTIONS.md`
+- **Documentation** (README baseline, decision records, CLAUDE.md upkeep) → `documentation-conventions.md`
+- **Git** (destructive commands, branch management) → `git-conventions.md`
+- **CI/CD & code review** (checks, branch protection, PR process) → `cicd-conventions.md`
+- **Deployment** (topology, rollback, production readiness) → `deployment-conventions.md`
+- **Observability** (structured logs, error tracking, metrics) → `observability-conventions.md`
 
 **AI & tooling**
-- **Building AI features** (evals, grounding, redaction, guardrails, human-in-loop, cost) → `AI_PRODUCT_CONVENTIONS.md`
-- **MCP setup** (token security, Keychain pattern) → `MCP_CONVENTIONS.md`
-- **Model config** (alias mapping, settings precedence) → `CLAUDE_CODE_MODEL_CONFIG.md`
+- **Building AI features** (evals, grounding, redaction, guardrails, human-in-loop, cost) → `ai-product-conventions.md`
+- **MCP setup** (token security, Keychain pattern) → `mcp-conventions.md`
+- **Model config** (alias mapping, settings precedence) → `claude-code-model-config.md`

@@ -9,7 +9,7 @@ This file defines documentation expectations for all projects. Durability is mos
 Every project's README answers, in this order:
 
 1. **What this is** — one paragraph, plain language.
-2. **How to run it** — the exact commands, including env vars needed (names only, see `SECURITY_CONVENTIONS.md`).
+2. **How to run it** — the exact commands, including env vars needed (names only, see `security-conventions.md`).
 3. **How to test it** — the command and any setup.
 4. **How to deploy it** — or a pointer to where that's documented.
 
@@ -38,6 +38,6 @@ Why this matters for AI-driven development: an AI session can read the code but 
 
 ## What Not to Document
 
-- Anything the code already says — mirrors the comments rule in `CODING_CONVENTIONS.md`.
+- Anything the code already says — mirrors the comments rule in `coding-conventions.md`.
 - Anything git history already records (who, when, in what order).
 - Speculative future plans dressed as documentation. Document what is, and decisions actually made.

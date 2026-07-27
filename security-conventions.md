@@ -7,8 +7,8 @@ This file defines security expectations for all projects. It is loaded into AI c
 ## Secrets Never Touch the Repo
 
 - No token, key, password, or connection string appears in source, config, commit history, or AI conversation context — ever. Not "temporarily," not in a comment, not in an example.
-- Secrets live in the macOS Keychain and reach processes as environment variables — see `MCP_CONVENTIONS.md` for the pattern.
-- `.env` and `.env.*` are gitignored in every project (see `GIT_CONVENTIONS.md`). Provide a committed `.env.example` with variable names only.
+- Secrets live in the macOS Keychain and reach processes as environment variables — see `mcp-conventions.md` for the pattern.
+- `.env` and `.env.*` are gitignored in every project (see `git-conventions.md`). Provide a committed `.env.example` with variable names only.
 - Before any commit that touched config: scan the staged diff for anything that looks like a credential.
 - If a secret leaks: rotate at the source first, then clean up. Removing it from the code does not un-leak it.
 

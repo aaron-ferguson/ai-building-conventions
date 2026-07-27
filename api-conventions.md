@@ -8,7 +8,7 @@ An API is a promise. The cost of a bad internal function is a refactor; the cost
 
 ## Design the Contract First
 
-- Decide the inputs, outputs, and error shapes before implementing. The contract is the interface `CODING_CONVENTIONS.md` talks about, made external.
+- Decide the inputs, outputs, and error shapes before implementing. The contract is the interface `coding-conventions.md` talks about, made external.
 - Name resources and operations for what they are, exactly as you'd name functions and files. A consumer should be able to guess the endpoint.
 - Keep the surface small. Every endpoint, field, and parameter is something you'll support. YAGNI applies to API surface with extra force — you can add a field later far more easily than you can remove one.
 
@@ -20,24 +20,24 @@ An API is a promise. The cost of a bad internal function is a refactor; the cost
 
 ## Explicit, Validated Boundaries
 
-- Every endpoint validates its inputs at the boundary and rejects bad input with a clear, structured error (`SECURITY_CONVENTIONS.md` — external input is hostile until validated).
+- Every endpoint validates its inputs at the boundary and rejects bad input with a clear, structured error (`security-conventions.md` — external input is hostile until validated).
 - Errors are part of the contract: return a consistent error shape (a machine-readable code plus a human-readable message), not ad-hoc strings that vary per endpoint. Never leak internals (stack traces, SQL) in an error response.
-- Authorization is checked on every request, server-side, default-deny (`SECURITY_CONVENTIONS.md`). The API never trusts the client's claim about who it is or what it may see.
+- Authorization is checked on every request, server-side, default-deny (`security-conventions.md`). The API never trusts the client's claim about who it is or what it may see.
 
 ## Versioning and Compatibility
 
 - Once an API has a consumer you don't control, changes are either backward-compatible or versioned. Breaking a live consumer without a version bump is the cardinal API sin.
 - Additive changes (new optional field, new endpoint) are safe. Removing or renaming a field, changing a type, or tightening validation is breaking — version it.
-- Prefer the backward-compatible sequencing from `DEPLOYMENT_CONVENTIONS.md`: ship the code that accepts both shapes, migrate consumers, then remove the old shape.
+- Prefer the backward-compatible sequencing from `deployment-conventions.md`: ship the code that accepts both shapes, migrate consumers, then remove the old shape.
 
 ## Document at the Boundary
 
 - A public API has reference documentation a consumer can use without reading your source — ideally generated from the contract (OpenAPI, GraphQL schema, typed client) so it can't drift.
-- Document the auth model, error codes, pagination, and rate limits once, centrally. `DOCUMENTATION_CONVENTIONS.md` applies: document the contract and the *why*, not a restatement of the code.
+- Document the auth model, error codes, pagination, and rate limits once, centrally. `documentation-conventions.md` applies: document the contract and the *why*, not a restatement of the code.
 
 ## By Collaboration Mode
 
-- **Solo / internal-only:** the "consumer" is your own other module. Keep contracts clean and validated, but don't build formal versioning for an API only you consume — add it when a second, independent consumer appears (the same trigger as `CODING_CONVENTIONS.md` Tier 2).
+- **Solo / internal-only:** the "consumer" is your own other module. Keep contracts clean and validated, but don't build formal versioning for an API only you consume — add it when a second, independent consumer appears (the same trigger as `coding-conventions.md` Tier 2).
 - **Collaborative / published:** versioning, generated reference docs, and compatibility discipline are required from the first external consumer.
 
 Company-specific API standards (gateway, auth scheme, required headers) live in the company profile.

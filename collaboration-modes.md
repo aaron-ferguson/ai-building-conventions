@@ -24,11 +24,11 @@ Default to `solo` unless a second person makes regular changes. Promote to `coll
 
 These never relax. If anything, a solo project needs them *more*, because there's no second reviewer to catch what you miss.
 
-- All of `CODING_CONVENTIONS.md` (naming, single responsibility, fail-loudly, types, YAGNI, immutability).
-- TDD and the full `TESTING_CONVENTIONS.md` cycle.
-- Everything in `SECURITY_CONVENTIONS.md` and `DATA_PRIVACY_CONVENTIONS.md`.
+- All of `coding-conventions.md` (naming, single responsibility, fail-loudly, types, YAGNI, immutability).
+- TDD and the full `testing-conventions.md` cycle.
+- Everything in `security-conventions.md` and `data-privacy-conventions.md`.
 - Architecture defaults, dependency discipline, documentation baseline, observability.
-- All of `AI_PRODUCT_CONVENTIONS.md`.
+- All of `ai-product-conventions.md`.
 
 ---
 
@@ -38,10 +38,10 @@ Only merge-and-ship ceremony. Three files carry a "By collaboration mode" note; 
 
 | Area | Solo | Collaborative |
 |---|---|---|
-| **Merging** (`GIT_CONVENTIONS.md`) | Commit directly to `main`; branch only for parallel work or risky spikes. | Feature branch → PR → at least one approval → merge. No direct pushes to `main`. |
-| **Review** (`CODING_CONVENTIONS.md` review checklist) | Self-review against the checklist before committing. Treat your own AI-generated diffs as a junior's PR. | Checklist review by someone other than the author. AI-generated diffs get a human author-of-record who read them. |
-| **CI gates** (`CICD_CONVENTIONS.md`) | Tests run locally in the TDD cycle; CI optional but recommended once the project outlives a weekend. | CI required and enforced: tests + lint + typecheck must pass before merge. Branch protection on. |
-| **Deploy approval** (`DEPLOYMENT_CONVENTIONS.md`) | You approve your own deploy — but still explicitly, never as an automatic side effect of a push. | Deploy follows the team's release process; the never-push-without-approval rule is the gate. |
+| **Merging** (`git-conventions.md`) | Commit directly to `main`; branch only for parallel work or risky spikes. | Feature branch → PR → at least one approval → merge. No direct pushes to `main`. |
+| **Review** (`coding-conventions.md` review checklist) | Self-review against the checklist before committing. Treat your own AI-generated diffs as a junior's PR. | Checklist review by someone other than the author. AI-generated diffs get a human author-of-record who read them. |
+| **CI gates** (`cicd-conventions.md`) | Tests run locally in the TDD cycle; CI optional but recommended once the project outlives a weekend. | CI required and enforced: tests + lint + typecheck must pass before merge. Branch protection on. |
+| **Deploy approval** (`deployment-conventions.md`) | You approve your own deploy — but still explicitly, never as an automatic side effect of a push. | Deploy follows the team's release process; the never-push-without-approval rule is the gate. |
 
 Everything not in this table is mode-independent.
 
@@ -49,7 +49,7 @@ Everything not in this table is mode-independent.
 
 ## When to promote from solo to collaborative
 
-Flip to `collaborative` when any of these becomes true — the same signals as `CODING_CONVENTIONS.md` Tier 3:
+Flip to `collaborative` when any of these becomes true — the same signals as `coding-conventions.md` Tier 3:
 
 - A second person starts making regular changes.
 - The project gains real users and an outage would matter to someone other than you.

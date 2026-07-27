@@ -39,7 +39,7 @@ When code consumes a model's output, that output has a schema — enforce it, do
 - Define the expected output as a schema (JSON Schema, a typed struct, a validation model) and validate every response against it before anything downstream touches it.
 - Use the provider's structured-output / tool-calling / JSON-mode features to constrain generation — don't parse freeform prose with regex.
 - A response that fails validation is a handled failure: retry with feedback, or fall back — never pass an unvalidated blob forward.
-- The boundary between the model and your code is a trust boundary (`SECURITY_CONVENTIONS.md`). Model output is untrusted input; validate it like anything user-supplied.
+- The boundary between the model and your code is a trust boundary (`security-conventions.md`). Model output is untrusted input; validate it like anything user-supplied.
 
 ---
 
@@ -72,7 +72,7 @@ Fine-tune only when:
 
 ## Redact Before the Model Sees It
 
-Sending data to a model is a data-egress event, not an internal function call (`DATA_PRIVACY_CONVENTIONS.md`).
+Sending data to a model is a data-egress event, not an internal function call (`data-privacy-conventions.md`).
 
 - Send the minimum the model needs. Strip or tokenize PII and sensitive fields that aren't essential to the task.
 - **Whether a class of data may be sent to a given provider is a company-profile decision**, governed by the contract with that provider (zero-retention / DPA / BAA). With no company profile and no such contract, the default is: **no personal or sensitive data goes to an external model.**
@@ -87,7 +87,7 @@ The model sits between untrusted input and consequential action. Both edges need
 
 - **Prompt injection is real and unsolved.** Content retrieved from users, documents, or the web can contain instructions aimed at your model. Design so that injected instructions *cannot* trigger privileged actions — the model's authority is bounded by code, not by asking it nicely in the system prompt.
 - Treat retrieved/user content as data, not instructions. Keep a clear separation between trusted system instructions and untrusted content in the prompt.
-- Validate output before it acts: model output never flows unchecked into a shell, a query, an `eval`, a file write, or an API call with side effects (`SECURITY_CONVENTIONS.md`).
+- Validate output before it acts: model output never flows unchecked into a shell, a query, an `eval`, a file write, or an API call with side effects (`security-conventions.md`).
 - Apply content/safety checks appropriate to the domain on both input and output where the product warrants it.
 
 ---
@@ -108,7 +108,7 @@ Autonomy is earned per action, based on the cost of being wrong.
 When a model can call tools, it can act — scope that ability tightly.
 
 - Give an agent the **minimum toolset** for its task. A tool the agent doesn't need is attack surface and a way to be surprised.
-- Each tool enforces its own authorization independently — never rely on the model to "decide" it's allowed. The permission check lives in the tool, server-side (`SECURITY_CONVENTIONS.md`).
+- Each tool enforces its own authorization independently — never rely on the model to "decide" it's allowed. The permission check lives in the tool, server-side (`security-conventions.md`).
 - Read tools and write tools are different risk classes. Default write/side-effecting tools to human-gated (above) unless the action is cheap and reversible.
 - Bound the loop: cap iterations, tool calls, and spend per task so a confused agent fails safe instead of running away.
 - Trace every tool call (below) — an agent you can't replay is an agent you can't debug or trust.
@@ -129,7 +129,7 @@ Tokens are a recurring cost and latency is a UX property; neither manages itself
 
 ## Observability From Day One
 
-AI systems fail silently in ways traditional systems do not. You cannot debug what you cannot observe. This is stricter than the baseline in `OBSERVABILITY_CONVENTIONS.md`.
+AI systems fail silently in ways traditional systems do not. You cannot debug what you cannot observe. This is stricter than the baseline in `observability-conventions.md`.
 
 Every LLM call must be traced with:
 - Input (prompt + retrieved context)
@@ -139,7 +139,7 @@ Every LLM call must be traced with:
 - Token usage (and cost)
 - For agents: the tool calls made and their results
 
-Add tracing before the first production deploy, not after the first incident. Redaction still applies — trace what you need to debug without logging sensitive contents (`DATA_PRIVACY_CONVENTIONS.md`).
+Add tracing before the first production deploy, not after the first incident. Redaction still applies — trace what you need to debug without logging sensitive contents (`data-privacy-conventions.md`).
 
 ---
 

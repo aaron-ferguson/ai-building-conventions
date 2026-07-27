@@ -14,6 +14,13 @@ These rules have no exceptions. Apply them to every line written.
 - Files are named for what they do: `login.js`, `compare.js`, `report.js`.
 - No abbreviations unless universally understood (`url`, `id`, `api`).
 
+### File & Directory Naming
+Case carries a signal — don't spend it on everything.
+
+- **Code, source, and documentation files, and all directories:** `lowercase-kebab-case` (`data-privacy-conventions.md`, `user-service/`), or the language's established idiom where one exists (`snake_case.py`, `PascalCase.tsx` components). Named for what they do.
+- **Reserve `ALL_CAPS` for canonical entry-point files that must stand out** — `README.md`, `LICENSE`, `CONTRIBUTING.md`, and a repo's always-loaded index (in this repo, `CONVENTIONS_CORE.md`). Caps only signals "start here" if it's rare; if every file shouts, none stands out.
+- Don't mix separators within a category. Pick kebab for docs/dirs and stay consistent — a repo with both `data-privacy.md` and `DATA_PRIVACY.md` reads as unmaintained.
+
 ### Single Responsibility
 - Each file does one thing. If you find yourself writing `// --- Section 2 ---`, that's a second file.
 - Each function does one thing. If it needs a comment to explain what it does, it should be a named function instead.
@@ -184,14 +191,14 @@ SAFETY
 SECURITY
   [ ] No secrets in the diff — not even "temporarily"
   [ ] External input validated server-side, not just in the UI
-  [ ] Change touches auth/credentials/data visibility? → run SECURITY_CONVENTIONS.md security pass
+  [ ] Change touches auth/credentials/data visibility? → run security-conventions.md security pass
 
 PRIVACY & DATA
   [ ] No PII/secrets in logs, traces, or analytics (identifiers, not contents)
-  [ ] New sensitive data, new egress destination, or data sent to a model? → run DATA_PRIVACY_CONVENTIONS.md pass
+  [ ] New sensitive data, new egress destination, or data sent to a model? → run data-privacy-conventions.md pass
 
 USER-FACING UI
-  [ ] Semantic, keyboard-operable, AA contrast, uses the design system → see ACCESSIBILITY_CONVENTIONS.md
+  [ ] Semantic, keyboard-operable, AA contrast, uses the design system → see accessibility-conventions.md
 
 COMPLEXITY
   [ ] Nesting is 2 levels or fewer inside functions
@@ -207,7 +214,7 @@ COMMENTS
   [ ] If a comment explains what the code does, rename or restructure instead
 
 TESTING
-  [ ] Tests written before implementation — see TESTING_CONVENTIONS.md
+  [ ] Tests written before implementation — see testing-conventions.md
 
 TIER 2 TRIGGERS — check before adding abstraction
   [ ] DRY extraction: is this the 3rd+ instance of this logic?
@@ -252,5 +259,5 @@ Use AI for: implementation within a defined structure, boilerplate, refactoring 
 
 - It is not a style guide — use a linter and formatter for that (ESLint + Prettier).
 - It is not exhaustive — if a principle isn't here, default to KISS.
-- It does not define testing standards — those are in `TESTING_CONVENTIONS.md`.
+- It does not define testing standards — those are in `testing-conventions.md`.
 - It is not permanent — update it when a Tier 2 trigger is consistently met across the project, or when a Tier 3 threshold is crossed.

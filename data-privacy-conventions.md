@@ -2,7 +2,7 @@
 
 This file defines how projects handle personal and sensitive data. It is loaded into AI context when a task touches user data, PII, logging, analytics, or sending data to a third party (including a model provider).
 
-Security (`SECURITY_CONVENTIONS.md`) is about keeping attackers out. Data privacy is about handling the data you're *trusted* with correctly, even when nothing is under attack. They overlap; both apply.
+Security (`security-conventions.md`) is about keeping attackers out. Data privacy is about handling the data you're *trusted* with correctly, even when nothing is under attack. They overlap; both apply.
 
 **Two axes.** The principles here are universal. The *specific* limits — which providers are approved for which data, residency, retention schedules, regulatory regimes — are company-specific and live in that company's profile (`companies/<name>/`). When a project declares a company, its profile's limits are authoritative and tighter than these defaults. When it doesn't, apply the strict defaults below.
 
@@ -23,7 +23,7 @@ Security (`SECURITY_CONVENTIONS.md`) is about keeping attackers out. Data privac
 ## PII Never Lands in Logs, Traces, or Analytics
 
 - Logs, error traces, and analytics events are low-trust, widely-readable, long-retained surfaces. Sensitive data does not belong in any of them.
-- Log identifiers (a user ID, a record ID), never contents (name, email, case detail, token). See `OBSERVABILITY_CONVENTIONS.md`.
+- Log identifiers (a user ID, a record ID), never contents (name, email, case detail, token). See `observability-conventions.md`.
 - This includes exception messages and stack-trace variables — scrub before they reach the error tracker.
 - Redact at the boundary where data enters the logging path, not by hoping no one logs the wrong variable.
 
@@ -31,7 +31,7 @@ Security (`SECURITY_CONVENTIONS.md`) is about keeping attackers out. Data privac
 
 - Any data sent to a third-party service — analytics, support tools, and **especially model providers** — leaves your control. Assume it may be retained, logged, or used for training unless a contract says otherwise.
 - Before sending data to an external service, strip or tokenize anything not strictly required for that service to do its job.
-- **Sending data to an LLM is a data-egress event, not an internal function call.** Whether a given class of data may be sent to a given provider is a company-profile decision (`companies/<name>/`), governed by the contract with that provider (zero-retention / DPA / BAA). With no company profile and no such contract, the default is: **no personal or sensitive data leaves to an external model.** See `AI_PRODUCT_CONVENTIONS.md` for the redaction and grounding mechanics.
+- **Sending data to an LLM is a data-egress event, not an internal function call.** Whether a given class of data may be sent to a given provider is a company-profile decision (`companies/<name>/`), governed by the contract with that provider (zero-retention / DPA / BAA). With no company profile and no such contract, the default is: **no personal or sensitive data leaves to an external model.** See `ai-product-conventions.md` for the redaction and grounding mechanics.
 
 ## Retention and Deletion Are Features, Not Afterthoughts
 
@@ -42,7 +42,7 @@ Security (`SECURITY_CONVENTIONS.md`) is about keeping attackers out. Data privac
 ## Least-Privilege Access to Data
 
 - Access to personal/sensitive data is granted by need, not by convenience. Not every service, job, or teammate needs read access to the sensitive store.
-- The server decides who sees what (`SECURITY_CONVENTIONS.md` — "The Server Is the Authority"). Never ship sensitive data to a client that isn't authorized to see it and rely on the UI to hide it.
+- The server decides who sees what (`security-conventions.md` — "The Server Is the Authority"). Never ship sensitive data to a client that isn't authorized to see it and rely on the UI to hide it.
 - Test/dev/staging environments use synthetic or anonymized data, never a copy of production personal data.
 
 ## When to Do a Privacy Pass
@@ -52,4 +52,4 @@ Run a deliberate privacy review — beyond the normal checklist — when a chang
 - Introduces a new class of personal or sensitive data, or a new field on an existing sensitive record.
 - Sends existing data to a new destination (a new third party, a new model provider, a new analytics sink).
 - Changes retention, deletion, or who can access a sensitive store.
-- Adds an AI feature that reads personal or sensitive data. Pair this with the AI-specific rules in `SECURITY_CONVENTIONS.md` and `AI_PRODUCT_CONVENTIONS.md`.
+- Adds an AI feature that reads personal or sensitive data. Pair this with the AI-specific rules in `security-conventions.md` and `ai-product-conventions.md`.
