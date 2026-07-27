@@ -14,6 +14,20 @@ Security (`security-conventions.md`) is about keeping attackers out. Data privac
 - The highest-classification field sets the handling bar for the record. One PII field makes the whole row PII.
 - If you don't know a field's classification, treat it as sensitive until confirmed — never the reverse.
 
+## Know Which Legal Regimes Bind You
+
+Which laws and standards apply depends on jurisdiction, data type, and who the users are — so the *specific* binding set (with citations) lives in the company profile (`companies/<name>/`), and for a personal project in its own CLAUDE.md. This determination is made **with legal counsel**, not by an engineer or an AI; the rules here are the floor, and a binding regime is almost always stricter. What the general baseline requires is that you *identify* which of these categories apply before building, not that you memorize any one of them:
+
+- **Comprehensive privacy laws** — US state consumer-privacy laws (many states, thresholds and government/court-records exemptions vary) and, for any EU/UK residents' data, GDPR / UK GDPR.
+- **Sector-specific law** — health (HIPAA, when PHI is in scope), financial (GLBA), education (FERPA), children's data (COPPA).
+- **Domain-specific rules** — for justice/government work: criminal-justice information (CJIS Security Policy) and court-records access, sealing, and redaction rules, which are often stricter than general privacy law.
+- **Breach notification** — statutory obligations exist regardless of the above; have a notification plan before you have users.
+- **Payment data** — PCI DSS if card data is handled (contractual, but binding).
+- **Professional duties** — e.g. attorney-client confidentiality obligations for legal products.
+- **Contract** — DPAs, BAAs, and customer/agency contract terms, frequently the tightest constraint of all.
+
+When a task introduces a new data class or destination, confirm the applicable regime is recorded in the profile — an unconfirmed obligation is treated as the stricter interpretation until counsel says otherwise.
+
 ## Collect the Minimum
 
 - Collect only data the current feature needs. "We might analyze it later" is not a reason to collect it now — it's YAGNI applied to data, and unused sensitive data is pure liability.
