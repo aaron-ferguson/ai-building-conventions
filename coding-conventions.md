@@ -158,15 +158,18 @@ async function fetchIssues(client) {
 
 ## Tier 3 — Revisit When the Codebase Matures
 
-These are the right long-term practices. They are not yet warranted, but they should be adopted deliberately as the project scales. Flag this section for review when:
-- The codebase spans 10+ files with shared dependencies, or
-- More than one person is making regular changes, or
+The practices a maturing project needs each have a fuller home elsewhere in these conventions — added since this tier was first written. Tier 3's job is the **trigger**: notice when a project has crossed into needing them, then go apply the real convention. Don't re-define those practices here; this is a signpost, not their home.
+
+Flag for review when any is true:
+- The codebase spans 10+ files with shared dependencies.
+- A second person starts making regular changes — this is the `collaboration: collaborative` switch (see `collaboration-modes.md`).
 - A bug escaped to production that a test would have caught.
 
-**Practices to adopt at that point:**
-- Full integration test suite with CI enforcement.
-- Strict module boundary documentation (what each module exposes and hides).
-- Code review checklist enforcement before merge.
+When triggered, adopt the practices where they live:
+- **CI-enforced tests and required checks** → `testing-conventions.md`, `cicd-conventions.md`.
+- **PR + review gates before merge** → `cicd-conventions.md` (collaborative mode); the review criteria are the Review Checklist below.
+- **Strict, documented module boundaries** (what each module exposes and hides) → `architecture-conventions.md`, `documentation-conventions.md`.
+- **Observability before real users** (error tracking, logs, metrics) → `observability-conventions.md`, `deployment-conventions.md`.
 
 ---
 
