@@ -1,6 +1,6 @@
 # AI Product Conventions
 
-This file defines conventions for building products and features that incorporate AI (LLMs, embeddings, agents). It is loaded into AI context at the start of every session via each project's CLAUDE.md.
+This file defines conventions for building products and features that incorporate AI (LLMs, embeddings, agents). It is loaded into AI context when a task builds or changes an AI feature — not every session. `CONVENTIONS_CORE.md` (always loaded) carries the AI-workflow essentials; load this file for the full detail.
 
 These are principles — they apply to every AI feature regardless of collaboration mode. The *company-specific* limits they defer to (which model providers are approved for which data, contractual retention terms, residency) live in the company profile (`companies/<name>/`). With no company profile, apply the strict defaults noted below.
 

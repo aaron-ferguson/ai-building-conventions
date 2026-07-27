@@ -1,6 +1,6 @@
 # Programming Conventions
 
-This file defines coding expectations for this project. It is loaded into AI context at the start of every session. When making any change — new code, edits, or refactors — run the **Review Checklist** at the bottom before finalizing.
+This file defines coding expectations for this project. Its Tier-1 essentials are summarized in `CONVENTIONS_CORE.md` (always loaded); load this full file when a change warrants the complete rules, the tier system, or the **Review Checklist** at the bottom — run that checklist before finalizing any change.
 
 ---
 

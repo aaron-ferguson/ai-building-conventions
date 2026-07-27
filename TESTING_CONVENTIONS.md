@@ -1,6 +1,6 @@
 # Testing Conventions
 
-This file defines testing expectations for all projects. It is loaded into AI context at the start of every session via each project's CLAUDE.md.
+This file defines testing expectations for all projects. The essentials are summarized in `CONVENTIONS_CORE.md` (always loaded); load this full file when a task involves writing or changing tests and needs the complete TDD cycle, isolation, and organization detail.
 
 ---
 

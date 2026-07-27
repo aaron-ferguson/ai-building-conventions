@@ -1,6 +1,6 @@
 # Architecture Conventions
 
-This file defines architectural decision defaults for all projects. It is loaded into AI context at the start of every session via each project's CLAUDE.md.
+This file defines architectural decision defaults for all projects. It is loaded into AI context when a task involves a structural or architectural decision — not every session. Load it before choosing module boundaries, adding infrastructure, or deciding whether to extract a service.
 
 ---
 

@@ -1,6 +1,6 @@
 # Git Conventions
 
-This file defines git workflow expectations for all projects. It is loaded into AI context at the start of every session via each project's CLAUDE.md.
+This file defines git workflow expectations for all projects. The essentials (atomic commits, stage specific files, never push without approval) are summarized in `CONVENTIONS_CORE.md` (always loaded); load this full file for the complete commit/push/destructive-command and branch-management detail.
 
 ---
 
