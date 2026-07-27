@@ -47,7 +47,7 @@ When code consumes a model's output, that output has a schema — enforce it, do
 
 For any feature where correctness matters — and in legal/judicial products it always does — an ungrounded, confident answer is the most dangerous output the system can produce.
 
-- **Cite or abstain.** If a claim can't be traced to a retrieved source, the feature says so or declines — it does not fill the gap with a plausible invention. A fabricated case citation, statute, or fact is not a bug to fix later; it is a trust-destroying failure and, in a legal context, a potential liability.
+- **Cite or abstain.** If a claim can't be traced to a retrieved source, the feature says so or declines — it does not fill the gap with a plausible invention. A fabricated fact is not a bug to fix later; it is a trust-destroying failure and, in a professional context, a potential liability.
 - Answers that reference authority must carry the source (document, section, record ID) so a human can verify it. An unverifiable citation is treated as no citation.
 - Prefer extractive/grounded generation over free recall for factual claims. RAG (below) exists partly to make grounding checkable.
 - Build evals specifically for hallucination: inputs where the correct behavior is "I don't have that" or "cannot determine from the provided sources." Reward abstention; penalize confident fabrication harder than a miss.
