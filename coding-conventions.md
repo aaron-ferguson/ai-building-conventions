@@ -167,6 +167,7 @@ Flag for review when any is true:
 
 When triggered, adopt the practices where they live:
 - **CI-enforced tests and required checks** → `testing-conventions.md`, `cicd-conventions.md`.
+- **Advanced testing techniques** (property-based, contract, mutation, fuzzing, load) — each with its own maturity trigger → `testing-conventions.md` ("Advanced Techniques — Reference, Not Rule").
 - **PR + review gates before merge** → `cicd-conventions.md` (collaborative mode); the review criteria are the Review Checklist below.
 - **Strict, documented module boundaries** (what each module exposes and hides) → `architecture-conventions.md`, `documentation-conventions.md`.
 - **Observability before real users** (error tracking, logs, metrics) → `observability-conventions.md`, `deployment-conventions.md`.

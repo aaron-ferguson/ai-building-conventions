@@ -20,6 +20,7 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 ## Testing
 
 - TDD always: write the test first → confirm red → implement → confirm green → commit. No exceptions.
+- Every bug fix starts with a failing test that reproduces it — red → fix → green. The test stays as a permanent guard.
 - Run tests as part of the normal TDD cycle — after implementing, run the scoped suite automatically.
 - Configure test output to be lean by default (summary + failures only). Add verbosity temporarily when troubleshooting, then revert.
 
