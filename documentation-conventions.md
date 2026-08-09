@@ -36,6 +36,7 @@ Why this matters for AI-driven development: an AI session can read the code but 
 ## CLAUDE.md Is Living Documentation
 
 - Each project's CLAUDE.md carries: the stack, the key invariants, and project-specific overrides of these conventions. It is the first thing an AI session reads — keep it current.
+- **Durable facts only — never current state.** CLAUDE.md is a project-wide instruction set read at the start of every session, so everything in it is taken as permanently true. A broken test suite, an in-flight migration, a temporarily pinned version, "don't touch X until Y ships" — these are *status*. They go stale silently and mislead every later session. The test: if it stops being true without anyone editing CLAUDE.md, it doesn't belong in CLAUDE.md. Put it where it stays in context — session memory, an issue, or the working doc for that piece of work.
 - When a convention, invariant, or deploy detail changes, updating CLAUDE.md is part of the change, not a follow-up.
 - Keep it lean: link to detail (these files, ADRs) rather than inlining it. Inlined copies drift.
 - Record dates as absolute (`2026-07-26`), never relative (`last week`) — documents outlive their writing.
@@ -45,3 +46,6 @@ Why this matters for AI-driven development: an AI session can read the code but 
 - Anything the code already says — mirrors the comments rule in `coding-conventions.md`.
 - Anything git history already records (who, when, in what order).
 - Speculative future plans dressed as documentation. Document what is, and decisions actually made.
+- **Current state in the README or CLAUDE.md** — what's broken, in progress, or temporarily true. Those two documents are the project's durable layer, so a status line in either is wrong the moment it changes and nobody remembers to delete it. The README says how to run the tests, never how they last did.
+
+  This is a constraint on those two files, not on documentation generally. State belongs in writing — a troubleshooting log, an investigation write-up, a migration checklist, a known-gaps register — it just belongs in a document whose *purpose* is that work, sitting next to the thing it describes. Give it an absolute date, and delete it when the work closes. A doc that exists to track state is doing its job; a durable doc that quietly accumulates state is not.
