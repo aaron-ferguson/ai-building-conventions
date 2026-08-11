@@ -166,11 +166,12 @@ Named out loud at the start, even if one person holds several:
 
 An incident is the highest-risk configuration in this entire convention set: time pressure, production access within reach, destructive commands available, and a strong bias toward action. Gates get waived exactly when they matter most. So:
 
-- **An agent operates read-only for the duration of an incident.** Diagnosis, proposal, and documentation only. It does not deploy, roll back, run migrations, restart services, restore backups, modify infrastructure, or touch production data. A human operator executes; the agent proposes and explains.
+- **An agent changes nothing in production for the duration of an incident.** Diagnosis, proposal, and documentation only. It does not deploy, roll back, flip a flag, run migrations, restart services, restore backups, modify infrastructure, or touch production data. A human operator executes; the agent proposes and explains.
+- **"Changes nothing in production" is not "writes nothing."** The agent still writes files and commits freely — the timeline, notes, and a candidate fix are all local and reversible, and committing them is what makes the response auditable afterward (`git-conventions.md`). The gate is push and deploy, as always; an incident tightens that gate rather than loosening it.
 - **An agent never declares the incident over**, and never decides a severity.
 - **Never paste exposed secrets or personal data into the agent's context** to have it analyzed (`security-conventions.md`, and Path B above).
 
-Within read-only, lean on agents hard — they are good at precisely what humans do worst under stress:
+Within that limit, lean on agents hard — they are good at precisely what humans do worst under stress:
 
 - Reading log volume and correlating events by request or correlation ID.
 - Diffing recent deploys, migrations, and config changes against the moment symptoms started.
@@ -241,4 +242,4 @@ What it should keep anyway, because these are habits worth having before they're
 
 Severity definitions and names, paging and on-call arrangements, response-time commitments, status-page and customer-notification procedures, the security escalation chain, and where records live are all company-specific — they live in the company profile (`companies/<name>/`) and may only tighten what's here. On-call rotation and alert routing are staffing matters this file deliberately doesn't cover; `observability-conventions.md` routes alerts to "whoever is on the hook," and the profile says who that is.
 
-The severity *scheme* is a **preference** — three levels is a reasonable default, not a truth. Everything else above is a principle: stabilize before diagnosing, preserve before cleaning up, escalate security incidents rather than handling them alone, agents stay read-only, the regression test closes the loop, and postmortems are blameless.
+The severity *scheme* is a **preference** — three levels is a reasonable default, not a truth. Everything else above is a principle: stabilize before diagnosing, preserve before cleaning up, escalate security incidents rather than handling them alone, agents change nothing in production, the regression test closes the loop, and postmortems are blameless.

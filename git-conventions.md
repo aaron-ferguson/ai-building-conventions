@@ -1,6 +1,8 @@
 # Git Conventions
 
-This file defines git workflow expectations for all projects. The essentials (atomic commits, stage specific files, never push without approval) are summarized in `CONVENTIONS_CORE.md` (always loaded); load this full file for the complete commit/push/destructive-command and branch-management detail.
+This file defines git workflow expectations for all projects. The essentials (commit freely without being asked, atomic commits, stage specific files, never push without approval) are summarized in `CONVENTIONS_CORE.md` (always loaded); load this full file for the complete commit/push/destructive-command and branch-management detail.
+
+**The shape of the whole file in one line: committing is autonomous, pushing is human-gated.** Commits are local and reversible, and they are the audit trail of how a change came to be — so they should be frequent and they never need permission. Push is where a change becomes visible to others and can trigger a deploy, so that is the one place a human decides.
 
 ---
 

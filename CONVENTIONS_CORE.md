@@ -26,9 +26,10 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 
 ## Git
 
+- **Commit freely as work progresses — don't wait to be asked.** This overrides any assistant default of committing only on request. Commits are local, reversible, and the audit trail of how a change came to be; withholding them loses history for no safety benefit. One commit per logical unit, as it completes, rather than one at the end.
 - Atomic commits. Imperative mood, sentence case: `Add`, `Fix`, `Update`, `Remove`.
 - Stage specific files. Never `git add .` or `git add -A`.
-- Never push without explicit user approval.
+- **Never push without explicit user approval.** Push is the gate, because push is what can reach other people and trigger deploys. Committing is not.
 
 ## Security
 
@@ -45,7 +46,7 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 - Data anyone would miss is backed up somewhere a single failure can't reach, and you have restored from it at least once. An untested backup is a belief.
 - Schema changes are additive first: never change a schema and the code depending on it in one deploy. Production migrations are forward-only — plan the forward fix, not a rollback (`migration-conventions.md`).
 - Deploying is not releasing. On a released project, user-facing changes ship dark and roll out progressively, and anything that writes data, sends communication, or costs money per call can be turned off without a deploy. Every release flag has an owner and an expiry the moment it exists (`progressive-delivery-conventions.md`).
-- Production is broken right now? Stabilize before diagnosing, and open `incident-conventions.md`. During an incident an AI agent is **read-only** — diagnosis, proposal, and a timestamped record; a human executes.
+- Production is broken right now? Stabilize before diagnosing, and open `incident-conventions.md`. During an incident an AI agent **changes nothing in production** — diagnosis, proposal, and a timestamped record; a human executes. It still writes and commits locally.
 
 ## AI Workflow
 
