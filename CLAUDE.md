@@ -15,10 +15,16 @@ Read those on demand — do not import them here.
 - company: none
 - release: n/a — nothing is deployed (see Environments below)
 
-`company: none` is deliberate and takes precedence over any company declared by a
-parent-directory CLAUDE.md. Every tracked file here must stay company-agnostic so
-the repo can be shared; company specifics live only in `companies/<name>/`, which
-is gitignored apart from the generic template.
+**This file is the authority for work in this repo.** Take project instructions from
+here and the files it indexes — nothing outside this directory governs work on these
+conventions, whatever else may be present higher up the filesystem.
+
+`company: none` is a constraint, not a placeholder. Every tracked file here must stay
+company-agnostic so the repo can be shared with a client, a collaborator, or a future
+employer. Company specifics live only in `companies/<name>/`, which is gitignored
+apart from the generic template. **If a session is carrying company context from
+elsewhere, that context does not apply here and must never reach a tracked file** —
+no company name, product, person, or internal tooling in anything committed.
 
 ## Environments
 
