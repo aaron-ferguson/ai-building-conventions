@@ -56,7 +56,8 @@ The company-specific answers to "may we send this data to a model?"
 - **Backup, retention, and recovery commitments** — the recovery point/time this company commits to, restore-drill cadence, and any contractual DR obligation.
 - **Production access model** — who may reach production, how access is granted and revoked, the break-glass procedure, and audit-log retention (`security-conventions.md`).
 - **Migration approval** — whether a DBA, change-advisory, or maintenance-window process gates production schema changes (`migration-conventions.md`).
-- **Progressive delivery** (`progressive-delivery-conventions.md`) — flag platform or library, naming convention, who may turn a flag *on* in production, how cohorts are defined, and any rollout or customer-notification policy for regulated features. Turning a flag *off* is never gated.
+- **Progressive delivery** (`progressive-delivery-conventions.md`) — flag platform or library, naming convention, and who may turn a flag *on* in production. Turning a flag *off* is never gated.
+- **Rollout cohorts and change notification** — the cohort unit for each product (individual users, or the whole team/organization where people share records), and the **allowlist of customers confirmed by contract to be exempt from change-notification requirements**, with the date each was verified, its re-check trigger, and who confirmed it. Default is that notification *is* required; absence from the allowlist means a customer is not eligible for an early ring. Name the person who owns contract determinations — it is never the engineer, PM, or an AI reading contract language.
 - **Token/secret service names** used by this company's projects (secret-store keys only — never values).
 
 ## 5. Internal tooling & process

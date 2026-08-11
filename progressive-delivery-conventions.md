@@ -115,6 +115,19 @@ Two requirements make this real rather than theatre:
 
 Advance when the current ring looks healthy on the signals you named *before* starting, not when a day has passed. Define the roll-back-immediately condition up front too — the point of a small ring is a cheap decision to abandon.
 
+### Pick the cohort unit to match how users actually work
+
+A percentage of individual users is the default only for products where users are independent. Where people **collaborate on the same records** — a team, an office, an organization, a shared case or account — the cohort unit is that whole group, not a slice through it. Colleagues seeing different behavior on the same shared item is worse than no rollout at all: it produces confusion neither version would have caused, and it makes the signal you're collecting uninterpretable.
+
+### When contracts govern who may receive a change early
+
+For products sold under contract, a customer's agreement may require notification — or a notice period — before their users see a behavior change. Terms differ per customer, so there is no single policy to apply. Two rules follow:
+
+- **Default to notification being required.** Ship on the assumption that a customer must be told, and treat an unchecked contract as one that requires it. Same posture as any unconfirmed obligation (`data-privacy-conventions.md` — contract terms are frequently the tightest constraint of all).
+- **Early-ring eligibility is an explicit allowlist of customers confirmed exempt** — never an exclusion list, and never inferred from a customer being small, new, or friendly. Absence from the list means not eligible. The determination comes from the contract via whoever owns contracts, carries the date it was verified, and expires at renewal, since an amendment can add a clause. Record the list in the company profile (`companies/<name>/`).
+
+If that allowlist is empty, the honest consequence is that there is no external early ring: the first real-user exposure is a notified customer, and the internal ring carries more weight. That's a planning constraint to surface early, not a rule to route around under deadline pressure.
+
 ## Flipping a Flag Is a Production Change
 
 A flag flip changes production behavior with no code review, no CI, and no promotion path. That's a hole in everything `deployment-conventions.md` and `environment-conventions.md` require, and it's closed with an asymmetry:
