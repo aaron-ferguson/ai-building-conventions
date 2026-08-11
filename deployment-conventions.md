@@ -12,7 +12,7 @@ Every project's CLAUDE.md records, from day one — as the Environments block in
 
 - **What hosts what** — platform, service names, URLs for each environment.
 - **Which account owns each piece** — hosting, DNS, database, and any third-party services. Account ambiguity is a real failure mode: two similar project names on different accounts will eventually cause a deploy to the wrong place.
-- **What triggers a deploy** — a push to a branch? A manual command? If pushing deploys, then the never-push-without-approval rule in `git-conventions.md` is also the deploy gate.
+- **What triggers a deploy** — a push to a branch? A manual command? If pushing deploys, then the push-approval rule in `git-conventions.md` is also the deploy gate. This is why that field is recorded rather than remembered: it's what tells an agent whether a given push is a release decision or just a backup, and an undocumented trigger makes every push a question.
 
 If you can't answer "if I push this, what happens and where?", stop and find out before pushing.
 

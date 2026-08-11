@@ -23,8 +23,21 @@ This file defines git workflow expectations for all projects. The essentials (co
 
 ## Pushing
 
-- **Never push without explicit user approval.** Pushing can trigger production deploys and is not easily reversible. Always confirm before pushing, even when asked to "ship it" or "deploy" — confirm the push specifically.
-- Pushing is the user's decision, not the AI's default action.
+Push is the gate because push is what reaches other people and what can trigger a deploy. Whether a given push needs approval depends on **what that push can actually reach** — determined from the project's documented deploy triggers, never guessed.
+
+**The source of truth is the Environments block in the project's CLAUDE.md** (`environment-conventions.md`), whose *deploy trigger* column records what a push to each branch sets in motion. That column is what makes this rule mechanical instead of a judgment call.
+
+- **A push that can trigger a deploy → explicit user approval, every time.** Confirm the push specifically, even when asked to "ship it" or "deploy." Not easily reversible, and it's the same gate as `deployment-conventions.md`'s "a deploy is a decision, never a side effect."
+- **A push to a branch other people work from → explicit user approval.** It becomes someone else's problem the moment it lands.
+- **A push that can do neither → sync, not release. No approval needed.** A working branch on a repo where that branch triggers nothing, or `main` on a solo project whose production deploy is a documented manual promote. This is off-machine backup, and withholding it means the only copy of the work is one laptop — which `infrastructure-conventions.md` treats as data with no backup at all. For these pushes only, this overrides an assistant default of pushing solely on request.
+- **Anything ambiguous → ask.** No Environments block, no documented trigger, a trigger you can't map to this branch, or any doubt about who else reads it: that uncertainty resolves to asking. **Unknown is treated as "can deploy."**
+
+Two things that follow from the ambiguity rule and are worth stating:
+
+- **The prompt is a nudge to document.** If you had to ask because the deploy trigger wasn't written down, write it down — the next push shouldn't need the same conversation.
+- **The grading applies to normal pushes only.** Force-pushes, and pushes to shared branches after a rebase, stay under "Destructive Commands" below and always need an explicit request regardless of what the branch triggers.
+
+**Surface unpushed work at natural stopping points.** When commits are accumulating behind a gated push, say so and offer — "N commits unpushed, want these off this machine?" Forgetting is the actual failure mode here, not disagreement.
 
 ## Destructive Commands
 

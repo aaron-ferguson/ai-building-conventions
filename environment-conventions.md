@@ -76,6 +76,8 @@ The project's CLAUDE.md carries an Environments block — this is the topology `
 
 If you cannot fill in "owned by" for a row, stop and find out — two similarly named projects on different accounts is a real way to deploy to the wrong place (`deployment-conventions.md`).
 
+**The deploy-trigger column is load-bearing beyond documentation.** It's what decides whether a given `git push` needs human approval: a push that can trigger a deploy is gated, one that can't is treated as sync (`git-conventions.md`). An undocumented trigger therefore doesn't just cost clarity — it forces every push to become a question, and defaults to the gated answer.
+
 ## Parity: Make the Differences Intentional
 
 Staging is only useful to the extent it resembles production. Environments always differ; the rule is that **every difference is a decision someone made on purpose and wrote down**, not drift nobody noticed.

@@ -29,7 +29,7 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 - **Commit freely as work progresses — don't wait to be asked.** This overrides any assistant default of committing only on request. Commits are local, reversible, and the audit trail of how a change came to be; withholding them loses history for no safety benefit. One commit per logical unit, as it completes, rather than one at the end.
 - Atomic commits. Imperative mood, sentence case: `Add`, `Fix`, `Update`, `Remove`.
 - Stage specific files. Never `git add .` or `git add -A`.
-- **Never push without explicit user approval.** Push is the gate, because push is what can reach other people and trigger deploys. Committing is not.
+- **Never push without approval if that push can trigger a deploy or lands on a branch others work from.** Confirm the push specifically, even when told to "ship it." A push that can do neither is sync rather than release and needs no approval. **Anything ambiguous — no documented deploy trigger, or any doubt — resolves to asking; unknown counts as "can deploy."** The deploy-trigger column of the project's Environments block is what decides (`git-conventions.md`, `environment-conventions.md`).
 
 ## Security
 
