@@ -2,11 +2,13 @@
 
 This file defines expectations for deploying and releasing. Deploys are where reversibility ends — they get more ceremony than anything else.
 
+Scope split: `environment-conventions.md` owns *where* code runs — which environments a project needs, parity, per-environment config, and the promotion path. `infrastructure-conventions.md` owns the substrate those environments are made of, and recovery. `migration-conventions.md` owns schema and stored-data changes, which are the least reversible part of most deploys. This file owns the *act* of deploying application code into an environment.
+
 ---
 
 ## Document the Topology Before the First Deploy
 
-Every project's CLAUDE.md records, from day one:
+Every project's CLAUDE.md records, from day one — as the Environments block in `environment-conventions.md`:
 
 - **What hosts what** — platform, service names, URLs for each environment.
 - **Which account owns each piece** — hosting, DNS, database, and any third-party services. Account ambiguity is a real failure mode: two similar project names on different accounts will eventually cause a deploy to the wrong place.
@@ -17,6 +19,7 @@ If you can't answer "if I push this, what happens and where?", stop and find out
 ## Deploys Are Explicit
 
 - A deploy is a decision, never a side effect. AI tools never deploy on their own initiative — same rule as pushing.
+- **Production is reached by promotion, not by direct deploy.** Once a project is released or has a second contributor, a change goes to staging first and the *same commit* is promoted forward — including hotfixes. Which environments exist and how much verification happens on each: `environment-conventions.md`.
 - Use preview/staging deploys when the platform offers them (Cloudflare Pages previews, Vercel previews). Look at the preview before promoting.
 - One change per deploy when practical. Deploying five commits at once means five suspects when something breaks.
 
@@ -25,8 +28,9 @@ If you can't answer "if I push this, what happens and where?", stop and find out
 Before deploying, know — not "figure out under pressure" — how to get back:
 
 - The platform's rollback mechanism (redeploy previous build, revert commit + push, version pinning).
-- Whether the change is *actually* reversible: schema migrations, data writes, and cache changes may not roll back with the code. If not, plan the forward fix before deploying.
-- Prefer backward-compatible sequencing for risky changes: deploy the code that handles both shapes, then migrate, then remove the old path.
+- Whether the change is *actually* reversible: schema migrations, data writes, and cache changes may not roll back with the code. If not, plan the forward fix before deploying — and rehearse the migration on staging against a production-shaped dataset first (`environment-conventions.md`). An irreversible change is the case where staging earns its cost outright.
+- Prefer backward-compatible sequencing for risky changes: deploy the code that handles both shapes, then migrate, then remove the old path. The full sequence and its rules are in `migration-conventions.md`.
+- That a **restore** works, for anything a deploy could corrupt. Rollback recovers code; only a tested backup recovers data (`infrastructure-conventions.md`).
 
 ## Production Readiness
 

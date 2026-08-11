@@ -12,6 +12,7 @@ Projects don't copy these rules. They **link** to them, so a change here propaga
 - **Two independent axes**, both declared per project:
   - **Collaboration mode** (`collaboration-modes.md`) — `solo` ↔ `collaborative`. Flexes only the merge/review/CI ceremony.
   - **Company** (`companies/<name>/`, gitignored) — adds a company's constraints and house preferences. Isolated so the general conventions stay shareable and private information stays private.
+- **One trigger**, also declared per project: **release stage** (`environment-conventions.md`) — `pre-release` ↔ `released`. Not an axis of rigor; it answers only whether a staging environment has a job yet.
 - **Principles vs. preferences** — principles (correctness/safety) are non-negotiable; preferences (git strategy, commit format, API style) have a default here but can be overridden. Precedence: project CLAUDE.md > company profile > general default. Full detail in `CONVENTIONS_CORE.md` → "How overrides work".
 
 ---
@@ -41,9 +42,10 @@ Read those on demand — do not import them here.
 - collaboration: solo | collaborative     # see collaboration-modes.md
 - company: none | [name]                   # if set, read on demand:
   #   [path-to]/ai-coding-conventions/companies/[name]/[name]-profile.md
+- release: pre-release | released           # see environment-conventions.md
 ```
 
-Default `collaboration: solo` and `company: none` unless the project is otherwise. The company profile is **referenced by path, never imported or pasted** — it's gitignored, and copying it into a tracked `CLAUDE.md` would leak company constraints into a file that might be shared.
+Default `collaboration: solo` and `company: none` unless the project is otherwise. Default `release: pre-release` **only** while you are the sole person who depends on the project — if anyone else uses it, it's `released`, and if that's arguable, it's `released`. The company profile is **referenced by path, never imported or pasted** — it's gitignored, and copying it into a tracked `CLAUDE.md` would leak company constraints into a file that might be shared.
 
 ### 3. (Company projects) Restate critical invariants inline
 
@@ -69,7 +71,8 @@ This is the payoff of linking instead of inlining: **most convention changes nee
 
 You only touch a project's `CLAUDE.md` when something *about that project* changes:
 
-- Its collaboration mode or company changes → update the Profile block.
+- Its collaboration mode, company, or release stage changes → update the Profile block. (First public release is the common one: flip `release` and stand up staging.)
+- Its environments change → update the Environments block (`environment-conventions.md`).
 - A new project-specific override or critical invariant appears → update those sections.
 - The path to this conventions directory moves → update the one `@import`.
 

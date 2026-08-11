@@ -58,6 +58,8 @@ coverage/
 *.log
 ```
 
+Projects with infrastructure definitions add the tooling's state and local override files — `*.tfstate`, `*.tfstate.*`, `.terraform/`, `*.tfvars` and equivalents. State files hold plaintext secrets and must never be committed (`infrastructure-conventions.md`).
+
 ## Project Overrides
 
 Any deviation from these defaults (e.g. "never auto-commit", "always ask before committing") is declared in that project's CLAUDE.md and takes precedence over the defaults here.

@@ -13,7 +13,7 @@ The value of CI is a consistent, un-skippable gate that runs the same way regard
 - **Tests** — the suite passes (`testing-conventions.md`).
 - **Lint + format check** — the linter and formatter agree the code is clean (these are the style authority, not the conventions files).
 - **Typecheck** — typed code actually typechecks (`coding-conventions.md`).
-- **A secret scan** — no credential slipped into the diff (`security-conventions.md`). Cheap insurance, worth it even solo.
+- **A secret scan** — no credential slipped into the diff (`security-conventions.md`). Cheap insurance, worth it even solo. Include a check that infrastructure state files never appear in a diff (`infrastructure-conventions.md`) — they carry plaintext secrets.
 
 CI runs the same checks you're supposed to run locally. It exists because "supposed to" fails silently and CI doesn't.
 
@@ -44,12 +44,18 @@ The reviewer runs the `coding-conventions.md` review checklist against someone e
 - Are there edge cases or failure modes the author missed?
 - Does it match repo conventions, or introduce a divergent style?
 - Does it touch auth, data visibility, or sensitive data? → trigger the `security-conventions.md` / `data-privacy-conventions.md` pass.
+- Does it change a schema or infrastructure? → those get more scrutiny than ordinary code, not less, because review is the last cheap moment (`migration-conventions.md`, `infrastructure-conventions.md`).
 
 **AI-generated diffs get a human author-of-record** who read and understood the change before requesting review (`coding-conventions.md` — "Review AI Output Like a Junior Engineer's PR"). "The AI wrote it" is never a reason a diff got less scrutiny — it's a reason it gets the same scrutiny a junior's PR would.
 
 ## Deploy Pipeline
 
-CD specifics — what a merge triggers, environment promotion, rollback — live in `deployment-conventions.md`. The one rule that spans both: **a deploy is an explicit decision, never an automatic side effect the pipeline makes for you** without the approval gate.
+CD specifics — what a merge triggers, rollback, the act of deploying — live in `deployment-conventions.md`; which environments exist and the promotion path between them live in `environment-conventions.md`. The one rule that spans all three: **a deploy is an explicit decision, never an automatic side effect the pipeline makes for you** without the approval gate.
+
+Two things the pipeline should enforce rather than leave to habit:
+
+- **Environment-scoped secrets.** A job that deploys staging cannot read production credentials. Where the platform supports environment-level secrets (GitHub Environments, for example), use them — a workflow gets a given environment's secrets only when it targets that environment.
+- **An approval gate on production, in the pipeline.** Required-reviewer protection on the production environment turns "never deploy without approval" into a mechanism. Note that on GitHub this specific protection is limited to public repos on Free/Pro/Team plans — for private repos it needs Enterprise, so on smaller plans the gate stays a manual convention.
 
 ## Company Overrides
 

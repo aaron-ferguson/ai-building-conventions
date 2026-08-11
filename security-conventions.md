@@ -24,6 +24,33 @@ This file defines security expectations for all projects. It is loaded into AI c
 - Never send client data shouldn't be seen and rely on the UI to hide it. If it's sent, it's exposed.
 - Authorization is checked on every request, not just at login. Default deny.
 
+## Production Access Is Least-Privilege
+
+`data-privacy-conventions.md` covers least-privilege access to *data*. This is the same principle applied to the *systems* — the hosting account, the production database, the deploy pipeline, the secret store.
+
+- **Nobody and nothing has standing production access it doesn't currently need.** Not a service, not a CI job, not a teammate, not an AI agent, not your everyday shell (`environment-conventions.md` — an agent's default target is local, without production credentials in reach).
+- **Human production access is temporary and reasoned.** Grant it for a task, remove it when the task ends. Permanent admin "because it's easier" is the state every incident report describes in hindsight.
+- **MFA on every account that can reach production** — hosting, DNS, database, secret store, source host. DNS and the source host are the ones people forget, and both are complete takeovers.
+- **No shared credentials.** Access is attributable to one person or one service, so the audit trail means something and revoking one person doesn't require rotating everyone.
+- **Machine identities get their own scoped credentials**, one per service and environment, with the narrowest permission set that works. A deploy token that can also read the database is two breaches for the price of one (`environment-conventions.md` — config and secrets are per-environment).
+- **Production actions leave a trail you didn't have to remember to write** — provider audit logs on and retained, deploys recorded, and console access logged. If the only record of who changed production is someone's memory, you cannot investigate anything.
+
+### Break-Glass Access
+
+Some emergencies genuinely need more privilege than anyone holds day to day. That path is designed in advance, not improvised:
+
+- **Define it before you need it** — what qualifies as an emergency, who may invoke it, how they authenticate, and where the credential lives.
+- **Least privilege still applies.** Break-glass means "enough to fix this," not "root on everything."
+- **It's time-boxed and revoked** when the emergency ends, not left active because things are calm now.
+- **It's loud.** Invoking it notifies someone and is logged. Emergency access that nobody notices is just a backdoor with a polite name.
+- **The credential is rotated after every use**, and the session is reviewed afterward — what was done, why, and what needs reconciling back into the infrastructure definition (`infrastructure-conventions.md` — drift is debt with a deadline).
+
+### By Project Scale
+
+Solo, you *are* every role, so most of this collapses — but not to nothing. The floor: MFA on every account that can reach production, no production credentials on the machine or in the AI session you develop in, provider audit logging left on, and the recovery path for losing access to your own accounts written down somewhere you'd still have it. That last one is the solo equivalent of break-glass, and losing the only admin account is a genuinely common way a small project dies.
+
+Team-scale controls — role-based grants, just-in-time elevation, approval workflows, formal access reviews — arrive with `collaboration: collaborative`, real users, or a company profile that mandates them (`companies/<name>/`).
+
 ## No Injection Paths
 
 - Database queries are parameterized — never built by string concatenation.

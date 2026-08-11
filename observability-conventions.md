@@ -35,13 +35,15 @@ Add a metric when you have a question it answers. Don't build a dashboard of van
 ## Health and Smoke Signals
 
 - Expose a health check that reflects real readiness (can it reach its database and critical dependencies?), not a hardcoded `200 OK`.
+- Long-running data jobs — backfills, restores, drift checks — emit structured progress so you can tell "slow" from "stuck" (`migration-conventions.md`, `infrastructure-conventions.md`).
 - The post-deploy smoke check (`deployment-conventions.md`) should be observable: if the core action fails right after a deploy, your logs and error tracker should already show it before you go looking.
 
 ## By Collaboration Mode
 
 The baseline above applies to every project — a solo project with real users needs error tracking exactly as much as a team's does; silent failures don't care how many developers there are. What flexes:
 
-- **Solo / pre-users:** local structured logging is enough; wire the error tracker as soon as anyone but you depends on the app.
-- **Collaborative / production:** error tracking and the core rate/error/duration signals are required before launch, with alerting routed to whoever is on the hook.
+- **Solo / pre-release:** local structured logging is enough; wire the error tracker as soon as anyone but you depends on the app — the same `release: released` trigger that requires a staging environment (`environment-conventions.md`).
+- **Collaborative / released:** error tracking and the core rate/error/duration signals are required before launch, with alerting routed to whoever is on the hook.
+- **Staging is instrumented too** — same structured logging and error tracking, reported separately from production so staging noise never masks a real incident (and so a staging failure is actually visible to whoever is verifying).
 
 Specific tools, retention, and alert routing are company-specific — record them in the company profile (`companies/<name>/`).

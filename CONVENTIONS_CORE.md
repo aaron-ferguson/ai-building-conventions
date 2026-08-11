@@ -35,6 +35,15 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 - Secrets never appear in source, config, commits, or AI context. OS secret store + env vars only.
 - All external input is validated server-side. The client is never the authority.
 - LLM output is untrusted input — validate it like anything user-supplied.
+- Nothing holds standing production access it doesn't currently need — including an AI session. MFA on every account that can reach production.
+
+## Environments & Data
+
+- Every project runs locally, isolated from production. Once anyone but you depends on it — or anyone but you changes it — changes are verified in a production-like staging environment before promotion (`environment-conventions.md`).
+- Non-production environments never hold production data or production credentials. An AI session's default target is local.
+- You can recreate the environment from the repo, and infrastructure changes go in the repo — not into a console (`infrastructure-conventions.md`).
+- Data anyone would miss is backed up somewhere a single failure can't reach, and you have restored from it at least once. An untested backup is a belief.
+- Schema changes are additive first: never change a schema and the code depending on it in one deploy. Production migrations are forward-only — plan the forward fix, not a rollback (`migration-conventions.md`).
 
 ## AI Workflow
 
@@ -51,9 +60,12 @@ Every project declares two things in its CLAUDE.md:
 ## Profile
 - collaboration: solo | collaborative   # merge/review ceremony — see collaboration-modes.md
 - company: none | <name>                # loads companies/<name>/ (gitignored) — see companies/_template.md
+- release: pre-release | released       # whether anyone but you depends on it — see environment-conventions.md
 ```
 
-These are two independent axes. **Neither lowers the bar.** The standard for code quality, testing, security, privacy, and AI practice is the same on a solo weekend project as on a customer-facing one — building good habits is the whole point. `collaboration` flexes only the human process around merging and shipping. `company` *adds* constraints; it never subtracts.
+`collaboration` and `company` are two independent axes. **Neither lowers the bar.** The standard for code quality, testing, security, privacy, and AI practice is the same on a solo weekend project as on a customer-facing one — building good habits is the whole point. `collaboration` flexes only the human process around merging and shipping. `company` *adds* constraints; it never subtracts.
+
+`release` is not a third axis of rigor — it's a **trigger**, like the maturity triggers in `coding-conventions.md` Tier 3. It answers one question: does a staging environment have a job yet? Nothing else flexes on it. Absent or arguable → treat the project as `released` (`environment-conventions.md`).
 
 Everything in these conventions is one of two kinds:
 
@@ -72,6 +84,7 @@ Read these when the current task warrants it (all live alongside this file in `A
 - **Wiring a project into these conventions** (retrofit-first; import the core, link the rest) → `README.md`
 - **Collaboration mode** (solo ↔ collaborative — what flexes, what doesn't) → `collaboration-modes.md`
 - **Company profiles** (isolated, gitignored; constraints + house preferences) → `companies/_template.md`
+- **Release stage** (when staging becomes required; how much verification to do) → `environment-conventions.md`
 
 **Craft**
 - **Coding rules + Review Checklist** → `coding-conventions.md`
@@ -87,6 +100,9 @@ Read these when the current task warrants it (all live alongside this file in `A
 - **Dependencies** (when a package earns its place, lockfiles, supply chain) → `dependency-conventions.md`
 
 **Ship & operate**
+- **Environments** (local/staging/production, parity, per-env config, promotion path) → `environment-conventions.md`
+- **Infrastructure** (defined in code, drift, state, provisioning, backups & restore drills) → `infrastructure-conventions.md`
+- **Migrations** (expand/contract, forward-only, backfills, seed data) → `migration-conventions.md`
 - **Documentation** (README baseline, decision records, CLAUDE.md upkeep) → `documentation-conventions.md`
 - **Git** (destructive commands, branch management) → `git-conventions.md`
 - **CI/CD & code review** (checks, branch protection, PR process) → `cicd-conventions.md`

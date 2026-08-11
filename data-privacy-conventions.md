@@ -50,14 +50,14 @@ When a task introduces a new data class or destination, confirm the applicable r
 ## Retention and Deletion Are Features, Not Afterthoughts
 
 - Data has a lifecycle. Decide, when you first store a class of data, how long it lives and what deletes it — don't discover this during a legal request.
-- Support deletion from the start if you hold personal data: a real path to remove a user's data, including from backups and downstream copies (analytics, caches, the model provider if applicable).
+- Support deletion from the start if you hold personal data: a real path to remove a user's data, including from backups and downstream copies (analytics, caches, the model provider if applicable). Backups are the one people discover late — an unbounded backup archive silently defeats the retention policy in front of it (`infrastructure-conventions.md`).
 - Default retention schedules are company- and often contract-specific — record them in the company profile.
 
 ## Least-Privilege Access to Data
 
-- Access to personal/sensitive data is granted by need, not by convenience. Not every service, job, or teammate needs read access to the sensitive store.
+- Access to personal/sensitive data is granted by need, not by convenience. Not every service, job, or teammate needs read access to the sensitive store. The system-level counterpart — production accounts, MFA, break-glass, audit trails — is in `security-conventions.md`.
 - The server decides who sees what (`security-conventions.md` — "The Server Is the Authority"). Never ship sensitive data to a client that isn't authorized to see it and rely on the UI to hide it.
-- Test/dev/staging environments use synthetic or anonymized data, never a copy of production personal data.
+- Test/dev/staging environments use synthetic or anonymized data, never a copy of production personal data — and hold no production credentials that could reach the real store. This is a hard line, not a best-effort: a production dump on a developer laptop is a breach with a delay on it, and for regulated data it may be reportable regardless of intent. Mechanics and the seed-data expectation: `environment-conventions.md`.
 
 ## When to Do a Privacy Pass
 

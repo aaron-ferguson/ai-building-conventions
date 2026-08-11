@@ -163,6 +163,7 @@ The practices a maturing project needs each have a fuller home elsewhere in thes
 Flag for review when any is true:
 - The codebase spans 10+ files with shared dependencies.
 - A second person starts making regular changes — this is the `collaboration: collaborative` switch (see `collaboration-modes.md`).
+- The project gains real users — this is the `release: released` switch, which requires a staging environment (see `environment-conventions.md`).
 - A bug escaped to production that a test would have caught.
 
 When triggered, adopt the practices where they live:
@@ -171,6 +172,8 @@ When triggered, adopt the practices where they live:
 - **PR + review gates before merge** → `cicd-conventions.md` (collaborative mode); the review criteria are the Review Checklist below.
 - **Strict, documented module boundaries** (what each module exposes and hides) → `architecture-conventions.md`, `documentation-conventions.md`.
 - **Observability before real users** (error tracking, logs, metrics) → `observability-conventions.md`, `deployment-conventions.md`.
+- **A staging environment and a promotion path** once anyone but you depends on the project → `environment-conventions.md`.
+- **Infrastructure defined in code, and a restore you've actually tested** → `infrastructure-conventions.md`.
 
 ---
 
@@ -220,6 +223,18 @@ COMMENTS
 TESTING
   [ ] Tests written before implementation — see testing-conventions.md
 
+ENVIRONMENT & CONFIG
+  [ ] New config is injected per-environment, not branched on in code, and added to .env.example
+  [ ] Nothing outside production references production hosts, data, or credentials
+  [ ] Infrastructure change is in the repo, not clicked into a console → infrastructure-conventions.md
+  [ ] Change needs verifying in a deployed environment before users see it? → environment-conventions.md
+
+PERSISTED DATA
+  [ ] Schema change is additive, and separate from the code that depends on it
+  [ ] Forward fix for this migration is written down; no reliance on rolling back
+  [ ] Seeds/fixtures updated in the same commit as the shape they describe
+  [ ] Destructive or irreversible step? → migration-conventions.md, and verify a restore first
+
 TIER 2 TRIGGERS — check before adding abstraction
   [ ] DRY extraction: is this the 3rd+ instance of this logic?
   [ ] Utility extraction: was this actually copied from another file?
@@ -230,6 +245,7 @@ TIER 3 CHECK — is it time to level up?
   [ ] Are we at 10+ files with shared dependencies?
   [ ] Has a bug escaped that a test would have caught?
   [ ] Is more than one person making regular changes?
+  [ ] Does anyone but me depend on this now? → release: released, and staging is required
 ```
 
 ---

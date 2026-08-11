@@ -17,8 +17,18 @@ This file defines testing expectations for all projects. The essentials are summ
 Aim for a pyramid: **many unit, some integration, few E2E.** Each level catches what the ones below it can't; using a higher level to test logic a lower one covers is the main source of slow, brittle suites.
 
 - **Unit** — one module in isolation, dependencies mocked. Fast and deterministic; the bulk of coverage. This is where business logic, conditionals, and edge cases get exercised.
-- **Integration** — the seams between units: a service against a real (test) database, a module against its adapter, an API route through to persistence. Catches what unit tests structurally cannot — wiring, contracts, serialization, migrations, transaction boundaries. Do **not** mock the boundary under test; mock only what lies beyond it (third-party network, clock, randomness).
+- **Integration** — the seams between units: a service against a real (test) database, a module against its adapter, an API route through to persistence. Catches what unit tests structurally cannot — wiring, contracts, serialization, migrations, transaction boundaries. Do **not** mock the boundary under test; mock only what lies beyond it (third-party network, clock, randomness). Migrations and backfills are tested at this level — see `migration-conventions.md`.
 - **E2E** — a handful of critical paths exercised end to end through the real entry point: a UI journey in a browser, a full CLI invocation, an API request flowing through to persistence and back (e.g. sign in → perform the core action → confirm the result). Slow and brittle by nature, so reserve them for paths whose breakage is unacceptable. Not a substitute for unit or integration coverage — if an E2E test is checking logic a unit test could, drop it down a level.
+
+## Where Tests Run
+
+The levels above describe what a test *is*. Where it runs is a separate question, and each place catches a different class of failure:
+
+- **Local** — the TDD cycle. Every level runs here; this is where you get the fast feedback that makes TDD work. Always required.
+- **CI** — the same suite, somewhere it can't be skipped or run against a dirty working tree. See "The CI Gate" below.
+- **Against a deployed staging environment** — where E2E tests earn their keep most, because they exercise the real build, real infrastructure, real migrations, and real integration wiring. A suite that is green locally and green in CI can still fail here, and that failure is the one users would have hit.
+
+A green suite is **not** the same as a verified change. Once a project has real users, code is also verified in a production-like environment before promotion — how much, and when that becomes required, is in `environment-conventions.md`.
 
 ## Running Tests
 
@@ -42,6 +52,7 @@ Aim for a pyramid: **many unit, some integration, few E2E.** Each level catches 
 - **Isolate at the boundary** — tests must not depend on external state or running services. Mock or stub all dependencies beyond the unit or module under test.
 - **The boundary moves with the level** — the rule above describes a *unit* test's boundary. An integration test's boundary sits further out: it keeps the seam it exists to verify (e.g. the real test database) and mocks only what lies beyond that. Never mock the thing you're trying to test.
 - **Independent tests** — each test sets up its own state and cleans up after itself. No test should rely on execution order.
+- **Never test against production.** A test suite pointed at a production database or a live third-party account will eventually write to it. Tests run against local or staging targets with synthetic data and sandbox credentials only (`environment-conventions.md`).
 
 ## Test Organization Principles
 
