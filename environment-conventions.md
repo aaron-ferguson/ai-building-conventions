@@ -43,7 +43,9 @@ This is a **trigger, not a third dimension of rigor** — it does not lower the 
 
 **Promotion is deliberate and cheap**, like the solo → collaborative flip: stand up the environment, add it to the Environments block below, flip the line. Don't pre-build staging on a pre-release solo project "so it's ready" — that's YAGNI applied to infrastructure.
 
-**Projects with nothing deployed** — a library, a CLI distributed as a package, a docs or configuration repo — have no environment ladder. Skip the `release` line and the Environments block entirely; the relevant discipline for them is versioning and release (`deployment-conventions.md`) plus CI. A published package's consumers are its users, so its *release* discipline still tightens once anyone depends on it.
+**Projects with nothing deployed** — a library, a CLI distributed as a package, a docs or configuration repo — have no environment ladder, and shouldn't invent one. Their relevant discipline is versioning and release (`deployment-conventions.md`) plus CI. A published package's consumers are its users, so its *release* discipline still tightens once anyone depends on it.
+
+They still keep a short Environments block, reduced to one line: **nothing is deployed, and no branch triggers a deploy.** Don't skip it. That single recorded fact is what tells the push rule in `git-conventions.md` that pushes here are sync rather than release — omit it and every push becomes a question that resolves to "ask," which is the wrong answer for a repo that can't deploy anything. A block that says "none" is doing real work; an absent block is an unanswered question.
 
 ## Choosing How Much Verification to Do
 
