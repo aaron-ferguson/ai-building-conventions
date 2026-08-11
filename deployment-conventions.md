@@ -25,7 +25,7 @@ If you can't answer "if I push this, what happens and where?", stop and find out
 
 ## Know the Rollback Move First
 
-Before deploying, know — not "figure out under pressure" — how to get back:
+Before deploying, know — not "figure out under pressure" — how to get back. When you *are* under pressure, `incident-conventions.md` owns the sequence and tells you whether rollback, forward fix, or restore is the right move:
 
 - The platform's rollback mechanism (redeploy previous build, revert commit + push, version pinning).
 - Whether the change is *actually* reversible: schema migrations, data writes, and cache changes may not roll back with the code. If not, plan the forward fix before deploying — and rehearse the migration on staging against a production-shaped dataset first (`environment-conventions.md`). An irreversible change is the case where staging earns its cost outright.

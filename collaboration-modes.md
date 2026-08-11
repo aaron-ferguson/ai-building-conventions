@@ -49,6 +49,7 @@ Only merge-and-ship ceremony. Three files carry a "By collaboration mode" note; 
 | **CI gates** (`cicd-conventions.md`) | Tests run locally in the TDD cycle; CI optional but recommended once the project outlives a weekend. | CI required and enforced: tests + lint + typecheck must pass before merge. Branch protection on. |
 | **Deploy approval** (`deployment-conventions.md`) | You approve your own deploy — but still explicitly, never as an automatic side effect of a push. | Deploy follows the team's release process; the never-push-without-approval rule is the gate. |
 | **Staging** (`environment-conventions.md`) | Required once the project is `released`; before that it has no job. | Required regardless of release stage — two people's changes interact in ways neither tested locally. |
+| **Incident process** (`incident-conventions.md`) | Roles, comms, and severity declaration collapse — but stabilize-before-diagnose, the timeline, and the regression test stay. | Full process: severity declared out loud, roles named, postmortems reviewed by a non-responder. |
 
 Everything not in this table is mode-independent.
 

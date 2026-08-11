@@ -21,6 +21,7 @@ Scope note: `deployment-conventions.md` says *that* a project needs error tracki
 - An unhandled exception in a production path is a defect that must surface to you automatically, with the stack trace, correlation ID, and enough scrubbed context to reproduce.
 - This is the same discipline as "fail loudly" (`coding-conventions.md`) extended to production: a swallowed error you can't see is worse than a crash you can.
 - Distinguish *expected* handled conditions (a validation rejection) from *unexpected* failures (a null where there shouldn't be one). Only the latter should page or alert.
+- **What happens after the alert is `incident-conventions.md`.** This file's job ends when a human knows; that one owns what they do next. If a user reported the problem before your tooling did, that's a defect in *this* file's terms, and closing that gap is part of the incident.
 
 ## Measure What You'd Want in an Incident
 

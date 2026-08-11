@@ -10,7 +10,7 @@ This file defines security expectations for all projects. It is loaded into AI c
 - Secrets live in a secure OS secret store (macOS Keychain, Windows Credential Manager, Linux Secret Service, or a dedicated secrets manager) and reach processes as environment variables — see `mcp-conventions.md` for the pattern.
 - `.env` and `.env.*` are gitignored in every project (see `git-conventions.md`). Provide a committed `.env.example` with variable names only.
 - Before any commit that touched config: scan the staged diff for anything that looks like a credential.
-- If a secret leaks: rotate at the source first, then clean up. Removing it from the code does not un-leak it.
+- If a secret leaks: rotate at the source first, then clean up. Removing it from the code does not un-leak it — and **preserve the evidence of scope before tidying anything**, because a leaked credential is a security incident with its own path (`incident-conventions.md`).
 
 ## Validate at Trust Boundaries
 
@@ -43,7 +43,7 @@ Some emergencies genuinely need more privilege than anyone holds day to day. Tha
 - **Least privilege still applies.** Break-glass means "enough to fix this," not "root on everything."
 - **It's time-boxed and revoked** when the emergency ends, not left active because things are calm now.
 - **It's loud.** Invoking it notifies someone and is logged. Emergency access that nobody notices is just a backdoor with a polite name.
-- **The credential is rotated after every use**, and the session is reviewed afterward — what was done, why, and what needs reconciling back into the infrastructure definition (`infrastructure-conventions.md` — drift is debt with a deadline).
+- **The credential is rotated after every use**, and the session is reviewed afterward — what was done, why, and what needs reconciling back into the infrastructure definition (`infrastructure-conventions.md` — drift is debt with a deadline). Rotation and revocation are close-out items on the incident, not optional cleanup (`incident-conventions.md`).
 
 ### By Project Scale
 

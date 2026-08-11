@@ -10,7 +10,7 @@ This file defines testing expectations for all projects. The essentials are summ
 - **Failing tests are victories** — they catch bugs before users do. Never treat a test failure as a problem to paper over.
 - **Never claim false success** — if a test fails, report it immediately and completely.
 - **Run tests as part of the TDD cycle** — after implementing, run the scoped suite automatically. Reserve full-suite runs for explicit user requests.
-- **Every bug fix starts with a failing test** — reproduce the bug in a test first → confirm red → fix → confirm green. The test stays as a permanent guard so the bug can never silently return. This is the single highest-leverage habit for stability.
+- **Every bug fix starts with a failing test** — reproduce the bug in a test first → confirm red → fix → confirm green. The test stays as a permanent guard so the bug can never silently return. This is the single highest-leverage habit for stability. It applies with most force to a production incident, where the test is what closes it out (`incident-conventions.md`).
 
 ## Test Levels
 

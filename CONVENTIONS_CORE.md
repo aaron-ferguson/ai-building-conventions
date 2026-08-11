@@ -44,6 +44,7 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 - You can recreate the environment from the repo, and infrastructure changes go in the repo — not into a console (`infrastructure-conventions.md`).
 - Data anyone would miss is backed up somewhere a single failure can't reach, and you have restored from it at least once. An untested backup is a belief.
 - Schema changes are additive first: never change a schema and the code depending on it in one deploy. Production migrations are forward-only — plan the forward fix, not a rollback (`migration-conventions.md`).
+- Production is broken right now? Stabilize before diagnosing, and open `incident-conventions.md`. During an incident an AI agent is **read-only** — diagnosis, proposal, and a timestamped record; a human executes.
 
 ## AI Workflow
 
@@ -74,6 +75,13 @@ Everything in these conventions is one of two kinds:
 
 Precedence for a preference (most-specific wins): **project CLAUDE.md > company profile > general default.** Principles sit above all of it. When a rule is an overridable preference, its file says so explicitly; assume everything else is a principle.
 
+**How these conventions are calibrated.** The default written down is the thorough, more-protective one, and each file then says what a smaller project may deliberately drop. This direction is intentional: it's easier to scale a known-good practice down than to discover the missing half of one later, and a small project built to the full standard is how the habit gets built in the first place. Two rules follow from it:
+
+- **Scaling down is a decision that gets written into the project's CLAUDE.md** — never a default, and never something that happens by drift or under time pressure.
+- **Scaling down never touches a principle.** What flexes is ceremony and scope (how many environments, how formal the process, how much verification above the floor), not correctness or safety.
+
+Where a file offers a ladder of options, the top rung is the target and the lower rungs are named scale-downs — not equal choices.
+
 ---
 
 ## Load for More Detail
@@ -103,6 +111,7 @@ Read these when the current task warrants it (all live alongside this file in `A
 - **Environments** (local/staging/production, parity, per-env config, promotion path) → `environment-conventions.md`
 - **Infrastructure** (defined in code, drift, state, provisioning, backups & restore drills) → `infrastructure-conventions.md`
 - **Migrations** (expand/contract, forward-only, backfills, seed data) → `migration-conventions.md`
+- **Incidents** (**load only during or right after one** — stabilize, decide, communicate, close out) → `incident-conventions.md`
 - **Documentation** (README baseline, decision records, CLAUDE.md upkeep) → `documentation-conventions.md`
 - **Git** (destructive commands, branch management) → `git-conventions.md`
 - **CI/CD & code review** (checks, branch protection, PR process) → `cicd-conventions.md`

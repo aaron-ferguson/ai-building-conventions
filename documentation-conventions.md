@@ -15,6 +15,10 @@ Every project's README answers, in this order:
 
 If a new machine can't go from clone to running app using only the README, the README is broken. Fix it in the same change that revealed the gap.
 
+## Tactical Records Live Outside the Conventions
+
+A durable principle and a record of one event are different kinds of document, and mixing them makes both harder to use. Postmortems, incident timelines, and status notes are **tactical artifacts** — they never go in the conventions directory. Where they *do* go is declared per project: the company profile names the system for company work, and a solo project defaults to `docs/incidents/` in its own repo with one dated file per event. See `incident-conventions.md` for the rule and its one exception (records holding personal or exploitable detail don't go in a shareable repo).
+
 ## Decision Records (Lightweight ADRs)
 
 Write a decision record when a decision is **expensive to reverse** or **was genuinely debated** — architecture choices, technology selections, invariants, rejected alternatives.

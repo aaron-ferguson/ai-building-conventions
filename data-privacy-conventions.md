@@ -21,7 +21,7 @@ Which laws and standards apply depends on jurisdiction, data type, and who the u
 - **Comprehensive privacy laws** — US state consumer-privacy laws (many states, thresholds and government/court-records exemptions vary) and, for any EU/UK residents' data, GDPR / UK GDPR.
 - **Sector-specific law** — health (HIPAA, when PHI is in scope), financial (GLBA), education (FERPA), children's data (COPPA).
 - **Domain-specific rules** — for justice/government work: criminal-justice information (CJIS Security Policy) and court-records access, sealing, and redaction rules, which are often stricter than general privacy law.
-- **Breach notification** — statutory obligations exist regardless of the above; have a notification plan before you have users.
+- **Breach notification** — statutory obligations exist regardless of the above; have a notification plan before you have users. The clock runs from *discovery*, not from the end of your investigation, which is why a suspected exposure escalates immediately rather than after you're sure (`incident-conventions.md`, Path B).
 - **Payment data** — PCI DSS if card data is handled (contractual, but binding).
 - **Professional duties** — e.g. attorney-client confidentiality obligations for legal products.
 - **Contract** — DPAs, BAAs, and customer/agency contract terms, frequently the tightest constraint of all.

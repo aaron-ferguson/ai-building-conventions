@@ -81,6 +81,12 @@ Sending data to a model is a data-egress event, not an internal function call (`
 
 ---
 
+## When an AI Feature Fails in Production
+
+A provider outage, a guardrail bypass, a prompt-injection event, or a bad output reaching a user **may** be an incident — judged the same way as anything else: is it harming users or data right now? When it is, the response sequence is `incident-conventions.md` (and an output that exposed one user's data to another is its security/privacy path, not the operational one). The mechanics in this file are how you prevent and detect those failures; that file is what you do while one is happening.
+
+Design for the provider being unavailable, because it will be: decide in advance whether the feature degrades to a non-AI path, queues, or fails closed with an honest message — and never silently returns something that looks like an answer.
+
 ## Guardrails on Input and Output
 
 The model sits between untrusted input and consequential action. Both edges need defenses.
