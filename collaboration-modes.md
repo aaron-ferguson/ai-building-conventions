@@ -50,6 +50,7 @@ Only merge-and-ship ceremony. Three files carry a "By collaboration mode" note; 
 | **Deploy approval** (`deployment-conventions.md`) | You approve your own deploy — but still explicitly, never as an automatic side effect of a push. | Deploy follows the team's release process; the never-push-without-approval rule is the gate. |
 | **Staging** (`environment-conventions.md`) | Required once the project is `released`; before that it has no job. | Required regardless of release stage — two people's changes interact in ways neither tested locally. |
 | **Incident process** (`incident-conventions.md`) | Roles, comms, and severity declaration collapse — but stabilize-before-diagnose, the timeline, and the regression test stay. | Full process: severity declared out loud, roles named, postmortems reviewed by a non-responder. |
+| **Release flags** (`progressive-delivery-conventions.md`) | Owner-and-expiry still recorded — you are the owner, and you will not remember. | Flips recorded with attribution; flag ownership survives the owner being away. |
 
 Everything not in this table is mode-independent.
 

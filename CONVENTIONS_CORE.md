@@ -44,6 +44,7 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 - You can recreate the environment from the repo, and infrastructure changes go in the repo — not into a console (`infrastructure-conventions.md`).
 - Data anyone would miss is backed up somewhere a single failure can't reach, and you have restored from it at least once. An untested backup is a belief.
 - Schema changes are additive first: never change a schema and the code depending on it in one deploy. Production migrations are forward-only — plan the forward fix, not a rollback (`migration-conventions.md`).
+- Deploying is not releasing. On a released project, user-facing changes ship dark and roll out progressively, and anything that writes data, sends communication, or costs money per call can be turned off without a deploy. Every release flag has an owner and an expiry the moment it exists (`progressive-delivery-conventions.md`).
 - Production is broken right now? Stabilize before diagnosing, and open `incident-conventions.md`. During an incident an AI agent is **read-only** — diagnosis, proposal, and a timestamped record; a human executes.
 
 ## AI Workflow
@@ -111,6 +112,7 @@ Read these when the current task warrants it (all live alongside this file in `A
 - **Environments** (local/staging/production, parity, per-env config, promotion path) → `environment-conventions.md`
 - **Infrastructure** (defined in code, drift, state, provisioning, backups & restore drills) → `infrastructure-conventions.md`
 - **Migrations** (expand/contract, forward-only, backfills, seed data) → `migration-conventions.md`
+- **Progressive delivery** (deploy ≠ release; release flags, kill switches, cohort rollout) → `progressive-delivery-conventions.md`
 - **Incidents** (**load only during or right after one** — stabilize, decide, communicate, close out) → `incident-conventions.md`
 - **Documentation** (README baseline, decision records, CLAUDE.md upkeep) → `documentation-conventions.md`
 - **Git** (destructive commands, branch management) → `git-conventions.md`

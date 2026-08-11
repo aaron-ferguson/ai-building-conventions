@@ -63,7 +63,7 @@ The instinct is to find the root cause first. Resist it: **restore service, then
       a snapshot if data is involved, the dashboard as it looks right now
 [ ] Declare severity and say who is leading
 [ ] Ask "what changed?" — almost always a deploy, a migration, a config
-      change, or a dependency
+      change, a flag flip, or a dependency
 [ ] Mitigate (see the tree below)
 [ ] Verify the mitigation worked — actively, not by watching errors stop
 ```
@@ -77,6 +77,8 @@ The instinct is to find the root cause first. Resist it: **restore service, then
 
 | It started right after… | Move | Detail |
 |---|---|---|
+| — **the feature has a kill switch** | **Flip it off. Fastest move available, always permitted, no approval needed.** Then diagnose | `progressive-delivery-conventions.md` |
+| **a flag being turned on** | Turn it back off, then treat as a release problem rather than a code problem | `progressive-delivery-conventions.md` |
 | **a code deploy** | Roll back to the previous artifact | `deployment-conventions.md` |
 | **a migration** | **Forward fix.** Never run a down migration under pressure — untested destructive code at the worst moment | `migration-conventions.md` |
 | **an infra or config change** | Revert the definition and re-apply; reconcile any console change at close-out | `infrastructure-conventions.md` |
@@ -109,7 +111,9 @@ The incident is not over when it stops hurting. It's over when all of these are 
       staging                                → infrastructure-conventions.md, environment-conventions.md
 [ ] Break-glass credentials rotated, temporary access revoked  → security-conventions.md
 [ ] Temporary mitigations have a ticket and an owner — a disabled feature or a
-      scaled-up instance is debt, not a resolution
+      scaled-up instance is debt, not a resolution. A kill switch left off is an
+      outage nobody is measuring   → progressive-delivery-conventions.md
+[ ] Flag flips made during the response are in the timeline, with times
 [ ] The monitoring gap is closed: if a human told you before your tooling did, that is
       a defect in observability and fixing it is part of this incident
 [ ] The record is written                                       → "Postmortems" below

@@ -173,6 +173,7 @@ When triggered, adopt the practices where they live:
 - **Strict, documented module boundaries** (what each module exposes and hides) → `architecture-conventions.md`, `documentation-conventions.md`.
 - **Observability before real users** (error tracking, logs, metrics) → `observability-conventions.md`, `deployment-conventions.md`.
 - **A staging environment and a promotion path** once anyone but you depends on the project → `environment-conventions.md`.
+- **Progressive release and a kill switch on risky paths** once there are real users to protect → `progressive-delivery-conventions.md`.
 - **Infrastructure defined in code, and a restore you've actually tested** → `infrastructure-conventions.md`.
 
 ---
@@ -228,6 +229,13 @@ ENVIRONMENT & CONFIG
   [ ] Nothing outside production references production hosts, data, or credentials
   [ ] Infrastructure change is in the repo, not clicked into a console → infrastructure-conventions.md
   [ ] Change needs verifying in a deployed environment before users see it? → environment-conventions.md
+
+RELEASE (released projects — progressive-delivery-conventions.md)
+  [ ] User-facing behavior change ships dark, not on for everyone at once
+  [ ] Writes data, sends communication, or costs money per call? → kill switch
+  [ ] Every new flag has an owner and an expiry date recorded now
+  [ ] Flag checked once at a boundary, not threaded through logic; both states tested
+  [ ] Nothing gates access or permissions with a flag — that's authorization
 
 PERSISTED DATA
   [ ] Schema change is additive, and separate from the code that depends on it

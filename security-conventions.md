@@ -23,6 +23,7 @@ This file defines security expectations for all projects. It is loaded into AI c
 - The client is a rendering surface, not a decision-maker. Permissions, prices, scores, game state, and data visibility are computed and enforced server-side.
 - Never send client data shouldn't be seen and rely on the UI to hide it. If it's sent, it's exposed.
 - Authorization is checked on every request, not just at login. Default deny.
+- **Entitlements are authorization, not feature flags.** Which customer, plan, tier, or role may use something is enforced server-side and default deny — never by a toggle in a flag system, a config file, or a client-side check. A flag controls *whether a behavior is live*; authorization controls *who may invoke it*. Conflating them produces an access control that anyone can bypass, because dark code still ships its endpoints and strings (`progressive-delivery-conventions.md`).
 
 ## Production Access Is Least-Privilege
 

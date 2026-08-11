@@ -33,6 +33,8 @@ Instrument the few signals you'd reach for when something is wrong — no more:
 
 Add a metric when you have a question it answers. Don't build a dashboard of vanity numbers nobody acts on — that's the observability form of speculative code.
 
+**During a progressive rollout, those signals are sliced by cohort.** If you can't compare the users who have a change against the users who don't, a canary is just a slower deploy — you'd notice the same failure at the same moment either way. Per-cohort visibility is what makes a gradual rollout a safety mechanism rather than a ceremony (`progressive-delivery-conventions.md`).
+
 ## Health and Smoke Signals
 
 - Expose a health check that reflects real readiness (can it reach its database and critical dependencies?), not a hardcoded `200 OK`.

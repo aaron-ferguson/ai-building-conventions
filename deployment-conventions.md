@@ -16,6 +16,10 @@ Every project's CLAUDE.md records, from day one — as the Environments block in
 
 If you can't answer "if I push this, what happens and where?", stop and find out before pushing.
 
+## Deploying Is Not Releasing
+
+Putting code in production and exposing its behavior to users are two separate decisions, and on a released project they should be separately controllable. That separation is what makes a rollout gradual and a mitigation instant — otherwise every release decision is also a deploy decision and your only rollback is the slowest one you have. `progressive-delivery-conventions.md` owns the mechanics; the rules below are about the deploy half.
+
 ## Deploys Are Explicit
 
 - A deploy is a decision, never a side effect. AI tools never deploy on their own initiative — same rule as pushing.

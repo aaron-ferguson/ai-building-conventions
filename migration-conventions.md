@@ -25,6 +25,8 @@ Scope split: `environment-conventions.md` owns where a migration is rehearsed. `
 
 The gap between steps is a feature: it's the window in which you discover the change was wrong while it's still free to abandon. Don't collapse the three into one "for a small change" — the small ones are exactly where this gets skipped and where the surprise lands.
 
+**A release flag is the natural companion to this sequence.** Step 2 requires code that can work with both shapes; the flag is what decides which shape a given request uses, so you can move users across gradually instead of all at once. Roll the flag forward, then contract the schema and delete the flag together (`progressive-delivery-conventions.md`). Don't put the *migration* behind a flag — the migration's own three-step sequence is its rollout.
+
 Practical consequences worth stating outright:
 
 - **Adding a NOT NULL column with no default is a breaking change.** Add it nullable, backfill, then add the constraint.

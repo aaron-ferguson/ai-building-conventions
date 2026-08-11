@@ -86,6 +86,8 @@ Staging is only useful to the extent it resembles production. Environments alway
 - **Changes flow forward, never sideways into production only** — a config or infrastructure fix applied directly to production during an incident is drift the moment the incident ends. Reapply it to staging (and to whatever defines the infrastructure) before closing out. `infrastructure-conventions.md` is how parity becomes enforceable rather than aspirational: all environments come from one definition with different inputs.
 - **Record the known differences** — smaller instances, no CDN, a stubbed payment provider. A documented difference is a caveat you can reason about; an undocumented one is a false sense of safety.
 
+**Staging is necessary but not sufficient**, and it's worth being clear about the limit rather than pretending otherwise. Because non-production data is synthetic by rule (below), staging is permanently blind to real-data and real-scale failures — it can tell you a change *works*, never that it works *for your actual users at your actual volume*. That gap is closed by exposing changes progressively in production rather than by making staging more production-like (`progressive-delivery-conventions.md`). The two layers are complementary; neither replaces the other.
+
 ## Non-Production Never Touches Production Data or Live Third Parties
 
 This is a hard line, and the most common way a "safe" environment causes real damage.

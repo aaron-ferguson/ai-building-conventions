@@ -53,6 +53,7 @@ A green suite is **not** the same as a verified change. Once a project has real 
 - **The boundary moves with the level** — the rule above describes a *unit* test's boundary. An integration test's boundary sits further out: it keeps the seam it exists to verify (e.g. the real test database) and mocks only what lies beyond that. Never mock the thing you're trying to test.
 - **Independent tests** — each test sets up its own state and cleans up after itself. No test should rely on execution order.
 - **Never test against production.** A test suite pointed at a production database or a live third-party account will eventually write to it. Tests run against local or staging targets with synthetic data and sandbox credentials only (`environment-conventions.md`).
+- **Flagged code is tested in both states.** A release flag's on-path and off-path each get coverage, and the off-path stays covered until the flag is deleted. You are not obliged to test every *combination* of flags — if a combination matters, that's the signal there are too many (`progressive-delivery-conventions.md`).
 
 ## Test Organization Principles
 

@@ -149,14 +149,16 @@ Add tracing before the first production deploy, not after the first incident. Re
 
 ---
 
-## Feature Flags on Model Versions
+## Model Versions Are Releases
 
-Treat a model upgrade the same way you treat a feature change: behind a flag, with the ability to roll back.
+An AI feature is not a special category of feature: it ships dark, rolls out progressively, and carries a kill switch on the same terms as anything else — `progressive-delivery-conventions.md` owns those mechanics and this file doesn't restate them. A model call is a metered external service in a user path, which puts it squarely in the kill-switch list there.
 
-- Never hard-code a model identifier that cannot be changed without a deploy.
-- Model upgrades can change behavior in ways evals don't catch — maintain the option to roll back instantly.
-- Re-run the full eval suite against a new model version before promoting it. A newer or "better" model is still a regression risk for *your* task until the evals say otherwise.
-- A/B testing model versions is a normal and expected workflow.
+Two things are genuinely specific to models and have no analogue elsewhere:
+
+- **Pin the model version, and treat changing the pin as a release.** A moving alias can change your product's behavior with **zero diff in your repo** — a release nobody reviewed, rolled out to everyone at once. Pinning converts that into an explicit, reviewable change that goes through the normal rollout.
+- **Never hard-code a model identifier that can't be changed without a deploy.** Pinned is not the same as hard-coded: you need the version fixed *and* swappable, so the kill-switch path is "point at the previous model," not "wait for a build."
+
+Re-run the full eval suite against a new version before promoting it. A newer or "better" model is still a regression risk for *your* task until the evals say otherwise — evals are the pre-production gate here, and the progressive rollout is what catches what they miss.
 
 ---
 
