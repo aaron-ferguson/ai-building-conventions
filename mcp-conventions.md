@@ -26,6 +26,11 @@ Rules:
 - Never hardcode token values in `.mcp.json`
 - Never store token values in Claude memory — they are credentials, not context
 - If a token is compromised, rotate at the source first, then update the secret store
+- **One definition per server, in one scope.** Duplicates (`foo`, `foo-2`, `foo-3`, or the same
+  name in both project and local scope) shadow each other and launch concurrently, and
+  `npx`-launched duplicates race on one shared npx cache directory until it corrupts — after
+  which *every* copy fails with `ENOTEMPTY`, including the correct one. Removing the duplicates
+  does not fix it on its own; clear the cache entry under `~/.npm/_npx/` too.
 
 ---
 
