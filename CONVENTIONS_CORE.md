@@ -84,6 +84,8 @@ Precedence for a preference (most-specific wins): **project CLAUDE.md > company 
 
 Where a file offers a ladder of options, the top rung is the target and the lower rungs are named scale-downs — not equal choices.
 
+**Every rule pays rent in context.** These files load into sessions across every project, so length is a cost paid repeatedly and by all of them. Write the rule and the failure it prevents; cut the reasoning that convinced you, the worked example that restates the sentence above it, and the second phrasing of the same idea. If one session's lessons visibly grow a file, that is the signal to compress, not to keep.
+
 ---
 
 ## Load for More Detail
