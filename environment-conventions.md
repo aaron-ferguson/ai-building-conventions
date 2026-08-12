@@ -59,6 +59,28 @@ The *floor* above is not negotiable. The *depth* above the floor is a deliberate
 
 Most released projects sit at rung 3 and step up to 4 for risky changes (schema migrations, auth, payment, anything in `deployment-conventions.md`'s "may not roll back" category). Record the chosen rung in the Environments block; if a change warrants more, say so and do more. **Choosing a rung is a decision to make once and revisit, not something to re-litigate per change** — and never a decision to quietly skip because a change "looks small."
 
+### Rung 2+: verifying on production, immediately after deploying
+
+There is a real gap between rungs 2 and 3, and a project with no staging lands in it. Naming it beats leaving those projects with nothing to aim at, because the alternative in practice is not "build staging" — it's verifying nothing.
+
+**Rung 2+ is rung 2 plus an automated check that runs against production the moment a deploy lands.** It is genuinely weaker than rung 3: it catches the same failures *after* users could reach them rather than before. That is the whole of the trade, and it should be written down in those words rather than described as equivalent.
+
+It is a legitimate choice only with all of these, and they are obligations, not suggestions:
+
+- **The check is automated and specific** — asserts the deploy-time configuration and the code paths that only exist in production, not "the site loads." An eyeballed smoke test decays to nothing within a month.
+- **Rollback is one action and known to work** — promoting the previous release, not a rebuild. Verifying after exposure is only defensible if exposure is quickly undone.
+- **Deploys happen when the blast radius is smallest**, and someone is watching. "Production is the first real environment" is acceptable only when that is true by arrangement rather than by luck.
+- **The unavoidable gaps are covered elsewhere** — migrations rehearsed against seeded data locally (`migration-conventions.md`), and real-condition failures caught by production observability (`observability-conventions.md`) rather than a pre-production environment.
+
+**Revisit the moment the blast radius grows**: users you didn't personally invite, money changing hands, data you would mind leaking, or a deploy that has already broken something real. Any of those buys rung 3 its cost.
+
+### What no environment below production can verify
+
+Two categories survive every local and CI check, and they are the reason rung 2+ needs an automated production check rather than confidence:
+
+- **Deploy-time platform configuration.** Headers, redirects, rewrites, caching, CSP — anything the hosting platform applies from a config file (`vercel.json`, `netlify.toml`, an ingress manifest, a CDN rule). If the local dev server doesn't apply them, *nothing local or in CI can*, and a broken CSP is indistinguishable from working code until it's live. A staging environment on the same platform verifies these properly, because it is the same mechanism reading the same file; that is one of the clearest things staging actually buys.
+- **Code paths reachable only in production** — the branch selected by the production hostname, a credential only production holds, a feature gated on a production-only flag. These cannot be exercised anywhere else *by construction*, so they need a production check plus a design that fails loudly rather than silently (`coding-conventions.md`).
+
 ## Document the Environments Before You Need Them
 
 The project's CLAUDE.md carries an Environments block — this is the topology `deployment-conventions.md` requires, in one place:
@@ -79,6 +101,8 @@ The project's CLAUDE.md carries an Environments block — this is the topology `
 If you cannot fill in "owned by" for a row, stop and find out — two similarly named projects on different accounts is a real way to deploy to the wrong place (`deployment-conventions.md`).
 
 **The deploy-trigger column is load-bearing beyond documentation.** It's what decides whether a given `git push` needs human approval: a push that can trigger a deploy is gated, one that can't is treated as sync (`git-conventions.md`). An undocumented trigger therefore doesn't just cost clarity — it forces every push to become a question, and defaults to the gated answer.
+
+**Fill this block in from the platform, not from the existing docs.** Every row is a claim about the world, and a wrong one silently corrupts the push rule that depends on it — in both directions. Check the hosting account, the connected repository, the branch the deploy is wired to. Copying a line from a README that nobody has verified since it was written is how "auto-deploys on push to `main`" ends up describing a project that was never connected, or a project that now deploys from a different branch. If you cannot confirm a trigger, write down that it is unconfirmed rather than transcribing a guess — an unconfirmed trigger resolves to "gated," and a confidently wrong one does not.
 
 ## Parity: Make the Differences Intentional
 
@@ -108,6 +132,7 @@ This is a hard line, and the most common way a "safe" environment causes real da
 - **One secret per environment, never shared across them.** Rotating a staging key must not touch production, and a leaked staging key must not grant production access.
 - **`.env.example` lists every variable each environment needs**, names only (`security-conventions.md`). A new environment that fails because someone forgot a variable is a documentation bug.
 - **Scope deploy credentials to the environment they deploy.** Where the platform supports it, put production secrets behind an environment gate with an approval requirement — GitHub Environments, for example, will withhold environment secrets until a required reviewer approves the job, which makes "approval before production" a mechanism rather than a habit.
+- **Namespace the variables the project reads, and reject a partial set.** Generic names — `DATABASE_URL`, `API_KEY`, `SUPABASE_ANON_KEY` — collide with whatever else the developer has exported for other tooling, editors, or another project in the same shell. Prefix them per project (`ACME_DATABASE_URL`) and, where several must agree, require all or none: a half-configured target is worse than an unconfigured one, because it silently points at something nobody chose. Fail with a message naming the variables rather than falling back.
 
 ## Promotion: The Same Commit Moves Forward
 

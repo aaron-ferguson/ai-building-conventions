@@ -11,6 +11,7 @@ This file defines testing expectations for all projects. The essentials are summ
 - **Never claim false success** — if a test fails, report it immediately and completely.
 - **Run tests as part of the TDD cycle** — after implementing, run the scoped suite automatically. Reserve full-suite runs for explicit user requests.
 - **Every bug fix starts with a failing test** — reproduce the bug in a test first → confirm red → fix → confirm green. The test stays as a permanent guard so the bug can never silently return. This is the single highest-leverage habit for stability. It applies with most force to a production incident, where the test is what closes it out (`incident-conventions.md`).
+- **Prove a new guard fails.** Confirming red is easy for a unit test written before its implementation, and easy to skip for everything else — a schema check, a lint rule, a CI gate, a smoke test, a monitor. Before trusting one, feed it the exact defect it exists to catch and watch it fail. A guard only ever observed passing is indistinguishable from a guard wired to nothing, and the failure mode is silent for as long as nothing goes wrong. Expect the first attempt to teach you something: a different check often fires first and the new one never runs, which means it is not covering what you think.
 
 ## Test Levels
 
@@ -65,6 +66,8 @@ A green suite is **not** the same as a verified change. Once a project has real 
 
 - **Coverage is a diagnostic, not a target** — use it to find untested branches and error paths, never as a number to chase. 100% coverage of trivial code is overkill; 70% that skips the failure modes is a gap. Judge by risk, not percentage.
 - **Zero tolerance for flaky tests** — a test that passes and fails without a code change is worse than no test: it trains everyone to ignore red. Fix the nondeterminism or quarantine the test the moment it's spotted; never just re-run until green.
+- **Suspect the runner's parallelism when a suite is flaky against a shared backend.** The signature is distinctive: *a different test fails each run, and every one of them passes in isolation*. Test runners default their worker count to the machine's cores, which says nothing about what one local database, emulator, or container stack can serve — and each worker may itself drive several connections or browser contexts. Cap the workers and see if it stabilizes. This is usually free: an oversubscribed suite spends its time contending rather than working, so the wall-clock cost of fewer workers is often zero. Fix it at the config, not with a retry setting — retries convert a diagnosable resource problem into permanent background noise.
+- **Diagnose flakiness before attributing it.** A failure that appears right after your change is not evidence your change caused it. Re-run the failing test alone, reset the shared state, then vary one environmental factor at a time. Doing this in the other order — assuming causation and "fixing" the code — is how a real, pre-existing defect gets buried under an unrelated change.
 
 ## The CI Gate
 

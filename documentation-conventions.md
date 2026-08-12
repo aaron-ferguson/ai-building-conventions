@@ -15,6 +15,12 @@ Every project's README answers, in this order:
 
 If a new machine can't go from clone to running app using only the README, the README is broken. Fix it in the same change that revealed the gap.
 
+**Setup docs rot silently, so verify their commands rather than reading them.** Nobody re-reads their own setup instructions — you already know how to run the project — so drift is only discovered by a newcomer, or by you on a fresh machine at the worst possible moment. The failure is mechanical and so is the check: every command a doc gives should resolve to something that still exists. Task-runner scripts get renamed or deleted, config keys change, files move, line-number references ("around line 976") survive two refactors past the code they describe.
+
+A short script over the docs — do these `npm run` / `make` targets exist, do these paths exist — takes minutes and finds real errors. Run it whenever you touch the docs, and treat a broken instruction as a bug in the same commit. When a change moves something a doc names, the doc is part of that change's diff, not follow-up work.
+
+**Docs that describe an environment need re-reading when the environment changes**, not just when they're mentioned. Adding a local database, changing a port, moving credentials to a new file — each can silently invalidate a setup guide that nothing else references.
+
 ## Tactical Records Live Outside the Conventions
 
 A durable principle and a record of one event are different kinds of document, and mixing them makes both harder to use. Postmortems, incident timelines, and status notes are **tactical artifacts** — they never go in the conventions directory. Where they *do* go is declared per project: the company profile names the system for company work, and a solo project defaults to `docs/incidents/` in its own repo with one dated file per event. See `incident-conventions.md` for the rule and its one exception (records holding personal or exploitable detail don't go in a shareable repo).
