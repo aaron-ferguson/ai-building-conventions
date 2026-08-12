@@ -93,7 +93,7 @@ Where a file offers a ladder of options, the top rung is the target and the lowe
 Read these when the current task warrants it (all live alongside this file in `AI_CODING_CONVENTIONS/`):
 
 **Profiles & axes**
-- **Wiring a project into these conventions** (retrofit-first; import the core, link the rest) → `README.md`
+- **Wiring a project into these conventions**, and **editing these files themselves** (retrofit-first; import the core, link the rest; how to add a rule without bloating it) → `README.md`
 - **Collaboration mode** (solo ↔ collaborative — what flexes, what doesn't) → `collaboration-modes.md`
 - **Company profiles** (isolated, gitignored; constraints + house preferences) → `companies/_template.md`
 - **Release stage** (when staging becomes required; how much verification to do) → `environment-conventions.md`
