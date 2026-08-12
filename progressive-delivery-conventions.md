@@ -53,13 +53,19 @@ Three things that get called flags and are governed elsewhere:
 - **Changes with no user-facing cohort** — background jobs, build configuration, internal refactors, dependency bumps.
 - **Anything on a `pre-release` project.** There is no subset of users to roll out to, so a flag is branch-count with no benefit. Flags arrive with the `release: released` switch, like staging (`environment-conventions.md`).
 
+### Name flags for the feature, and never invert them
+
+- **Name a flag after what it enables, positively** — `new-meeting-ui`, never `disable-old-meeting-ui`. A negated name produces `disable-x: false`, and a double negative gets misread under exactly the conditions where the mistake costs most.
+- **Off is always the current, known-good path; on is the new behavior.** One rule makes the safe default, the value served when the flag store is unreachable, and an absent flag key all mean the same thing.
+- Kill switches take the same polarity: the flag names the feature, and off stops it.
+
 ### A release flag has an owner and an expiry date the moment it's created
 
 This is the non-negotiable part, because the failure mode is guaranteed otherwise: the flag nobody dares remove because nobody remembers what it gates.
 
 - **Owner and expiry recorded at creation**, not "we'll clean it up later." No exceptions for urgent work — urgent work is where this discipline is most needed.
 - **The change is not done when the flag is on. It's done when the flag is gone.** Full exposure is the second-to-last step; deleting the flag, the old code path, and the flag's tests is the last one, and it's part of the same piece of work — not a follow-up ticket that will be deprioritized forever.
-- **An expired flag is a defect.** Past its date and still present means either the rollout stalled (which someone should know about) or the cleanup was skipped (which is debt with compound interest).
+- **An expired flag is a defect, and a test enforces it.** Past its date and still present means the rollout stalled or the cleanup was skipped. Make the expiry a gate rather than a note: a test that fails once a flag is past its date turns cleanup from something you remember into something you cannot skip. Extending a date then becomes a deliberate, visible act.
 - **Removing a flag means removing the old path too.** A flag deleted while both branches remain has moved the mess, not cleaned it.
 
 ### They compose with expand/contract
