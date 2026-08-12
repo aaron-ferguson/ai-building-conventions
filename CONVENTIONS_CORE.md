@@ -23,6 +23,7 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 - Every bug fix starts with a failing test that reproduces it — red → fix → green. The test stays as a permanent guard.
 - Run tests as part of the normal TDD cycle — after implementing, run the scoped suite automatically.
 - Configure test output to be lean by default (summary + failures only). Add verbosity temporarily when troubleshooting, then revert.
+- **Stop what you started.** A server, database, container stack or emulator you spun up to test gets stopped when you're done, in the same turn you finish. Handing the cleanup to the user ("it's still running if you want it") is not doing it (`testing-conventions.md`).
 
 ## Git
 
