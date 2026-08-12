@@ -21,6 +21,36 @@ If a new machine can't go from clone to running app using only the README, the R
 
 A durable principle and a record of one event are different kinds of document, and mixing them makes both harder to use. Postmortems, incident timelines, and status notes are **tactical artifacts** — they never go in the conventions directory. Where they *do* go is declared per project: the company profile names the system for company work, and a solo project defaults to `docs/incidents/` in its own repo with one dated file per event. See `incident-conventions.md` for the rule and its one exception (records holding personal or exploitable detail don't go in a shareable repo).
 
+## Write It Down When You Learn It, Not When You Finish
+
+Every other trigger in this file fires on a **change** — you edited the deploy path, so you
+update CLAUDE.md. Discovery needs its own trigger, because the most valuable thing a session
+produces is often something nobody set out to change: why a bug was possible, what the
+failing thing actually was, which plausible explanation was wrong.
+
+That knowledge decays fast. It is complete in the moment you understand it, half gone by the
+end of the session, and unrecoverable to the next reader, who sees only a diff that looks
+obvious in hindsight. **Waiting until the work is finished is already too late, and waiting
+to be asked means it is the human remembering, not the process working.**
+
+Write it down in the same change as the code, when any of these happens:
+
+- **A bug turns out to have a non-obvious mechanism.** Record the mechanism, not the symptom.
+  The next reader gets the fix from the diff; what they cannot get is why it was possible.
+- **You were wrong on the way to being right.** A theory you tested and disproved is worth as
+  much as the answer — it stops the next session re-running the same dead end.
+- **Something looked like noise and wasn't** (flake, "just a timeout", "probably unrelated").
+  Say what distinguished the real cause, so the next occurrence isn't dismissed the same way.
+- **A stated rule turned out to be wrong or misleading.** Fix the rule in that change. A
+  document that misled you once will mislead the next reader identically.
+- **You hit a trap that cost real time** — a corrupted cache, a config in two places, a
+  silently ignored setting. Cheap to write, expensive to rediscover.
+
+Where it goes follows the rules already in this file: a debated or expensive-to-reverse
+decision becomes an ADR; a durable invariant goes in CLAUDE.md; a mechanism belongs in the
+working doc for that class of problem, next to the related findings. If no such doc exists,
+start one — a findings register that grows is worth more than five orphaned notes.
+
 ## Decision Records (Lightweight ADRs)
 
 Write a decision record when a decision is **expensive to reverse** or **was genuinely debated** — architecture choices, technology selections, invariants, rejected alternatives.
@@ -49,5 +79,7 @@ Why this matters for AI-driven development: an AI session can read the code but 
 - Anything git history already records (who, when, in what order).
 - Speculative future plans dressed as documentation. Document what is, and decisions actually made.
 - **Current state in the README or CLAUDE.md** — what's broken, in progress, or temporarily true. Those two documents are the project's durable layer, so a status line in either is wrong the moment it changes and nobody remembers to delete it. The README says how to run the tests, never how they last did.
+
+  **A passing-test count is the canonical violation** — "412 unit tests green" reads like a durable fact and is state, wrong the next time anyone adds a test, and it rots silently because no failure ever points at it. Name the capability instead ("every suite runs against the local stack") and let the command be the source of truth. The same applies to counts of files, endpoints, or supported cases.
 
   This is a constraint on those two files, not on documentation generally. State belongs in writing — a troubleshooting log, an investigation write-up, a migration checklist, a known-gaps register — it just belongs in a document whose *purpose* is that work, sitting next to the thing it describes. Give it an absolute date, and delete it when the work closes. A doc that exists to track state is doing its job; a durable doc that quietly accumulates state is not.

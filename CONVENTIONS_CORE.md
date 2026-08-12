@@ -53,6 +53,10 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 
 - Review every AI-generated diff like a junior engineer's PR — read it before shipping.
 - Don't delegate to AI: architectural decisions, security design, product judgment.
+- **Document what you learned in the same change, without being asked.** A non-obvious
+  mechanism, a disproved theory, a "flake" that was real, a rule that misled you — record it
+  when you understand it, not at the end. If the human has to prompt for it, the process
+  failed (`documentation-conventions.md`).
 
 ---
 
