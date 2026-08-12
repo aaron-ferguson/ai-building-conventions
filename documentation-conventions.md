@@ -15,11 +15,7 @@ Every project's README answers, in this order:
 
 If a new machine can't go from clone to running app using only the README, the README is broken. Fix it in the same change that revealed the gap.
 
-**Setup docs rot silently, so verify their commands rather than reading them.** Nobody re-reads their own setup instructions — you already know how to run the project — so drift is only discovered by a newcomer, or by you on a fresh machine at the worst possible moment. The failure is mechanical and so is the check: every command a doc gives should resolve to something that still exists. Task-runner scripts get renamed or deleted, config keys change, files move, line-number references ("around line 976") survive two refactors past the code they describe.
-
-A short script over the docs — do these `npm run` / `make` targets exist, do these paths exist — takes minutes and finds real errors. Run it whenever you touch the docs, and treat a broken instruction as a bug in the same commit. When a change moves something a doc names, the doc is part of that change's diff, not follow-up work.
-
-**Docs that describe an environment need re-reading when the environment changes**, not just when they're mentioned. Adding a local database, changing a port, moving credentials to a new file — each can silently invalidate a setup guide that nothing else references.
+**Verify a setup doc's commands; don't just read them.** Nobody re-reads instructions for a project they can already run, so drift surfaces only for a newcomer. Script the check — do the task-runner targets and paths a doc names still exist? — and treat a broken instruction as a bug in the same commit. Changing an environment (a new local dependency, a moved config file) invalidates setup docs nothing else references.
 
 ## Tactical Records Live Outside the Conventions
 

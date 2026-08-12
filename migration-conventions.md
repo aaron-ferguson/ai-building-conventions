@@ -63,13 +63,7 @@ So: **the recovery plan for a migration is a forward fix**, a new migration that
 - This is rung 4 in `environment-conventions.md`, and a schema change is the canonical reason to step up to it. Time the migration on staging; if it takes 40 minutes there, you need to know that before production, not during.
 - **A destructive or irreversible step requires a verified, restorable backup taken immediately before** — verified meaning you know a restore works, not that a backup job reported success (`infrastructure-conventions.md`).
 
-**Without staging, rehearse locally — and apply every migration twice.** A project that has deliberately stopped below rung 3 (`environment-conventions.md`) still has to cover this, and can: apply each candidate migration to an empty database *and* to one loaded with the seed fixture below, then assert the rows survived and nothing was orphaned. The two passes catch different things, and the empty one is much the weaker:
-
-- SQL that is valid *and idempotent* can still fail against rows that already exist — a `NOT NULL` added without a default, a type narrowed below what stored values need, a `UNIQUE` constraint existing duplicates violate.
-- Re-applying the whole schema over populated tables is the operation a deploy actually performs, so rehearse that, not only the delta.
-- **Order matters:** an idempotency check can fail first and mask the populated-table failure entirely. Verify the seeded pass actually runs, or you have a check that cannot catch what it was built for.
-
-This is cheap, automatable, and runs on every commit rather than once before a release — in that narrow respect it beats a manual staging rehearsal. It still cannot tell you how long the migration takes at production scale, which is why it substitutes for staging rather than replacing it.
+- **Without staging, rehearse locally: apply every migration to an empty database *and* to a seeded one**, then assert the rows survived. Valid, idempotent SQL still fails against existing rows — a `NOT NULL` without a default, a narrowed type, a `UNIQUE` that duplicates violate. Rehearse re-applying the whole schema too, since that is what a deploy does. Watch the ordering: an idempotency check failing first can mask the populated-table failure entirely. This runs on every commit, but still can't tell you the migration's runtime at production scale.
 
 ## Migrations Get Tested
 
@@ -87,7 +81,7 @@ Non-production environments need usefully-shaped data, and the only acceptable s
 - **A seed script or fixture set lives in the repo, versioned alongside the schema.** A migration that changes shape updates the seeds in the same commit; stale seeds are how "works locally" stops meaning anything.
 - **Seeds produce realistic shape, not realistic content** — plausible volumes, distributions, edge cases, and messiness, with synthetic values. Include the awkward records deliberately: the record with no optional fields, the maximum-length string, the unicode name, the timezone edge.
 - **Anonymization is a last resort, not a shortcut.** If a production-derived dataset is genuinely needed, it is transformed before it leaves production, the transform is code and reviewed, and re-identification risk is assessed — never "we removed the name column." For regulated data this needs the company profile's sign-off (`companies/<name>/`).
-- **The fixture asserts its own shape.** End it with checks on what makes it useful — row counts, distinct states present, the widest record, the awkward cases still there — and fail loudly if they no longer hold. Seeds decay silently as the schema moves under them, and a fixture that has quietly degraded to three empty rows makes every rehearsal above pass while testing nothing. A seed that can't fail is a seed you can't trust.
+- **The fixture asserts its own shape** — row counts, states present, the awkward cases still there — and fails loudly when they stop holding. Seeds decay as the schema moves under them, and one degraded to a few empty rows makes every rehearsal pass while testing nothing.
 - **"Send me a copy of your local database" is banned.** It's the main way production data reaches laptops.
 
 ## By Project Scale

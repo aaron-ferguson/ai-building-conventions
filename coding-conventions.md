@@ -38,21 +38,7 @@ assert(process.env.APP_USERNAME, 'APP_USERNAME env var is required');
 const user = process.env.APP_USERNAME || '';
 ```
 
-**"Unrecognized" is not the same state as "the safe default."** Where a lookup falls back — a hostname map, a feature registry, a locale table, a role mapping — resolving safely and *knowing you resolved safely* are different things. Collapsing them means a typo in the configuration is indistinguishable from correct operation, and it will stay that way until something visibly breaks.
-
-Keep the two apart: resolve to the safe value **and** report that the input wasn't recognized. Announcing it costs one line and turns a silent misconfiguration into an obvious one.
-
-```js
-// Bad — a typo in the map is invisible; everything "works"
-const config = KNOWN_HOSTS[hostname] ?? DEFAULT_CONFIG;
-
-// Good — safe result, and the unexpected input says so
-const classification = classify(hostname);   // 'known' | 'default' | 'unrecognized'
-```
-
-This matters most where the fallback is the *safe* direction, because nothing will ever hurt enough to prompt investigation. It matters more still when the correct branch is one no test can reach — a path selected by the production hostname or a production-only credential can't be exercised anywhere else, so loud reporting is the only signal available (`environment-conventions.md`).
-
-Keep the reporting out of the resolver itself: a function should return a value or cause a side effect, not both. Return the classification and let the caller log it.
+- **"Unrecognized" is not the same state as the safe default.** Where a lookup falls back — a hostname map, a feature registry, a role mapping — resolve safely *and* report that the input wasn't recognized. Collapse the two and a config typo is indistinguishable from correct operation, permanently, because the safe direction never hurts enough to investigate. Return the classification and let the caller log it.
 
 ### Explicit Over Implicit
 - No magic numbers or magic strings — define them as named constants.
