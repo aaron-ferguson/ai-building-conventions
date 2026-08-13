@@ -29,7 +29,7 @@ If the project has no `CLAUDE.md`, create one. Add this near the top — it is t
 
 ```markdown
 ## Conventions
-@[path-to]/ai-coding-conventions/CONVENTIONS_CORE.md
+@[path-to]/ai-building-conventions/CONVENTIONS_CORE.md
 
 The core file indexes every other conventions file and when to load it.
 Read those on demand — do not import them here.
@@ -43,7 +43,7 @@ Read those on demand — do not import them here.
 ## Profile
 - collaboration: solo | collaborative     # see collaboration-modes.md
 - company: none | [name]                   # if set, read on demand:
-  #   [path-to]/ai-coding-conventions/companies/[name]/[name]-profile.md
+  #   [path-to]/ai-building-conventions/companies/[name]/[name]-profile.md
 - release: pre-release | released           # see environment-conventions.md
 ```
 

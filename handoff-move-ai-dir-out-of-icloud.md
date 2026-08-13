@@ -33,6 +33,9 @@ synced.
   conventions by absolute path:
   `@/Users/aaronferguson/Documents/Professional/AI/AI_CODING_CONVENTIONS/CONVENTIONS_CORE.md`
   Every project with that import silently loses its conventions if the path is not updated.
+  **Note (2026-08-12): this directory has since been renamed to `ai-building-conventions`**,
+  since these conventions now cover the whole lifecycle rather than only code. Search for
+  both spellings — the survey above predates the rename.
   Known: Mandata, JerryLee, Traitors and Allies, LifeBook, TrueNorth, Bomb Busters, Justice,
   plus `Mandata/.claude/settings.local.json`, `Engine/workspace-config.md`,
   `house_hunt/SHEET_README.md`, `Mandata/specs/001-sprint-0/tasks.md`, `Mandata/README.md`,

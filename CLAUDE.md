@@ -1,4 +1,4 @@
-# AI Coding Conventions — project instructions
+# AI Building Conventions — project instructions
 
 This repo *is* the conventions. See `README.md` for how it's organized and how other projects wire into it.
 
