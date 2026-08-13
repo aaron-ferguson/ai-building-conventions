@@ -37,6 +37,7 @@ nothing to promote. There is no local/staging/production ladder and none is need
 | Deploy trigger on `main` | **none** — pushing deploys nothing, anywhere |
 | Shared branch | `main`, but no other contributors today |
 | Data | none; no datastore, no secrets, no PII |
+| Remote | `aaron-ferguson/ai-building-conventions`, **public**. The local `gh` is authed as a different account with **write**, not admin |
 
 Consequences, which are the reason this block exists at all:
 
@@ -47,6 +48,14 @@ Consequences, which are the reason this block exists at all:
 - **Verification is "does it read correctly and do the cross-references resolve?"**
   There is no test suite to run. Before finalizing an edit, check that every
   `` `*.md` `` reference in the changed files points at a file that exists.
+- **Admin operations on the remote cannot be done from this machine** — rename,
+  visibility, settings, and branch protection all need the owning account. `gh` here is
+  a write-level collaborator, and GitHub answers those with a misleading **`404`, not a
+  `403`**, so it reads as "repo doesn't exist" rather than "you lack permission". Do them
+  in the web UI as the owner. This is the thing to remember if this repo ever goes
+  `collaborative`, since `cicd-conventions.md` would then want branch protection.
+- **The repo is public.** The `company: none` rule above is therefore not a stylistic
+  preference — a company detail committed here is published.
 
 ## Incidents
 
