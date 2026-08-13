@@ -7,6 +7,8 @@ Two things frame everything below:
 - **Components are code.** `coding-conventions.md` (naming, single responsibility, shallow nesting, YAGNI, immutability) governs a component exactly as it governs a function. This file covers only what's specific to the interface.
 - **Accessibility is a hard requirement, not a principle to weigh.** Keyboard operability, semantic markup, sufficient contrast, and screen-reader support are mandatory throughout and defined in `accessibility-conventions.md`. Where a principle below touches contrast, touch targets, or motion, that file is the authority.
 
+- **This file owns the craft; `design-conventions.md` owns the process** — what gets designed at what fidelity, reviewed against what, and what a handoff has to specify before anyone builds from it.
+
 Most of what follows are **principles** (usability is not a matter of taste). The **preferences** — which font, the exact palette, the animation style, the styling library — belong to the design system or the company profile (`companies/<name>/`), not here.
 
 ---

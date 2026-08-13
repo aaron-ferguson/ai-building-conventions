@@ -4,7 +4,7 @@ This file defines how a running system makes itself understandable — logging, 
 
 The rule of thumb: **you should be able to reconstruct what happened from the outside, without adding code and redeploying.** If diagnosing a production problem requires you to add a log line and ship it, your observability was insufficient before the incident.
 
-Scope note: `deployment-conventions.md` says *that* a project needs error tracking and logs before it has users. This file says *how* to do logging, errors, and metrics well. AI-specific tracing (prompts, tokens, model, latency per call) is in `ai-product-conventions.md` and is stricter — this is the baseline underneath it.
+Scope note: `deployment-conventions.md` says *that* a project needs error tracking and logs before it has users. This file says *how* to do logging, errors, and metrics well. It owns whether the **system** is healthy; whether the **product** worked — adoption, outcomes, the success measure a change promised — is `measurement-conventions.md`, since a feature can be perfectly healthy and completely unused. AI-specific tracing (prompts, tokens, model, latency per call) is in `ai-product-conventions.md` and is stricter — this is the baseline underneath it.
 
 ---
 

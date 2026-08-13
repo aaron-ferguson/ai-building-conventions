@@ -2,7 +2,7 @@
 
 This file defines conventions for designing APIs — the contracts between your code and its consumers. It is loaded into AI context when a task creates or changes an endpoint, a public function signature, or a data contract crossing a module or service boundary.
 
-An API is a promise. The cost of a bad internal function is a refactor; the cost of a bad *published* API is every consumer who now depends on the mistake. Design the contract deliberately.
+An API is a promise. The cost of a bad internal function is a refactor; the cost of a bad *published* API is every consumer who now depends on the mistake. Design the contract deliberately — and when the time comes to withdraw one, `deprecation-conventions.md` owns doing it without breaking the consumers.
 
 ---
 

@@ -4,7 +4,7 @@ This file defines how schema and stored-data changes are made. It is loaded into
 
 Migrations are the least reversible thing most projects do. Code rolls back in seconds; a dropped column does not come back, and a botched backfill may not be reconstructable at all. `deployment-conventions.md` says to know the rollback move before deploying — for migrations, the honest answer is usually **there isn't one**, and that changes how they get built.
 
-Scope split: `environment-conventions.md` owns where a migration is rehearsed. `infrastructure-conventions.md` owns the backup you need before a destructive step. This file owns the change itself.
+Scope split: `environment-conventions.md` owns where a migration is rehearsed. `infrastructure-conventions.md` owns the backup you need before a destructive step. This file owns the change itself — **your own schema evolving under data you wrote.** Data arriving from or leaving for a system you don't control is a *conversion*, and the rules differ because you don't know the source: `data-conversion-conventions.md`.
 
 ---
 

@@ -35,6 +35,8 @@ These never relax. If anything, a solo project needs them *more*, because there'
 - Reproducible infrastructure and a restore you have actually tested (`infrastructure-conventions.md`) — a solo project's data loss is just as permanent.
 - Migration discipline: additive schema changes, forward-only in production, seeds kept current (`migration-conventions.md`).
 - All of `ai-product-conventions.md`.
+- Product discipline: evidence before building, a definition with testable criteria, a declared success measure, and the shape decisions that can't be retrofitted later (`discovery-conventions.md`, `product-definition-conventions.md`, `measurement-conventions.md`, `product-readiness-conventions.md`).
+- Conversion discipline: provenance, reconciliation, and nothing silently dropped — a solo project importing a customer's history loses it just as permanently (`data-conversion-conventions.md`).
 
 ---
 

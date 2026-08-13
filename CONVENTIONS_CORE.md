@@ -4,6 +4,17 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 
 ---
 
+## Product
+
+- Nothing gets built without a stated problem, a named person who has it, and evidence they have it. "Someone asked for it" is a data point, not evidence. Test the riskiest assumption first with the smallest artifact that could kill the idea, and write the kill criteria before the test (`discovery-conventions.md`).
+- **A prototype is built to be thrown away.** A prototype that ships is a defect, not a shortcut — promoting one means rewriting it under these conventions. An MVP is the smallest thing a real user can *rely on*, built to the full standard (`discovery-conventions.md`, `product-definition-conventions.md`).
+- Every unit of work states its outcome, its non-goals, and testable acceptance criteria — before it's built. Cut scope under pressure, never quality (`product-definition-conventions.md`).
+- The success measure is a number and a date, declared up front, and the instrumentation ships in the same change. Unmeasurable is unfinished, and the verdict gets recorded even when it's "it didn't work" (`measurement-conventions.md`).
+- **Deploy ≠ release ≠ launch** — code in production, users exposed, world told. Three decisions; nobody outside the team learns about a launch from a customer (`launch-conventions.md`).
+- Some decisions can't be retrofitted once real customer data exists: tenant isolation, identity shape, authorization as data, the audit trail, stable identifiers, and how time and money are stored. Deferring is fine; deferring silently is not (`product-readiness-conventions.md`).
+- **Customer data must be able to get in and out.** A conversion from another product is a tested, idempotent product with provenance and reconciliation — never a one-off script — and nothing is ever silently dropped. Export is a feature, not a retention lever (`data-conversion-conventions.md`).
+- Nothing is removed without a replacement path, notice proportional to switching cost, and a recorded owner and date (`deprecation-conventions.md`).
+
 ## Code
 
 - Name things exactly what they are. Functions are verbs. Files are named for what they do.
@@ -93,15 +104,38 @@ Where a file offers a ladder of options, the top rung is the target and the lowe
 
 ---
 
+## The Lifecycle
+
+These conventions cover the whole path from idea to retirement, not just the code in the middle. The phases below are **not sequential gates** — discovery and measurement run continuously, and delivery work loops back constantly. What the list is for is making a skipped phase visible: work that reaches Build with no evidence behind it, or reaches Deliver with no way to get a customer's data in or out, has skipped something that gets expensive later rather than something that was optional.
+
+| Phase | Question it answers | Files |
+|---|---|---|
+| **Discover** | Is this problem real, and worth solving? | `discovery-conventions.md` |
+| **Define** | What exactly, and how will we know it worked? | `product-definition-conventions.md`, `measurement-conventions.md` |
+| **Design** | What does it look like, in every state? | `design-conventions.md`, `ui-conventions.md`, `accessibility-conventions.md` |
+| **Build** | Is it correct, safe, and maintainable? | `coding-conventions.md`, `testing-conventions.md`, `architecture-conventions.md`, `api-conventions.md` |
+| **Deliver** | Can it be shipped, released, and announced safely? | `deployment-conventions.md`, `progressive-delivery-conventions.md`, `launch-conventions.md` |
+| **Operate** | Is it healthy, and did it work? | `observability-conventions.md`, `measurement-conventions.md`, `incident-conventions.md` |
+| **Carry** | Can it hold customers for years? | `product-readiness-conventions.md`, `data-conversion-conventions.md` |
+| **Retire** | How do we take it away without breaking trust? | `deprecation-conventions.md` |
+
+---
+
 ## Load for More Detail
 
-Read these when the current task warrants it (all live alongside this file in `AI_CODING_CONVENTIONS/`):
+Read these when the current task warrants it (all live alongside this file):
 
 **Profiles & axes**
 - **Wiring a project into these conventions**, and **editing these files themselves** (retrofit-first; import the core, link the rest; how to add a rule without bloating it) → `README.md`
 - **Collaboration mode** (solo ↔ collaborative — what flexes, what doesn't) → `collaboration-modes.md`
 - **Company profiles** (isolated, gitignored; constraints + house preferences) → `companies/_template.md`
 - **Release stage** (when staging becomes required; how much verification to do) → `environment-conventions.md`
+
+**Discover, define & design**
+- **Discovery** (problem framing, evidence strength, riskiest assumption, prototypes, kill criteria) → `discovery-conventions.md`
+- **Product definition** (outcomes, non-goals, testable criteria, vertical slices, what MVP means) → `product-definition-conventions.md`
+- **Design process** (fidelity, flows before screens, review criteria, handoff, design QA) → `design-conventions.md`
+- **Measurement** (success measure before build, event contracts, reading results, the recorded verdict) → `measurement-conventions.md`
 
 **Craft**
 - **Coding rules + Review Checklist** → `coding-conventions.md`
@@ -127,6 +161,12 @@ Read these when the current task warrants it (all live alongside this file in `A
 - **CI/CD & code review** (checks, branch protection, PR process) → `cicd-conventions.md`
 - **Deployment** (topology, rollback, production readiness) → `deployment-conventions.md`
 - **Observability** (structured logs, error tracking, metrics) → `observability-conventions.md`
+- **Launch** (readiness beyond deploy, enablement, comms, watching it land, post-launch review) → `launch-conventions.md`
+
+**Carry customers & retire**
+- **Product readiness** (tenancy, identity, authorization as data, audit trail, buyer artifacts) → `product-readiness-conventions.md`
+- **Data conversion** (customer data in from another product and out again; profiling, mapping, reconciliation, cutover) → `data-conversion-conventions.md`
+- **Deprecation** (notice, announce/warn/disable/remove, product sunset, returning their data) → `deprecation-conventions.md`
 
 **AI & tooling**
 - **Building AI features** (evals, grounding, redaction, guardrails, human-in-loop, cost) → `ai-product-conventions.md`

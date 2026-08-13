@@ -2,6 +2,8 @@
 
 A single, versioned home for the principles and best practices held across every project — so current and future projects inherit the same standard instead of re-deriving it each time. The goal is good habits everywhere.
 
+**Scope is the whole lifecycle**, not just the code: discovery and validation, definition, design, build, delivery and launch, operation, carrying customers over years, and eventual retirement. The phase map in `CONVENTIONS_CORE.md` is the index of that — it exists so a skipped phase is *visible*, since the expensive surprises (no evidence behind the build, no way to get a customer's data in or out, no audit trail to backfill) are all phases quietly skipped earlier.
+
 Projects don't copy these rules. They **link** to them, so a change here propagates everywhere without touching a single project.
 
 ---

@@ -2,7 +2,7 @@
 
 This file defines expectations for deploying and releasing. Deploys are where reversibility ends — they get more ceremony than anything else.
 
-Scope split: `environment-conventions.md` owns *where* code runs — which environments a project needs, parity, per-environment config, and the promotion path. `infrastructure-conventions.md` owns the substrate those environments are made of, and recovery. `migration-conventions.md` owns schema and stored-data changes, which are the least reversible part of most deploys. This file owns the *act* of deploying application code into an environment.
+Scope split: `environment-conventions.md` owns *where* code runs — which environments a project needs, parity, per-environment config, and the promotion path. `infrastructure-conventions.md` owns the substrate those environments are made of, and recovery. `migration-conventions.md` owns schema and stored-data changes, which are the least reversible part of most deploys. This file owns the *act* of deploying application code into an environment. Telling the outside world — support, users, anyone who sells or teaches the product — is a third decision again, and it is `launch-conventions.md`. The "Production Readiness" section below asks whether *this deploy* is safe; whether the *product* can carry customers for years is `product-readiness-conventions.md`.
 
 ---
 
