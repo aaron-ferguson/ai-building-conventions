@@ -80,6 +80,12 @@ You only touch a project's `CLAUDE.md` when something *about that project* chang
 
 If you ever find a convention's substance copied into a project's `CLAUDE.md`, that's drift — replace the copy with a link so it can't fall out of date.
 
+### Checking that the links still resolve
+
+`~/AI/scripts/check-convention-links.sh` resolves every `AI_CODING_CONVENTIONS/<file>.md` path referenced from Markdown across the workspace and exits non-zero on any that doesn't exist **with exactly that case**. Run it after renaming a file here, after wiring up a new project, and before relying on these links from anywhere but a Mac.
+
+That last one is the point: macOS is case-insensitive, so a wrong-case path works locally and fails only once a project is cloned onto Linux — CI, a cloud agent, a container. It fails quietly, too. The agent finds nothing at the path and carries on *without the conventions loaded*, so the environment where the links break is the unattended one where nobody is watching.
+
 ---
 
 ## Working on the conventions themselves
