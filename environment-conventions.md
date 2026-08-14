@@ -133,6 +133,7 @@ Acting on the wrong environment is a recurring, entirely preventable failure:
 - Non-production UIs carry a visible, unmissable marker — a banner or color treatment naming the environment. Cheap, and it prevents demoing against production or "testing" a delete on real records.
 - Terminal and CLI tooling names the target before doing anything destructive, and any command that touches production prompts for confirmation with the environment name in it.
 - Distinguishable hostnames and database names. `app-db` and `app-db-2` is an incident waiting for a tired evening.
+- **Pin the local stack's identity in config; never let the tool derive it from the directory.** Container and volume names that default to the folder name silently fork state when the directory is renamed, copied, or worked on from two checkouts — you get a second empty database, not an error. Set the identity explicitly (Supabase: `project_id` in `supabase/config.toml`; Compose: `name:` or `COMPOSE_PROJECT_NAME`) and, after any move or rename, confirm the running container is the one you expect (`docker ps`) rather than assuming.
 
 ## An AI Agent's Default Environment Is Local
 
