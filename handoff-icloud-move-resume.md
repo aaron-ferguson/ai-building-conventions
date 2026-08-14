@@ -1,5 +1,29 @@
 # Handoff — Resume the iCloud move (Phases 5 verify + 6)
 
+> **✅ COMPLETE — 2026-08-13. Historical record only; safe to delete.**
+>
+> Every task in this document was carried out. Task 0's four checks all passed (the Phase 5
+> state migration held — no re-key needed). Phase 6 ran end to end: the contaminated
+> `Bomb Busters/node_modules` was purged, all seven lockfiles reinstalled clean, 2,761 tests
+> passed across Traitors and Allies (605 unit + schema + 74 integration), Bomb Busters (939)
+> and Mandata (1,213), and the old `~/Documents/Professional/AI` tree was deleted after the
+> user's explicit approval — verified beforehand at 0 files present in source but missing at
+> destination.
+>
+> The "Supabase trap" warning below turned out to be a false alarm, and the corrected
+> mechanism is the one thing from this document worth remembering: the CLI does **not** key
+> on the path. `project_id` was pinned in `supabase/config.toml` all along, which is why the
+> move was a non-event. That lesson is now a committed rule in `environment-conventions.md`
+> (commit `8daae74`), generalised past Supabase.
+>
+> The open backup question is **closed** — the user's decision: no Time Machine or other
+> backup layer; if a project needs version control or a safety net, it gets a git repo.
+>
+> **Nothing here needs saving.** The rollback instructions are void (their targets are gone),
+> the phase plans are spent, and the durable lesson is in the conventions. Delete freely.
+>
+> Companion: `handoff-move-ai-dir-out-of-icloud.md`, also complete, also disposable.
+
 **Written:** 2026-08-13, end of session `fbcfdd8b`. Paste this file's path into a fresh
 Claude Code session started from `~/AI` to continue.
 
