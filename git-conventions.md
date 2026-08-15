@@ -15,7 +15,8 @@ This file defines git workflow expectations for all projects. The essentials (co
   - `Fix TypeScript build errors caused by incomplete coverage`
   - `Rename package to mandata`
   - Common prefixes: `Add`, `Fix`, `Update`, `Implement`, `Rename`, `Remove`
-- **Stage specific files** — `git add <file>`, never `git add .`, `git add -A`, or `git commit -a`. It avoids committing `.env` files, secrets and build artifacts; and where more than one agent or window works a repo at once, **the index is shared and unguarded**, so a swept commit silently carries off whatever the other session had staged. Stage and commit in the same turn, and read back `git diff --cached --name-only` before committing — anything in there that isn't yours comes out with `git restore --staged <path>`.
+- **Stage specific files** — `git add <file>`, never `git add .`, `git add -A`, or `git commit -a`. It avoids committing `.env` files, secrets and build artifacts; and where more than one agent or window works a repo at once, **the index is shared and unguarded**, so a swept commit silently carries off whatever the other session had staged.
+- **Where sessions run in parallel, commit by pathspec: `git commit -m "…" -- <paths>`.** Careful staging is not sufficient on its own — `git commit` writes the *whole index*, not the paths named in the preceding `git add`, so even a disciplined `git add <my files> && git commit` still takes whatever another session left staged. The pathspec form commits what you name and nothing else. Otherwise: stage and commit in the same turn, and read back `git diff --cached --name-only` first — anything in there that isn't yours comes out with `git restore --staged <path>`.
 - **Never bare `git stash`** in a shared tree — it takes the other session's uncommitted work with it. Scope it (`git stash push -u <path>…`) or don't stash.
 - **Co-authorship:** include the following trailer in all AI-assisted commits:
   ```
