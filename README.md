@@ -82,7 +82,9 @@ If you ever find a convention's substance copied into a project's `CLAUDE.md`, t
 
 ### Checking that the links still resolve
 
-`~/AI/scripts/check-convention-links.sh` resolves every `AI_CODING_CONVENTIONS/<file>.md` path referenced from Markdown across the workspace and exits non-zero on any that doesn't exist **with exactly that case**. Run it after renaming a file here, after wiring up a new project, and before relying on these links from anywhere but a Mac.
+`scripts/check-convention-links.sh` resolves every reference to a file in this repo and exits non-zero on any that doesn't exist **with exactly that case**. It checks two kinds: backticked bare filenames in prose here, and `ai-building-conventions/<file>` paths referenced from Markdown and config across the workspace. Run it after renaming a file here, after wiring up a new project, and before relying on these links from anywhere but a Mac.
+
+It lives in the repo rather than at a machine path so it works from a fresh clone. By default it scans this repo and its parent directory; pass workspace directories as arguments to widen that. Its own tests are `scripts/check-convention-links.test.sh` — run those after changing it, because a checker that crashes mid-scan reports "all clear" just as loudly as one that passed.
 
 That last one is the point: macOS is case-insensitive, so a wrong-case path works locally and fails only once a project is cloned onto Linux — CI, a cloud agent, a container. It fails quietly, too. The agent finds nothing at the path and carries on *without the conventions loaded*, so the environment where the links break is the unattended one where nobody is watching.
 

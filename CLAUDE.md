@@ -46,11 +46,12 @@ Consequences, which are the reason this block exists at all:
 - **No backup obligation beyond the remote.** `origin` is the off-machine copy that
   `infrastructure-conventions.md` asks for.
 - **Verification is "does it read correctly and do the cross-references resolve?"**
-  There is no test suite to run. Before finalizing an edit, run
-  `~/AI/scripts/check-convention-links.sh` — checking by hand is what let seven projects
-  reference filenames that don't exist, because macOS is case-insensitive and opened them
-  anyway. **Renaming a file here breaks references in other repos that this repo cannot
-  see**, so run it after any rename, not just after an edit.
+  Before finalizing an edit, run `scripts/check-convention-links.sh` — checking by hand is
+  what let seven projects reference filenames that don't exist, because macOS is
+  case-insensitive and opened them anyway. **Renaming a file here breaks references in
+  other repos that this repo cannot see**, so run it after any rename, not just after an
+  edit. It scans this repo plus its parent directory by default; pass extra workspace
+  directories as arguments. Its own tests are `scripts/check-convention-links.test.sh`.
 - **Admin operations on the remote cannot be done from this machine** — rename,
   visibility, settings, and branch protection all need the owning account. `gh` here is
   a write-level collaborator, and GitHub answers those with a misleading **`404`, not a
