@@ -74,4 +74,4 @@ What scales up with `release: released`, a second contributor, or a company prof
 
 ## Company & Project Overrides
 
-Cloud provider, IaC tooling, region and residency requirements, retention schedules, disaster-recovery commitments, and account ownership are company-specific and live in the company profile (`companies/<name>/`) — where they may only tighten these defaults. Tooling and provider choice are **preferences**; reproducibility, tested restores, backup isolation, and keeping state out of the repo are principles.
+Cloud provider, IaC tooling, region and residency requirements, retention schedules, disaster-recovery commitments, and account ownership are company-specific and live in the company profile (see `companies/_template.md`) — where they may only tighten these defaults. Tooling and provider choice are **preferences**; reproducibility, tested restores, backup isolation, and keeping state out of the repo are principles.

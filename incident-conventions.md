@@ -23,7 +23,7 @@ None of what follows works if these aren't already true. Each has a home elsewhe
 [ ] You have restored from a backup at least once, successfully        → infrastructure-conventions.md
 [ ] Break-glass access is defined before the emergency                → security-conventions.md
 [ ] Environments, hosts, and account owners are documented            → environment-conventions.md
-[ ] You know who to escalate a security or privacy incident to        → companies/<name>/ (or below, if solo)
+[ ] You know who to escalate a security or privacy incident to        → named in the company profile (or below, if solo)
 ```
 
 Discovering one of these is missing *during* an incident is itself a finding for the postmortem.
@@ -131,7 +131,7 @@ This path is deliberately short on prescription and heavy on escalation, because
 
 ```
 [ ] ESCALATE FIRST, before investigating. Not a solo call.
-      → the contact named in companies/<name>/
+      → the contact named in the company profile
 [ ] CONTAIN without destroying: revoke the credential, block the path, take the
       surface offline. Rotate at the source (security-conventions.md).
 [ ] PRESERVE. Do not clean up, delete, or "tidy" the exposure.
@@ -240,6 +240,6 @@ What it should keep anyway, because these are habits worth having before they're
 
 ## Company & Project Overrides
 
-Severity definitions and names, paging and on-call arrangements, response-time commitments, status-page and customer-notification procedures, the security escalation chain, and where records live are all company-specific — they live in the company profile (`companies/<name>/`) and may only tighten what's here. On-call rotation and alert routing are staffing matters this file deliberately doesn't cover; `observability-conventions.md` routes alerts to "whoever is on the hook," and the profile says who that is.
+Severity definitions and names, paging and on-call arrangements, response-time commitments, status-page and customer-notification procedures, the security escalation chain, and where records live are all company-specific — they live in the company profile (see `companies/_template.md`) and may only tighten what's here. On-call rotation and alert routing are staffing matters this file deliberately doesn't cover; `observability-conventions.md` routes alerts to "whoever is on the hook," and the profile says who that is.
 
 The severity *scheme* is a **preference** — three levels is a reasonable default, not a truth. Everything else above is a principle: stabilize before diagnosing, preserve before cleaning up, escalate security incidents rather than handling them alone, agents change nothing in production, the regression test closes the loop, and postmortems are blameless.

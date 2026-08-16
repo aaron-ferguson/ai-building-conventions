@@ -13,7 +13,7 @@ Projects don't copy these rules. They **link** to them, so a change here propaga
 - **`CONVENTIONS_CORE.md`** is the always-loaded summary — the essential rules plus an index of every other file and when to load it. Everything else loads **on demand**, only when a task actually touches that area. This keeps session context lean; see each file's header for its trigger.
 - **Two independent axes**, both declared per project:
   - **Collaboration mode** (`collaboration-modes.md`) — `solo` ↔ `collaborative`. Flexes only the merge/review/CI ceremony.
-  - **Company** (`companies/<name>/`, gitignored) — adds a company's constraints and house preferences. Isolated so the general conventions stay shareable and private information stays private.
+  - **Company** (a profile in that company's own private repo) — adds a company's constraints and house preferences. Kept out of this repo entirely so the general conventions stay shareable and a missing profile fails loudly rather than silently.
 - **One trigger**, also declared per project: **release stage** (`environment-conventions.md`) — `pre-release` ↔ `released`. Not an axis of rigor; it answers only whether a staging environment has a job yet.
 - **Principles vs. preferences** — principles (correctness/safety) are non-negotiable; preferences (git strategy, commit format, API style) have a default here but can be overridden. Precedence: project CLAUDE.md > company profile > general default. Full detail in `CONVENTIONS_CORE.md` → "How overrides work".
 
@@ -43,7 +43,7 @@ Read those on demand — do not import them here.
 ## Profile
 - collaboration: solo | collaborative     # see collaboration-modes.md
 - company: none | [name]                   # if set, read on demand:
-  #   [path-to]/ai-building-conventions/companies/[name]/[name]-profile.md
+  #   profile: [path-to-company-repo]/config/[name]-profile.md
 - release: pre-release | released           # see environment-conventions.md
 ```
 
@@ -56,7 +56,7 @@ The one deliberate exception to "link, don't inline": a safety rule an agent cou
 ```markdown
 ## Critical invariants
 - No PII or other private data leaves the trust boundary; no external model calls
-  on sensitive data. Full detail: companies/[name]/[name]-profile.md.
+  on sensitive data. Full detail: [name]-profile.md in the company repo.
 ```
 
 Carry the invariant; link the detail (`documentation-conventions.md`).
@@ -90,7 +90,7 @@ That last one is the point: macOS is case-insensitive, so a wrong-case path work
 
 ## Working on the conventions themselves
 
-- `companies/` is **gitignored** — company profiles never enter this repo's history, so it can be shared (consulting, handoff, a future employer) without leaking anyone's constraints. Onboard a company by copying `companies/_template.md`.
+- `companies/` holds **only `_template.md`**, the documented interface. Real profiles live in each company's own private repo, so this one can be shared (consulting, handoff, a future employer) without leaking anyone's constraints. Onboard a company by copying `companies/_template.md` into their repo. The ignore rule on `companies/*/` stays as a regression guard.
 - Keep general files **company-agnostic** — no company name, product, or tooling in a tracked file. Company specifics live only in that company's profile.
 - When adding a rule, decide if it's a **principle** (non-negotiable) or a **preference** (has a default, overridable) and, if a preference, say so in the file. Assume principle unless tagged otherwise.
 - **Keep every file slim.** These load into sessions across all projects, so a rule earns its length (`CONVENTIONS_CORE.md` → "Every rule pays rent"). Write the rule and the failure it prevents, in the surrounding file's style — usually one bullet. Cut the justification, the worked example that restates the rule, and the paragraph re-explaining why it matters.

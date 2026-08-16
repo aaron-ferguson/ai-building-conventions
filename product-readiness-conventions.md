@@ -110,4 +110,4 @@ Every serious buyer sends a security questionnaire, and the answers are only che
 
 ## Company & Project Overrides
 
-Identity providers, tenancy model, retention periods, residency requirements, certification scope, and required contractual commitments are company-specific (`companies/<name>/`) and may only tighten what's here.
+Identity providers, tenancy model, retention periods, residency requirements, certification scope, and required contractual commitments are company-specific (see `companies/_template.md`) and may only tighten what's here.

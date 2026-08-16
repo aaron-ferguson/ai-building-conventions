@@ -50,7 +50,7 @@ Some emergencies genuinely need more privilege than anyone holds day to day. Tha
 
 Solo, you *are* every role, so most of this collapses — but not to nothing. The floor: MFA on every account that can reach production, no production credentials on the machine or in the AI session you develop in, provider audit logging left on, and the recovery path for losing access to your own accounts written down somewhere you'd still have it. That last one is the solo equivalent of break-glass, and losing the only admin account is a genuinely common way a small project dies.
 
-Team-scale controls — role-based grants, just-in-time elevation, approval workflows, formal access reviews — arrive with `collaboration: collaborative`, real users, or a company profile that mandates them (`companies/<name>/`).
+Team-scale controls — role-based grants, just-in-time elevation, approval workflows, formal access reviews — arrive with `collaboration: collaborative`, real users, or a company profile that mandates them (see `companies/_template.md`).
 
 ## No Injection Paths
 

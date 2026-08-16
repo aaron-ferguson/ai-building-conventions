@@ -100,7 +100,7 @@ An extract is the most concentrated pile of someone else's sensitive data you wi
 
 - **All of `data-privacy-conventions.md` and `security-conventions.md` apply in full.** It is production data even though it isn't in production, and it is subject to the customer's contract and their regulator, not just yours.
 - **It never lands on a laptop, in a personal cloud drive, in a ticket attachment, or in a shared channel.** Agree a secure transfer channel before the first extract, not when the file is already in an inbox.
-- **It never goes to an external model or third-party service**, including for "help understanding the schema" — a company profile may forbid this absolutely (`companies/<name>/`), and where it does, that governs everything here.
+- **It never goes to an external model or third-party service**, including for "help understanding the schema" — a company profile may forbid this absolutely (see `companies/_template.md`), and where it does, that governs everything here.
 - **Encrypted at rest, access limited to the people doing the conversion, with a deletion date agreed up front** and actually executed. Extracts pile up: production copies of customer data, on shared infrastructure, indefinitely, with no owner.
 - **Non-production environments still don't hold real customer data as a matter of course** (`environment-conventions.md`). A conversion rehearsal is the deliberate, time-boxed exception — an isolated environment, treated with production controls, torn down after.
 
@@ -145,4 +145,4 @@ The principles don't flex — provenance, idempotency, no silent drops, and reco
 
 ## Company & Project Overrides
 
-Approved transfer channels, extract retention periods, whether customer data may be held outside production infrastructure at all, sign-off authority for cutover, and any regulator-mandated retention of the legacy system are company-specific (`companies/<name>/`) and may only tighten what's here. Everything above is a principle.
+Approved transfer channels, extract retention periods, whether customer data may be held outside production infrastructure at all, sign-off authority for cutover, and any regulator-mandated retention of the legacy system are company-specific (see `companies/_template.md`) and may only tighten what's here. Everything above is a principle.

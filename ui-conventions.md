@@ -9,7 +9,7 @@ Two things frame everything below:
 
 - **This file owns the craft; `design-conventions.md` owns the process** — what gets designed at what fidelity, reviewed against what, and what a handoff has to specify before anyone builds from it.
 
-Most of what follows are **principles** (usability is not a matter of taste). The **preferences** — which font, the exact palette, the animation style, the styling library — belong to the design system or the company profile (`companies/<name>/`), not here.
+Most of what follows are **principles** (usability is not a matter of taste). The **preferences** — which font, the exact palette, the animation style, the styling library — belong to the design system or the company profile (see `companies/_template.md`), not here.
 
 ---
 

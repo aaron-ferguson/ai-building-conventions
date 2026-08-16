@@ -86,4 +86,4 @@ Inconsistencies, one-off components, and patterns superseded but not migrated ar
 
 ## Company & Project Overrides
 
-Design tooling, file organization, the design system itself, brand and voice, and whether a formal research or design-review board sign-off is required are company-specific (`companies/<name>/`) and are **preferences**. Designing all states, meeting accessibility, and specifying behavior at handoff are principles.
+Design tooling, file organization, the design system itself, brand and voice, and whether a formal research or design-review board sign-off is required are company-specific (see `companies/_template.md`) and are **preferences**. Designing all states, meeting accessibility, and specifying behavior at handoff are principles.

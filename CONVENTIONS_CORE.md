@@ -78,7 +78,7 @@ Every project declares two things in its CLAUDE.md:
 ```markdown
 ## Profile
 - collaboration: solo | collaborative   # merge/review ceremony — see collaboration-modes.md
-- company: none | <name>                # loads companies/<name>/ (gitignored) — see companies/_template.md
+- company: none | <name>                # profile lives in that company's own repo; path declared below — see companies/_template.md
 - release: pre-release | released       # whether anyone but you depends on it — see environment-conventions.md
 ```
 
@@ -128,7 +128,7 @@ Read these when the current task warrants it (all live alongside this file):
 **Profiles & axes**
 - **Wiring a project into these conventions**, and **editing these files themselves** (retrofit-first; import the core, link the rest; how to add a rule without bloating it) → `README.md`
 - **Collaboration mode** (solo ↔ collaborative — what flexes, what doesn't) → `collaboration-modes.md`
-- **Company profiles** (isolated, gitignored; constraints + house preferences) → `companies/_template.md`
+- **Company profiles** (kept in the company's own repo; fail-closed resolution; constraints + house preferences) → `companies/_template.md`
 - **Release stage** (when staging becomes required; how much verification to do) → `environment-conventions.md`
 
 **Discover, define & design**

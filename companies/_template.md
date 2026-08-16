@@ -1,16 +1,33 @@
 # Company Profile — <Company Name>
 
-> **Isolated profile.** This file lives under `companies/`, which is gitignored and never committed to the shared conventions repo. It holds one company's constraints and must **not reference any other company**. That is what lets you share the general conventions — or this one profile — without leaking anyone else's.
+> **This file is the interface, not a profile.** It documents what a company profile must
+> contain. Real profiles do **not** live in this repo — each one lives in that company's own
+> private repo, alongside that company's knowledge, and a project's CLAUDE.md names the path.
+> A profile must **not reference any other company**, which is what lets you hand over the
+> general conventions — or one company's repo — without leaking anyone else's.
 >
-> **Policy, not secrets.** Credentials still live in the OS secret store (`mcp-conventions.md`), never here. This file records *constraints and decisions*, so even if it leaked it would expose policy, not keys.
+> **Why profiles moved out.** They used to sit here under a gitignore. That was fail-open in
+> two directions: one `git add -f` would have published them, and a fresh clone silently
+> omitted them, so a session ran against general defaults while believing it had the
+> company's constraints. A missing profile must be **loud**, and the only way to guarantee
+> that is for it to live somewhere the conventions repo cannot pretend to have.
+>
+> **Policy, not secrets.** Credentials still live in the OS secret store (`mcp-conventions.md`),
+> never in a profile. A profile records *constraints and decisions*, so even if it leaked it
+> would expose policy, not keys.
 
-A project opts in via its CLAUDE.md:
+A project opts in via its CLAUDE.md, which **must** give the resolvable path:
 
 ```markdown
 ## Profile
 - collaboration: collaborative
-- company: <name>            # loads companies/<name>/<name>-profile.md
+- company: <name>
+  # profile: <path-to-company-repo>/config/<name>-profile.md
 ```
+
+**Resolution is fail-closed.** If `company:` names a company and the profile is not at the
+declared path, **stop and say so** — never continue on general defaults. Running with the
+wrong constraints while reporting nothing is the failure this arrangement exists to prevent.
 
 When a project declares a company, the general conventions still apply in full. This profile does two distinct things to them:
 

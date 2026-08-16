@@ -59,4 +59,4 @@ Two things the pipeline should enforce rather than leave to habit:
 
 ## Company Overrides
 
-Required checks beyond this baseline, mandated branching strategy, and compliance sign-off gates are company-specific — record them in the company profile (`companies/<name>/`), where they override the preference-level defaults here.
+Required checks beyond this baseline, mandated branching strategy, and compliance sign-off gates are company-specific — record them in the company profile (see `companies/_template.md`), where they override the preference-level defaults here.

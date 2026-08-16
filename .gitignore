@@ -1,19 +1,14 @@
-# Company-specific profiles are ISOLATED and never committed to this shared repo.
-# General conventions here are shareable (consulting, handoff, a future employer);
-# company constraints are not. See companies/_template.md for the rationale.
+# Company profiles no longer live in this repo at all — they live in that company's
+# own private repo, and a project's CLAUDE.md names the path. `companies/` here holds
+# only `_template.md`, which documents the interface and contains no company information.
 #
-# To hand a client this repo: share the general files + only their own
-# companies/<name>/ folder. No company profile references any other company,
-# so there is no cross-contamination path.
-#
-# Note the pattern: `companies/*` excludes the *contents*, not the directory.
-# Excluding `companies/` itself would stop git descending into it, and the
-# negation below could never re-include anything.
-companies/*
-
-# ...except the generic scaffold. It contains no company information and is
-# linked from CONVENTIONS_CORE.md and README.md as documentation, so without
-# this a fresh clone has broken links.
+# This rule stays as a REGRESSION GUARD. The old model kept real profiles here behind
+# this ignore, which was fail-open in two ways: one `git add -f` would have published
+# them, and a fresh clone silently omitted them so sessions ran on wrong defaults
+# without saying so. If someone drops a profile back here out of habit, this stops it
+# reaching history — but the right fix is to move it to the company's own repo.
+companies/*/
+companies/*.md
 !companies/_template.md
 
 # macOS

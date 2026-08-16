@@ -73,4 +73,4 @@ Two short, project-specific lists, kept honest:
 
 ## Company & Project Overrides
 
-Ticket format, estimation practice, workflow states, and required fields are company-specific (`companies/<name>/`) and are **preferences**. What a definition must contain — outcome, non-goals, testable criteria, success measure — is a principle.
+Ticket format, estimation practice, workflow states, and required fields are company-specific (see `companies/_template.md`) and are **preferences**. What a definition must contain — outcome, non-goals, testable criteria, success measure — is a principle.

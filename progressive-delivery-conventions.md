@@ -130,7 +130,7 @@ A percentage of individual users is the default only for products where users ar
 For products sold under contract, a customer's agreement may require notification — or a notice period — before their users see a behavior change. Terms differ per customer, so there is no single policy to apply. Two rules follow:
 
 - **Default to notification being required.** Ship on the assumption that a customer must be told, and treat an unchecked contract as one that requires it. Same posture as any unconfirmed obligation (`data-privacy-conventions.md` — contract terms are frequently the tightest constraint of all).
-- **Early-ring eligibility is an explicit allowlist of customers confirmed exempt** — never an exclusion list, and never inferred from a customer being small, new, or friendly. Absence from the list means not eligible. The determination comes from the contract via whoever owns contracts, carries the date it was verified, and expires at renewal, since an amendment can add a clause. Record the list in the company profile (`companies/<name>/`).
+- **Early-ring eligibility is an explicit allowlist of customers confirmed exempt** — never an exclusion list, and never inferred from a customer being small, new, or friendly. Absence from the list means not eligible. The determination comes from the contract via whoever owns contracts, carries the date it was verified, and expires at renewal, since an amendment can add a clause. Record the list in the company profile (see `companies/_template.md`).
 
 If that allowlist is empty, the honest consequence is that there is no external early ring: the first real-user exposure is a notified customer, and the internal ring carries more weight. That's a planning constraint to surface early, not a rule to route around under deadline pressure.
 
@@ -174,6 +174,6 @@ Every live flag is a branch in production. *n* flags means 2ⁿ reachable states
 
 ## Company & Project Overrides
 
-Flag platform or library, naming conventions, who may flip a flag on in production, cohort definitions, and rollout policy for regulated features are company-specific (`companies/<name>/`) and may only tighten what's here.
+Flag platform or library, naming conventions, who may flip a flag on in production, cohort definitions, and rollout policy for regulated features are company-specific (see `companies/_template.md`) and may only tighten what's here.
 
 **Preferences:** the tooling, the ring sizes, the naming scheme. **Principles:** off is always permitted and on is a release, flags are never security boundaries, the off path is the tested path, evaluation fails to the safe default, and every release flag has an owner and an expiry from the moment it exists.

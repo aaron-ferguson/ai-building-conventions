@@ -4,7 +4,7 @@ This file defines how projects handle personal and sensitive data. It is loaded 
 
 Security (`security-conventions.md`) is about keeping attackers out. Data privacy is about handling the data you're *trusted* with correctly, even when nothing is under attack. They overlap; both apply.
 
-**Two axes.** The principles here are universal. The *specific* limits — which providers are approved for which data, residency, retention schedules, regulatory regimes — are company-specific and live in that company's profile (`companies/<name>/`). When a project declares a company, its profile's limits are authoritative and tighter than these defaults. When it doesn't, apply the strict defaults below.
+**Two axes.** The principles here are universal. The *specific* limits — which providers are approved for which data, residency, retention schedules, regulatory regimes — are company-specific and live in that company's profile (see `companies/_template.md`). When a project declares a company, its profile's limits are authoritative and tighter than these defaults. When it doesn't, apply the strict defaults below.
 
 ---
 
@@ -16,7 +16,7 @@ Security (`security-conventions.md`) is about keeping attackers out. Data privac
 
 ## Know Which Legal Regimes Bind You
 
-Which laws and standards apply depends on jurisdiction, data type, and who the users are — so the *specific* binding set (with citations) lives in the company profile (`companies/<name>/`), and for a personal project in its own CLAUDE.md. This determination is made **with legal counsel**, not by an engineer or an AI; the rules here are the floor, and a binding regime is almost always stricter. What the general baseline requires is that you *identify* which of these categories apply before building, not that you memorize any one of them:
+Which laws and standards apply depends on jurisdiction, data type, and who the users are — so the *specific* binding set (with citations) lives in the company profile (see `companies/_template.md`), and for a personal project in its own CLAUDE.md. This determination is made **with legal counsel**, not by an engineer or an AI; the rules here are the floor, and a binding regime is almost always stricter. What the general baseline requires is that you *identify* which of these categories apply before building, not that you memorize any one of them:
 
 - **Comprehensive privacy laws** — US state consumer-privacy laws (many states, thresholds and government/court-records exemptions vary) and, for any EU/UK residents' data, GDPR / UK GDPR.
 - **Sector-specific law** — health (HIPAA, when PHI is in scope), financial (GLBA), education (FERPA), children's data (COPPA).
@@ -45,7 +45,7 @@ When a task introduces a new data class or destination, confirm the applicable r
 
 - Any data sent to a third-party service — analytics, support tools, and **especially model providers** — leaves your control. Assume it may be retained, logged, or used for training unless a contract says otherwise.
 - Before sending data to an external service, strip or tokenize anything not strictly required for that service to do its job.
-- **Sending data to an LLM is a data-egress event, not an internal function call.** Whether a given class of data may be sent to a given provider is a company-profile decision (`companies/<name>/`), governed by the contract with that provider (zero-retention / DPA / BAA). With no company profile and no such contract, the default is: **no personal or sensitive data leaves to an external model.** See `ai-product-conventions.md` for the redaction and grounding mechanics.
+- **Sending data to an LLM is a data-egress event, not an internal function call.** Whether a given class of data may be sent to a given provider is a company-profile decision (see `companies/_template.md`), governed by the contract with that provider (zero-retention / DPA / BAA). With no company profile and no such contract, the default is: **no personal or sensitive data leaves to an external model.** See `ai-product-conventions.md` for the redaction and grounding mechanics.
 
 ## Retention and Deletion Are Features, Not Afterthoughts
 

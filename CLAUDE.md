@@ -21,8 +21,8 @@ conventions, whatever else may be present higher up the filesystem.
 
 `company: none` is a constraint, not a placeholder. Every tracked file here must stay
 company-agnostic so the repo can be shared with a client, a collaborator, or a future
-employer. Company specifics live only in `companies/<name>/`, which is gitignored
-apart from the generic template. **If a session is carrying company context from
+employer. Company specifics live only in that company's own private repo — this repo
+keeps just the generic template. **If a session is carrying company context from
 elsewhere, that context does not apply here and must never reach a tracked file** —
 no company name, product, person, or internal tooling in anything committed.
 

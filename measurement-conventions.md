@@ -73,4 +73,4 @@ Model-backed features need quality measurement alongside product measurement: ev
 
 ## Company & Project Overrides
 
-Analytics tooling and hosting, event naming conventions, dashboard ownership, and whether measurement data may leave the company boundary at all are company-specific (`companies/<name>/`) and may only tighten what's here.
+Analytics tooling and hosting, event naming conventions, dashboard ownership, and whether measurement data may leave the company boundary at all are company-specific (see `companies/_template.md`) and may only tighten what's here.

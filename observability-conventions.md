@@ -49,4 +49,4 @@ The baseline above applies to every project — a solo project with real users n
 - **Collaborative / released:** error tracking and the core rate/error/duration signals are required before launch, with alerting routed to whoever is on the hook.
 - **Staging is instrumented too** — same structured logging and error tracking, reported separately from production so staging noise never masks a real incident (and so a staging failure is actually visible to whoever is verifying).
 
-Specific tools, retention, and alert routing are company-specific — record them in the company profile (`companies/<name>/`).
+Specific tools, retention, and alert routing are company-specific — record them in the company profile (see `companies/_template.md`).

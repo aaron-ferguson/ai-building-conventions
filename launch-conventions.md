@@ -78,4 +78,4 @@ The asymmetry that makes launch different from deploy:
 
 ## Company & Project Overrides
 
-Announcement channels, release-note format and cadence, marketing and legal review requirements, notice periods owed under contract, and who holds go/no-go authority are company-specific (`companies/<name>/`) and may only tighten what's here.
+Announcement channels, release-note format and cadence, marketing and legal review requirements, notice periods owed under contract, and who holds go/no-go authority are company-specific (see `companies/_template.md`) and may only tighten what's here.

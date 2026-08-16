@@ -80,7 +80,7 @@ Non-production environments need usefully-shaped data, and the only acceptable s
 
 - **A seed script or fixture set lives in the repo, versioned alongside the schema.** A migration that changes shape updates the seeds in the same commit; stale seeds are how "works locally" stops meaning anything.
 - **Seeds produce realistic shape, not realistic content** — plausible volumes, distributions, edge cases, and messiness, with synthetic values. Include the awkward records deliberately: the record with no optional fields, the maximum-length string, the unicode name, the timezone edge.
-- **Anonymization is a last resort, not a shortcut.** If a production-derived dataset is genuinely needed, it is transformed before it leaves production, the transform is code and reviewed, and re-identification risk is assessed — never "we removed the name column." For regulated data this needs the company profile's sign-off (`companies/<name>/`).
+- **Anonymization is a last resort, not a shortcut.** If a production-derived dataset is genuinely needed, it is transformed before it leaves production, the transform is code and reviewed, and re-identification risk is assessed — never "we removed the name column." For regulated data this needs the company profile's sign-off (see `companies/_template.md`).
 - **The fixture asserts its own shape** — row counts, states present, the awkward cases still there — and fails loudly when they stop holding. Seeds decay as the schema moves under them, and one degraded to a few empty rows makes every rehearsal pass while testing nothing.
 - **"Send me a copy of your local database" is banned.** It's the main way production data reaches laptops.
 
@@ -96,4 +96,4 @@ Zero-downtime tooling for large tables (online schema change, shadow tables, `pg
 
 ## Company & Project Overrides
 
-Migration tooling, naming, and whether a DBA or change-advisory sign-off is required before a production migration are company-specific (`companies/<name>/`) and may only tighten what's here. Tooling choice is a **preference**; every rule above is a principle.
+Migration tooling, naming, and whether a DBA or change-advisory sign-off is required before a production migration are company-specific (see `companies/_template.md`) and may only tighten what's here. Tooling choice is a **preference**; every rule above is a principle.

@@ -4,7 +4,7 @@ This file defines accessibility (a11y) expectations for any user-facing interfac
 
 Accessibility is not a feature or a late-stage audit — it's a property of correctly-built UI, the same way validated input is a property of correctly-built server code. Building it in costs almost nothing; retrofitting it costs a rewrite. For government and court products it is frequently a legal requirement, not a nicety.
 
-**Target:** WCAG 2.1 **AA** is the working default. See more details at https://www.w3.org/TR/WCAG22/. A company profile may set a higher bar or a specific legal standard (e.g. Section 508) — that profile target wins (`companies/<name>/`).
+**Target:** WCAG 2.1 **AA** is the working default. See more details at https://www.w3.org/TR/WCAG22/. A company profile may set a higher bar or a specific legal standard (e.g. Section 508) — that profile target wins (see `companies/_template.md`).
 
 ---
 
@@ -30,7 +30,7 @@ Accessibility is not a feature or a late-stage audit — it's a property of corr
 
 - Use the project's design-system components rather than hand-rolling controls. Accessible components are accessibility done once, correctly, and reused — don't rebuild a control the system already provides and get its a11y wrong.
 - The design system is the source of truth for accessible color tokens and interaction patterns; align to it rather than inventing local variants.
-- The specific design system, and any audit tooling it exposes, is named in the company profile (`companies/<name>/`). A project with no company profile uses whatever design system it declares in its own CLAUDE.md.
+- The specific design system, and any audit tooling it exposes, is named in the company profile (see `companies/_template.md`). A project with no company profile uses whatever design system it declares in its own CLAUDE.md.
 - **No design system yet?** Don't invent one up front. See `ui-conventions.md` → "Design System: Adopt, Emerge, then Formalize" — the accessibility rules in this file apply immediately regardless, including to hand-rolled components.
 
 ## Verify, Don't Assume

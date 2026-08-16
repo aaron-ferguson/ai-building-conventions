@@ -15,7 +15,7 @@ In each project's CLAUDE.md:
 ```markdown
 ## Profile
 - collaboration: solo        # or: collaborative
-- company: none              # or: <name> → loads companies/<name>/ (gitignored)
+- company: none              # or: <name> → profile in that company's own repo
 - release: pre-release       # or: released → see environment-conventions.md
 ```
 

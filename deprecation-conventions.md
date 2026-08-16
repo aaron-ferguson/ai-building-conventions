@@ -78,4 +78,4 @@ Not everything removed is user-facing, and this half needs no process at all:
 
 ## Company & Project Overrides
 
-Minimum notice periods, support windows for prior versions, customer-communication approval, and data-return commitments at end of life are company-specific (`companies/<name>/`) and may only tighten what's here.
+Minimum notice periods, support windows for prior versions, customer-communication approval, and data-return commitments at end of life are company-specific (see `companies/_template.md`) and may only tighten what's here.
