@@ -49,10 +49,10 @@ The pattern is identical everywhere: store the secret once, read it into an env 
 
 ### macOS example
 
-Storing a token (once per token):
+Storing a token (once per token). Copy the token to the clipboard first and let `pbpaste` supply it — see the pitfalls below for why not to type it:
 
 ```bash
-security add-generic-password -a "$USER" -s "SERVICE_PAT" -w "your_token_value_here"
+security add-generic-password -a "$USER" -s "SERVICE_PAT" -U -w "$(pbpaste | tr -d '[:space:]')"
 ```
 
 Add to your shell profile (`~/.zshrc`, `~/.bashrc`, …), then reload it (`source` the file):
@@ -61,15 +61,46 @@ Add to your shell profile (`~/.zshrc`, `~/.bashrc`, …), then reload it (`sourc
 export SERVICE_PAT=$(security find-generic-password -a "$USER" -s "SERVICE_PAT" -w 2>/dev/null)
 ```
 
-Updating a token:
+Rotating a token — delete first, because `-U` alone can leave a stale item shadowing the new one:
 
 ```bash
 security delete-generic-password -a "$USER" -s "SERVICE_PAT"
-security add-generic-password -a "$USER" -s "SERVICE_PAT" -w "your_new_token_here"
+security add-generic-password -a "$USER" -s "SERVICE_PAT" -U -w "$(pbpaste | tr -d '[:space:]')"
 source ~/.zshrc
 ```
 
 No changes needed to `.mcp.json` or your shell profile — only the secret-store entry changes.
+
+#### Four ways this silently stores the wrong value
+
+Every one of these reports success and then fails later as a bare `401`, which is why storing is not done until it has been verified.
+
+- **Piping the token in on stdin stores an *empty* password.** `... -w` fed from a pipe exits 0 and stores nothing. The value must be passed as an argument to `-w`.
+- **Typing or pasting into the hidden `-w` prompt can truncate silently**, to a different length each time. Use `pbpaste`, never the interactive prompt.
+- **A stale entry can shadow a new one**, so the value read back is not the value just written. Delete before re-adding whenever the two disagree.
+- **A trailing newline is part of the secret.** `tr -d '[:space:]'` removes it.
+
+Passing the token as an argument does expose it to `ps` and shell history for a moment. Keep it out of history with a leading space (zsh needs `setopt hist_ignore_space` first); on a shared machine, prefer a secrets manager with a native CLI (`op read`, `vault kv get`) that never materialises the value in argv at all.
+
+#### Verify after storing, before using
+
+Never assume the write landed. Check the value's shape, then make one real authenticated call:
+
+```bash
+TOK=$(security find-generic-password -a "$USER" -s "SERVICE_PAT" -w)
+[ -n "$TOK" ] && echo "length ${#TOK}" || echo "EMPTY — stored wrong"
+```
+
+Compare that length and any prefix or checksum against what the issuing provider documents for its tokens; a token with a known fixed shape tells you it is truncated before you spend a call finding out. Then confirm against the provider's identity endpoint. Put credentials in a `chmod 600` curl config file rather than `-u`, so they never reach argv:
+
+```bash
+CFG=$(mktemp); chmod 600 "$CFG"
+printf 'user = "%s:%s"\n' "$ACCOUNT" "$TOK" > "$CFG"
+curl -s -o /dev/null -w '%{http_code}\n' --config "$CFG" "$IDENTITY_ENDPOINT"
+rm -f "$CFG"
+```
+
+Record the provider's expected token shape in the private repo that owns that integration, not here — it is a detail of their API, and it changes.
 
 ---
 
