@@ -23,6 +23,7 @@ Accessibility is not a feature or a late-stage audit — it's a property of corr
 ## Perceivable Content
 
 - **Color contrast meets AA:** 4.5:1 for normal text, 3:1 for large text and meaningful UI boundaries. Verify it — don't eyeball it.
+- **A distinguishability rule cannot double as a contrast rule.** A palette checked so its colours are *telling apart* from each other passes on hue, and an indicator — focus ring, selection outline, error border — is judged on contrast ratio against whatever sits behind it. Check both. Watch for an indicator that straddles an edge: a ring drawn half over a light fill and half over a dark ground may have no single value that clears 3:1 against both, and then it needs two tones rather than a better one.
 - Color is never the *only* carrier of meaning (error state, status, required field). Pair it with text, an icon, or a pattern — color-blind and low-vision users miss color-only signals.
 - Content is readable and functional when zoomed to 200%, and reflows rather than requiring horizontal scroll.
 

@@ -39,6 +39,7 @@ const user = process.env.APP_USERNAME || '';
 ```
 
 - **"Unrecognized" is not the same state as the safe default.** Where a lookup falls back — a hostname map, a feature registry, a role mapping — resolve safely *and* report that the input wasn't recognized. Collapse the two and a config typo is indistinguishable from correct operation, permanently, because the safe direction never hurts enough to investigate. Return the classification and let the caller log it.
+- **A guard that covers most of the callers of a shared helper is worse than none**, because the uncovered caller is written under the belief that something is checking. When you add a rule to a shared function — a naming rule, a redaction rule, a validation rule — enumerate its callers and cover them, or change the *type* so the uncovered case cannot compile. A closed union in place of a string is the cheap version: nothing can be interpolated into it, so the next caller's leak is a type error rather than another hole. Beware the test that reports the rule as held by covering every path but one.
 
 ### Explicit Over Implicit
 - No magic numbers or magic strings — define them as named constants.
