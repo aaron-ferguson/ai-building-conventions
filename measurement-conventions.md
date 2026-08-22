@@ -9,7 +9,7 @@ Scope split: `observability-conventions.md` owns whether the **system** is healt
 ## The Success Measure Is Declared Before the Build
 
 - Written into the definition (`product-definition-conventions.md`) as **a number and a date**: what will be true, for whom, by when. "Adoption improves" is not a measure; "60% of active clerks file at least one case through the new flow within 30 days of rollout" is.
-- **Declared in advance, or it isn't a measure.** A metric chosen after the results are in will be the one that looks best — reliably, and usually without anyone intending it.
+- **Declared in advance, or it isn't a measure.** A metric chosen after the results are in will be the one that looks best — reliably, and usually without anyone intending it. **Write it where the ordering is checkable** — committed, timestamped, before the run — rather than only in the working copy. "We decided the threshold first" is a claim about the past that nobody can verify later, including you, and a criterion that cannot be shown to predate its result carries no more weight than one chosen afterwards.
 - **Name the guardrails at the same time**: what must *not* get worse. Nearly every feature can improve its own metric by degrading something else — support volume, error rate, time-to-complete elsewhere, cost per transaction.
 - **If you can't state how you'd know it worked, that's a discovery gap, not a measurement gap.** Go back (`discovery-conventions.md`).
 
