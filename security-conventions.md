@@ -17,6 +17,7 @@ This file defines security expectations for all projects. It is loaded into AI c
 - All external input is hostile until validated: user input, URL params, request bodies, webhook payloads, file uploads, LLM output.
 - Validation happens **server-side**. Client-side validation is UX, not security — anything the client enforces, the server must enforce again.
 - Validate at the boundary, then trust internally. Don't re-validate the same value at every layer; validate once where it enters.
+- **A size limit on compressed input must bound what it expands to, not what arrived.** A zip, gzip, image or document that passes a generous cap on disk can declare content that inflates by three orders of magnitude, so the byte count you checked is the attacker's cheapest lie. Read the declared uncompressed size before decompressing and reject there; where the format doesn't declare one, decompress through a counter that aborts at the cap. This reads as covered when it isn't — the file-size check is visible, present, and looks like the guard.
 
 ## The Server Is the Authority
 
