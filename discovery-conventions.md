@@ -54,7 +54,7 @@ List what has to be true for this to work, then rank by *what would hurt most if
 
 Decide *in advance* what result would make you stop, and what result would make you proceed. Written afterwards, any result looks encouraging.
 
-- State the threshold concretely: how many of how many, by when.
+- State the threshold concretely: how many of how many, by when — **and name the measurement that will produce it.** A threshold against a measurement nobody has ever run is a deferred decision wearing a criterion's clothes.
 - **"Keep going and gather more data" is not a criterion** — it's the absence of one.
 - Killing an idea on evidence is a success of the process. Record it (`documentation-conventions.md`) so the same idea doesn't return in six months with no memory of why it lost.
 
