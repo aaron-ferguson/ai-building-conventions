@@ -14,6 +14,13 @@ Security (`security-conventions.md`) is about keeping attackers out. Data privac
 - The highest-classification field sets the handling bar for the record. One PII field makes the whole row PII.
 - If you don't know a field's classification, treat it as sensitive until confirmed — never the reverse.
 
+## Encrypt by Class, Not Just at the Disk
+
+- Disk/volume encryption-at-rest stops a stolen physical drive; it does nothing against a stolen backup, a compromised read replica, a DB user with ordinary query access, or a SQL-injection dump — all of which read the column in plaintext. Personal and sensitive-class fields (SSN and equivalents, financial account numbers, health data, biometric data) need field-level (application-level) encryption on top of it, so a raw column read never yields plaintext.
+- Where a scoped external processor can hold the value instead of you (a payment processor tokenizing card or bank data), tokenize rather than store-and-encrypt. The field you never hold can't leak from your system.
+- Field-level encryption is envelope encryption against a KMS-managed key, never a hand-rolled scheme (`security-conventions.md` — "Don't Roll Your Own"). Decide key rotation before the first row is written; rotating after real data exists means re-encrypting it.
+- An encrypted field loses native indexing and exact-match search. Add a deterministic blind index (an HMAC of the value) for lookups when the column is created — adding one after rows exist means a full-table decrypt-and-scan to find anything.
+
 ## Know Which Legal Regimes Bind You
 
 Which laws and standards apply depends on jurisdiction, data type, and who the users are — so the *specific* binding set (with citations) lives in the company profile (see `companies/_template.md`), and for a personal project in its own CLAUDE.md. This determination is made **with legal counsel**, not by an engineer or an AI; the rules here are the floor, and a binding regime is almost always stricter. What the general baseline requires is that you *identify* which of these categories apply before building, not that you memorize any one of them:
