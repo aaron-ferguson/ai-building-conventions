@@ -17,7 +17,7 @@ Accessibility is not a feature or a late-stage audit — it's a property of corr
 ## Keyboard and Focus
 
 - Everything operable by mouse is operable by keyboard, in a logical tab order. If you can't complete the flow without a mouse, it's broken.
-- Focus is always visible — never remove focus outlines without replacing them with something at least as clear.
+- Focus is always visible — never remove focus outlines without replacing them with something at least as clear. **Draw the indicator inset on anything inside a scroll container**: an outline paints outside the border box, so a positive `outline-offset` on the content of an `overflow: auto` element is clipped and the ring simply never appears. It reads as "the browser did not focus it" and sends the search to focus handling and `:focus-visible` modality, where there is nothing wrong to find — four separate work items concluded a scripted `.focus()` paints no ring, and all four were wrong the same way.
 - Manage focus on dynamic changes: when a modal opens, focus moves into it and is trapped; when it closes, focus returns. Route changes move focus to a sensible landmark.
 
 ## Perceivable Content
