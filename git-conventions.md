@@ -10,6 +10,7 @@ This file defines git workflow expectations for all projects. The essentials (co
 
 - **Commit freely as work progresses** — don't wait for permission to create commits. Atomic commits as each logical unit completes are preferred over one large commit at the end.
 - **Atomic commits** — one logical change per commit; don't bundle unrelated changes.
+- **Every commit must build, and where that conflicts with atomicity, building wins.** The two only collide in one place: renaming an exported symbol across module boundaries. **A rename belongs in the same commit as its call sites, however large that makes the commit** — or add the new name alongside the old and remove the old in a later commit. Splitting the rename from its importers leaves an intermediate commit where the project does not compile, and "one logical unit" is the rule that invites the split. With a single worker that red is private and costs nothing; with a second person or session in the same checkout it is published the moment it lands, and they lose time to a breakage that is not theirs and not in any file they touched.
 - **Commit messages:** imperative mood, sentence case, action-first:
   - `Add dark mode to LoginPage`
   - `Fix TypeScript build errors caused by incomplete coverage`

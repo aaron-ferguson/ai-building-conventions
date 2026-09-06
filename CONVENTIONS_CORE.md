@@ -156,7 +156,7 @@ Read these when the current task warrants it (all live alongside this file):
 - **Migrations** (expand/contract, forward-only, backfills, seed data) → `migration-conventions.md`
 - **Progressive delivery** (deploy ≠ release; release flags, kill switches, cohort rollout) → `progressive-delivery-conventions.md`
 - **Incidents** (**load only during or right after one** — stabilize, decide, communicate, close out) → `incident-conventions.md`
-- **Documentation** (README baseline, decision records, CLAUDE.md upkeep) → `documentation-conventions.md`
+- **Documentation** (README baseline, document layering, decision records, CLAUDE.md upkeep) → `documentation-conventions.md`
 - **Git** (destructive commands, branch management) → `git-conventions.md`
 - **CI/CD & code review** (checks, branch protection, PR process) → `cicd-conventions.md`
 - **Deployment** (topology, rollback, production readiness) → `deployment-conventions.md`

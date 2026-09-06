@@ -21,6 +21,20 @@ If a new machine can't go from clone to running app using only the README, the R
 
 A durable principle and a record of one event are different kinds of document, and mixing them makes both harder to use. Postmortems, incident timelines, and status notes are **tactical artifacts** — they never go in the conventions directory. Where they *do* go is declared per project: the company profile names the system for company work, and a solo project defaults to `docs/incidents/` in its own repo with one dated file per event. See `incident-conventions.md` for the rule and its one exception (records holding personal or exploitable detail don't go in a shareable repo).
 
+## Separate the Rule From the Reasoning
+
+A rule and the derivation behind it are different documents with different readers. The rule is read every time; the derivation is read once — when the rule is challenged, or a decision it governs goes wrong. Inlining the second into the first lengthens the always-loaded document for a payoff that lands rarely.
+
+**The operative document carries the rule and a pointer; the log carries why.** Three layers, read from most often to least:
+
+- **Always loaded** — CLAUDE.md, the entry-point README. Invariants and pointers, nothing else.
+- **Loaded for the task** — the file that owns a figure, an interface, a decision. The rule, the constraint, and any caveat that changes how the thing is read.
+- **Loaded on demand** — decision log, ADRs, findings register. What was tried, what was disproved, what moved when.
+
+**This trade deliberately loses some of the time.** Reasoning kept out of the loaded layers means a mistake occasionally gets made that a longer document would have prevented. That is the cheaper failure: the log is one hop away, so a caught mistake is diagnosed and corrected in minutes, while a bloated document dilutes every rule in it, in every session, forever. Optimise for recovering fast over pre-empting everything.
+
+**Two things never move to the log.** A caveat that changes how a live figure or interface is read (this is an estimate; this is a request, not an agreed term), and a rule an agent could violate before it thinks to open another file. Those are operative, not historical — a correction lives with the thing it corrects.
+
 ## Write It Down When You Learn It, Not When You Finish
 
 Every other trigger in this file fires on a **change** — you edited the deploy path, so you
