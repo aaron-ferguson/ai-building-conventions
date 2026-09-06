@@ -124,6 +124,12 @@ These are sound principles that create unnecessary complexity when applied too e
 - At the third instance: extract a named function or module.
 - Do not DRY things that are still evolving — premature abstraction is worse than duplication.
 
+### Fixing Duplicated Logic — Fix the siblings, or file the work
+**Trigger:** You are fixing a defect in logic that exists in more than one place — copies of a script, a helper pasted into a second file, parallel implementations of one rule.
+- The other copies are inside the change's blast radius, not collateral to it. Check them in the same pass.
+- Fix them alongside it, or **file the work in the same turn**. A note in a commit message, a review comment or a findings buffer is not a fix: the next person to open that copy has no cue it is wrong, and the defect outlives every session that knew about it.
+- Where the ticket's scope genuinely forbids widening it, filing the sibling row *is* how this rule is satisfied. What is never acceptable is the observation dying with the session that had it.
+
 ### Deep Modules — Wrap when the interface stabilizes
 **Trigger:** A module has been in use across 2+ callers and its internal implementation has changed at least once.
 - At that point, define a clean public interface and hide the internals.
@@ -198,6 +204,7 @@ SAFETY
   [ ] Required inputs are validated at the top
   [ ] Errors are thrown, not silently swallowed
   [ ] No hardcoded strings or magic numbers (use constants.js)
+  [ ] Fixing a defect in logic that exists in more than one copy? → siblings fixed, or the work filed
 
 SECURITY
   [ ] No secrets in the diff — not even "temporarily"
