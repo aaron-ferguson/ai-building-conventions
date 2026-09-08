@@ -3,10 +3,16 @@
 Things a session noticed **while working in another repo** that turn out to be gaps in *these*
 files, and could not be fixed from where they were found.
 
-**This repo has no backlog and no automated sweeper**, so nothing empties this file on a cadence —
-it is read when someone next works on the file an entry names. That makes it a parking spot, not a
-queue, and the difference is worth stating: an entry here survives only because a person comes
-looking. If this file grows, the answer is a backlog, not a longer file.
+**This file is for gaps found from outside; `.claude/backlog/FINDINGS.md` is for gaps found from
+inside.** This file said, until 2026-09-07, that the repo had no backlog and that the answer if it
+grew was a backlog rather than a longer file. The backlog exists now, so that sentence has been
+corrected rather than left to read as current — a stale rule is followed.
+
+The two files are not duplicates and neither sweeps the other. An entry **here** was noticed while
+working in another repo and names a gap in these conventions, so it is read when someone next works
+on the file it names; an entry in the backlog's buffer is a lesson from work done *in this repo* and
+is swept by `retro` on a cadence. If an entry here would be better served by a specified, ranked
+unit of work, move it into the backlog rather than leaving it in both.
 
 Format: `- YYYY-MM-DD — **what happened.** why it might matter (pointer: file)`. The date goes
 outside the bold. Entries name the repo when they point outside this one.
