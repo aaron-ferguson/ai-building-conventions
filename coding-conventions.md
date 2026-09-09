@@ -57,6 +57,14 @@ Prefer typed code in all new work. TypeScript over JavaScript; Python with full 
 - All shared identifiers (API field IDs, project keys, cloud IDs, base URLs) live in a single `constants.js` (or equivalent) imported everywhere.
 - Never hardcode these values inline — even once.
 
+### One Concept, One Definition
+Duplicated *knowledge* — a rule, value, type, or calculation — is a defect the moment it exists, not at the third instance. The rule-of-three trigger in Tier 2 governs duplicated *shape* only.
+
+- A type, constant, or function is declared in exactly one module; if two files need it, it moves to a shared one and both import it. Two live definitions of one safety-critical type — a `Money` interface in one module and a `Money` inferred from a schema in another — is what rule-of-three permits and this forbids.
+- **Derive, never restate.** Types come from the schema that validates them (`z.infer`, Pydantic), never hand-written beside it. A projection is the narrower schema applied, never a hand-listed field set — that silently drops the next field added, with no test failing.
+- The test when unsure: *when this changes, must both places change together?* Yes → one definition. No → leave it alone.
+- Shared domain primitives live in the shared module, not inside one feature another feature also needs. A lower layer never imports from a higher one; if a shared thing lives in a feature, moving it is the fix, not importing upward.
+
 ### Shallow Nesting
 - Max 2 levels of nesting inside a function. Extract early-return guards or named functions instead.
 - Prefer flat over nested data structures when the shape is under your control.
@@ -118,10 +126,10 @@ function addStatus(issue) {
 
 These are sound principles that create unnecessary complexity when applied too early. Each has a specific trigger condition. Do not apply them before the trigger is met.
 
-### DRY — Extract when you hit the third repetition
-**Trigger:** The same logic appears in 3 or more places, and the logic is stable (not still changing).
-- Before the third instance: duplication is acceptable.
-- At the third instance: extract a named function or module.
+### DRY — Extract duplicated *shape* at the third repetition
+**Trigger:** The same code *shape* appears in 3 or more places and is stable (not still changing). Duplicated **knowledge** never waits — it is Tier 1, under "One Concept, One Definition".
+- Before the third instance: duplicated shape is acceptable. Two components that merely look alike may diverge tomorrow.
+- At the third instance: extract a named function or module — by then the shared abstraction is obvious rather than guessed.
 - Do not DRY things that are still evolving — premature abstraction is worse than duplication.
 
 ### Fixing Duplicated Logic — Fix the siblings, or file the work
@@ -137,8 +145,9 @@ These are sound principles that create unnecessary complexity when applied too e
 
 ### Shared Utilities — Extract when copied across files
 **Trigger:** A helper function has been copied (not just written once) into a second file.
-- At that point, move it to a shared `utils.js` or domain-specific utility module.
-- Do not create utility files speculatively.
+- At that point, move it to a module named for what it does — `money.js`, `date.js`, `redaction.js`.
+- **`utils`, `helpers`, `common`, and `misc` are banned as destinations.** One file holding money maths, date formatting, and SSN masking is three purposes wearing one name, and nothing ever leaves it once it lands there. Several small, obviously-named modules are cheap; a grab-bag is not.
+- Do not create utility files speculatively, and keep a helper used only inside its own module private rather than exporting it.
 
 ### Interface Abstraction — Generalize when you have two implementations
 **Trigger:** You are writing a second implementation of something that already exists.
@@ -254,8 +263,9 @@ PERSISTED DATA
   [ ] Destructive or irreversible step? → migration-conventions.md, and verify a restore first
 
 TIER 2 TRIGGERS — check before adding abstraction
-  [ ] DRY extraction: is this the 3rd+ instance of this logic?
-  [ ] Utility extraction: was this actually copied from another file?
+  [ ] Duplicated knowledge (a rule, value, type, calculation)? → Tier 1, fix now, don't wait for a third
+  [ ] DRY extraction of duplicated *shape*: is this the 3rd+ instance?
+  [ ] Utility extraction: was this actually copied from another file — and is the destination named for what it does?
   [ ] Interface abstraction: does a second implementation actually exist?
   [ ] Dependency injection: does this function have 2+ external deps that make it untestable?
 

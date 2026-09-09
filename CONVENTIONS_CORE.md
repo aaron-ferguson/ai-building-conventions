@@ -27,6 +27,8 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 - Comments explain why, not what. If you need to explain what, rename instead.
 - Functions either return a value or cause a side effect — not both.
 - Don't mutate inputs. Return new values.
+- One concept, one definition. Duplicated *knowledge* — a rule, value, type, calculation — is fixed immediately; duplicated *shape* waits for the third use. Derive types from the schema that validates them; never restate them beside it (`coding-conventions.md`).
+- **Prefer enforcement over instruction.** A rule in a doc asks the next session to remember it; a type, a schema, a lint rule, or a test makes the system prove it. Where a rule is mechanically checkable, add the check rather than another sentence — a rule broken twice was never enforceable as prose.
 
 ## Testing
 
@@ -63,6 +65,7 @@ Essential rules for every session. No exceptions. Read the full files listed at 
 ## AI Workflow
 
 - Review every AI-generated diff like a junior engineer's PR — read it before shipping.
+- **Verify an API against the installed version, not from memory.** A major version in the repo may postdate the model's training data, so read the installed package's own docs or source before calling into it. Recalling an API is how a plausible, wrong call gets written confidently.
 - Don't delegate to AI: architectural decisions, security design, product judgment.
 - **Document what you learned in the same change, without being asked.** A non-obvious
   mechanism, a disproved theory, a "flake" that was real, a rule that misled you — record it

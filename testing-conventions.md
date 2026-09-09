@@ -34,6 +34,8 @@ Aim for a pyramid: **many unit, some integration, few E2E.** Each level catches 
 - **Integration** — the seams between units: a service against a real (test) database, a module against its adapter, an API route through to persistence. Catches what unit tests structurally cannot — wiring, contracts, serialization, migrations, transaction boundaries. Do **not** mock the boundary under test; mock only what lies beyond it (third-party network, clock, randomness). Migrations and backfills are tested at this level — see `migration-conventions.md`.
 - **E2E** — a handful of critical paths exercised end to end through the real entry point: a UI journey in a browser, a full CLI invocation, an API request flowing through to persistence and back (e.g. sign in → perform the core action → confirm the result). Slow and brittle by nature, so reserve them for paths whose breakage is unacceptable. Not a substitute for unit or integration coverage — if an E2E test is checking logic a unit test could, drop it down a level.
 
+**Mock the network, not the modules.** Where a test needs a dependency stubbed, intercept it at the transport boundary — an HTTP interceptor serving the same handlers and fixtures the app uses — rather than replacing the module that calls it (`vi.mock`, `unittest.mock.patch` of your own client). A module mock asserts against your own stub, so the request shape, the serialization, the error envelope and the parsing all go unexercised, and the suite stays green through a contract change. Reusing one set of handlers for unit tests, E2E and the demo also stops fixtures drifting apart.
+
 ## Where Tests Run
 
 The levels above describe what a test *is*. Where it runs is a separate question, and each place catches a different class of failure:
