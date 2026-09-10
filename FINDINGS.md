@@ -48,3 +48,15 @@ outside the bold. Entries name the repo when they point outside this one.
   rather than the status; the rule does not yet say that a *search whose result you then format*
   must be a separate statement from its formatting (pointer: `testing-conventions.md` "a guard that
   is wired and still cannot fail"; ai-building-tools `tests/measurement.test.sh`, item 0143).
+
+- 2026-09-10 — **`migration-conventions.md`'s rename rule is stated unqualified, so it reads as
+  governing prose renames it was never about.** Line 33 says "Renaming is add + backfill +
+  dual-write + remove, not a rename." `ai-building-tools` 0067 had to argue its way out of that
+  sentence to settle how a repo-wide vocabulary rename lands: expand/contract governs *schema under
+  running code*, where both shapes must be live because both old and new code are, and prose has no
+  old code still running — its dual-write step would leave two live names for one concept, which is
+  the exact defect the rename exists to remove. The ticket recorded the exemption in its own repo
+  (`references/CONCURRENCY-INCIDENTS.md`), but the sentence here stays unqualified, so the next
+  project to rename a term in documentation reads a principle that forbids the correct answer. Worth
+  one clause naming the scope — schema and stored data — and saying forward-only is what survives for
+  a record (pointer: migration-conventions.md line 33, ai-building-tools items/0067 NFR table).
