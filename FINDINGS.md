@@ -38,3 +38,13 @@ outside the bold. Entries name the repo when they point outside this one.
   *Out of scope* is where it silently goes to die (pointer: `companies/_template.md`,
   ai-building-tools items/0030 and references/EXTERNAL-FEEDBACK.md "If you had `notion:`
   configured").
+
+- 2026-09-09 — **a new guard reported a defect it could not name, on a clean tree, because its
+  `elif` read a pipeline's status.** `elif hits=$(git grep -nE "$PAT" | cut -d: -f1,2); then` takes
+  `cut`'s exit status, and `cut` succeeds on empty input — so the branch fired whenever the search
+  found *nothing*. It was caught only because the failure went the harmless way; the mirror
+  (`grep | head`, `grep | sort`) fails silent and is the one that ships. `testing-conventions.md`
+  already warns that `exits non-zero` is satisfied by the wrong thing and to assert the message
+  rather than the status; the rule does not yet say that a *search whose result you then format*
+  must be a separate statement from its formatting (pointer: `testing-conventions.md` "a guard that
+  is wired and still cannot fail"; ai-building-tools `tests/measurement.test.sh`, item 0143).
