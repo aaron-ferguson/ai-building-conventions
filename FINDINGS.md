@@ -60,3 +60,18 @@ outside the bold. Entries name the repo when they point outside this one.
   project to rename a term in documentation reads a principle that forbids the correct answer. Worth
   one clause naming the scope — schema and stored data — and saying forward-only is what survives for
   a record (pointer: migration-conventions.md line 33, ai-building-tools items/0067 NFR table).
+
+- 2026-09-10 — **extracting a seam to make a fix testable can move the control off the branch that
+  carries the defect, and every control still passes.** `ai-building-tools` 0148 fixed a guard that
+  read `git grep`'s 128 (pattern would not compile) as 1 (no match), so a malformed name list left a
+  privacy check green with a leak in the tree. The fix pulled the search into a function and the
+  falsification controls drove that function — status distinguished, diagnostic withheld, all green.
+  Reverting only the *consumer* to the conflating form restored the original defect with the suite
+  still at `0 failed`: the controls reached the extracted helper and nothing reached the decision.
+  `testing-conventions.md` covers a seam that widens the production surface (line 18) and says to
+  build a mutation list from every decision site (line 16), but not this: the refactor that makes a
+  thing testable is also the refactor that relocates what the tests cover, and the helper is the
+  attractive place to point a control precisely because it is the new, clean interface. The fix was
+  to give the *decision* a return value and drive that. Worth a clause where line 16 names decision
+  sites — after extracting a seam, ask which branch the control now misses (pointer:
+  testing-conventions.md lines 16 and 18, ai-building-tools items/0148 FR3).
