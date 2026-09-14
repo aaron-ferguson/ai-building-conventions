@@ -51,15 +51,18 @@ Consequences, which are the reason this block exists at all:
 - **No backup obligation beyond the remote.** `origin` is the off-machine copy that
   `infrastructure-conventions.md` asks for.
 - **Verification is "does it read correctly and do the cross-references resolve?"**
-  Before finalizing an edit, run `scripts/check-convention-links.sh` and
-  `scripts/check-commit-identity.sh` — checking by hand is what let seven projects
-  reference filenames that don't exist, because macOS is case-insensitive and opened them
-  anyway. **Renaming a file here breaks references in other repos that this repo cannot
-  see**, so run the links check after any rename, not just after an edit. It scans this
-  repo plus its parent directory by default; pass extra workspace directories as
-  arguments. Its own tests are `scripts/check-convention-links.test.sh`.
-  `scripts/check-commit-identity.sh` catches a corporate email reaching commit metadata
-  on this public remote; its tests are `scripts/check-commit-identity.test.sh`.
+  Before finalizing an edit, run `scripts/check-convention-links.sh`,
+  `scripts/check-commit-identity.sh`, and `scripts/check-machine-specifics.sh` —
+  checking by hand is what let seven projects reference filenames that don't exist,
+  because macOS is case-insensitive and opened them anyway. **Renaming a file here breaks
+  references in other repos that this repo cannot see**, so run the links check after any
+  rename, not just after an edit. It scans this repo plus its parent directory by
+  default; pass extra workspace directories as arguments. Its own tests are
+  `scripts/check-convention-links.test.sh`. `scripts/check-commit-identity.sh` catches a
+  corporate email reaching commit metadata on this public remote; its tests are
+  `scripts/check-commit-identity.test.sh`. `scripts/check-machine-specifics.sh` catches
+  an absolute home path or an installed-plugin path reaching a tracked convention file;
+  its tests are `scripts/check-machine-specifics.test.sh`.
 - **Admin operations on the remote cannot be done from this machine** — rename,
   visibility, settings, and branch protection all need the owning account. `gh` here is
   a write-level collaborator, and GitHub answers those with a misleading **`404`, not a
