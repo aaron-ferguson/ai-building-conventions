@@ -130,3 +130,20 @@ following the rule as written would make the same mistake again.
   (`a09caa8`). It only protects commits made from this machine; a clone with its own global
   identity still needs the same local override, which `check-commit-identity.sh` cannot enforce —
   it can only catch a corporate identity that already landed in history.
+
+## QA evidence
+
+| AC/NFR | Check | Result |
+|---|---|---|
+| Unit suite | `bash -c 'for t in scripts/*.test.sh; do "$t" || exit 1; done'` | All green: check-commit-identity.test.sh 2/2, check-convention-links.test.sh 11/11, check-machine-specifics.test.sh 3/3 |
+| AC1 | `git log -1 --format='%ae %ce'` on a fresh commit made this session | `aaron@newheights.coach aaron@newheights.coach` — no company domain |
+| AC2 | Read `CLAUDE.md` company:none paragraph | Names "a commit's author or committer identity, or a commit message trailer" explicitly |
+| AC3 | `check-commit-identity.test.sh` case "flags a commit whose author/committer email is on a disallowed domain" | Passes; asserts exit 1 and SHA printed |
+| AC4 | `check-commit-identity.test.sh` case "passes a commit whose author/committer email is on an allowed domain" | Passes; asserts exit 0 |
+| AC5 | Ran `scripts/check-commit-identity.test.sh` directly | 2 passed, 0 failed; contains the AC3 case |
+| AC6 | `grep -n "check-commit-identity" CLAUDE.md` | Line 55, in the Environments verification bullet |
+| Mutation | Widened `ALLOWED_DOMAINS` to include `disallowed.example` in `check-commit-identity.sh`, ran test | Reddened as expected (1 passed, 1 failed, "expected exit 1, got 0"); restored via `git checkout -- scripts/check-commit-identity.sh`, control run green (2/2) |
+| Privacy NFR | `grep -n "newheights\|neumo\|allowlist"` over the script and its test | Only the permitted personal domain appears; no corporate domain recorded anywhere tracked |
+| Documentation NFR | `git log --oneline` for FR2/FR5 landing | `73dda77` (script) then `a09caa8` (CLAUDE.md widening), same change set as this ticket |
+
+Advisory check: dirty set at Step 2 was only the untracked `.claude/backlog/runs/` directory (unrelated tooling artifact, not in `expects:`/`touches:`). Intersection with this ticket's evidence set is empty.
