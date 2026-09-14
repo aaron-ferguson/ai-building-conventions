@@ -19,12 +19,17 @@ Read those on demand — do not import them here.
 here and the files it indexes — nothing outside this directory governs work on these
 conventions, whatever else may be present higher up the filesystem.
 
-`company: none` is a constraint, not a placeholder. Every tracked file here must stay
-company-agnostic so the repo can be shared with a client, a collaborator, or a future
-employer. Company specifics live only in that company's own private repo — this repo
-keeps just the generic template. **If a session is carrying company context from
-elsewhere, that context does not apply here and must never reach a tracked file** —
-no company name, product, person, or internal tooling in anything committed.
+`company: none` is a constraint, not a placeholder, and it covers everything this repo
+publishes — not only tracked files. Every tracked file here must stay company-agnostic
+so the repo can be shared with a client, a collaborator, or a future employer. Company
+specifics live only in that company's own private repo — this repo keeps just the
+generic template. **If a session is carrying company context from elsewhere, that
+context does not apply here and must never reach a tracked file, a commit's author or
+committer identity, or a commit message trailer** — no company name, product, person,
+or internal tooling in anything committed or in the metadata of the commit that carries
+it. This repo's local git config sets a non-corporate `user.name`/`user.email`
+(`scripts/check-commit-identity.sh` verifies it) precisely so the global identity used
+elsewhere never leaks in here.
 
 ## Environments
 
@@ -46,12 +51,15 @@ Consequences, which are the reason this block exists at all:
 - **No backup obligation beyond the remote.** `origin` is the off-machine copy that
   `infrastructure-conventions.md` asks for.
 - **Verification is "does it read correctly and do the cross-references resolve?"**
-  Before finalizing an edit, run `scripts/check-convention-links.sh` — checking by hand is
-  what let seven projects reference filenames that don't exist, because macOS is
-  case-insensitive and opened them anyway. **Renaming a file here breaks references in
-  other repos that this repo cannot see**, so run it after any rename, not just after an
-  edit. It scans this repo plus its parent directory by default; pass extra workspace
-  directories as arguments. Its own tests are `scripts/check-convention-links.test.sh`.
+  Before finalizing an edit, run `scripts/check-convention-links.sh` and
+  `scripts/check-commit-identity.sh` — checking by hand is what let seven projects
+  reference filenames that don't exist, because macOS is case-insensitive and opened them
+  anyway. **Renaming a file here breaks references in other repos that this repo cannot
+  see**, so run the links check after any rename, not just after an edit. It scans this
+  repo plus its parent directory by default; pass extra workspace directories as
+  arguments. Its own tests are `scripts/check-convention-links.test.sh`.
+  `scripts/check-commit-identity.sh` catches a corporate email reaching commit metadata
+  on this public remote; its tests are `scripts/check-commit-identity.test.sh`.
 - **Admin operations on the remote cannot be done from this machine** — rename,
   visibility, settings, and branch protection all need the owning account. `gh` here is
   a write-level collaborator, and GitHub answers those with a misleading **`404`, not a
