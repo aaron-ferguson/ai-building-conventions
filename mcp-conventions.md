@@ -104,14 +104,9 @@ Record the provider's expected token shape in the private repo that owns that in
 
 ---
 
-## Established Tokens
-
-| Env Var | Secret Store Key | MCP Server | Used In |
-|---|---|---|---|
-| `SUPABASE_PAT` | `SUPABASE_PAT` | `@supabase/mcp-server-supabase` | Traitors and Allies |
-| `GITHUB_PERSONAL_ACCESS_TOKEN` | `GITHUB_PAT` | GitHub MCP | All projects |
-
-Update this table as new tokens are added.
+A project's actual token inventory — which env vars, which secret-store keys, which servers,
+which projects use them — belongs in the private repo that owns that integration, not here,
+matching where this file already sends the token's expected shape.
 
 ---
 
@@ -138,7 +133,9 @@ Env var: `GITHUB_PERSONAL_ACCESS_TOKEN` / Secret store key: `GITHUB_PAT`
 }
 ```
 
-**Option B — Claude Code plugin** (plugin already installed at `~/.claude/plugins/marketplaces/claude-plugins-official/external_plugins/github/`): activate by adding `"enabledMcpjsonServers": ["github"]` to `.claude/settings.local.json` — no `.mcp.json` needed.
+**Option B — Claude Code plugin**: if the official GitHub plugin is installed (check your
+installed plugins, e.g. via the `/plugin` command), activate it by adding
+`"enabledMcpjsonServers": ["github"]` to `.claude/settings.local.json` — no `.mcp.json` needed.
 
 Verify: run `/mcp` in Claude Code — `github` appears in the list; tools are prefixed `mcp__github__*`.  
 If auth fails: check PAT hasn't expired and has the correct scopes; confirm env var is set (`echo $GITHUB_PERSONAL_ACCESS_TOKEN`).
