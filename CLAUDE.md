@@ -52,9 +52,10 @@ Consequences, which are the reason this block exists at all:
   `infrastructure-conventions.md` asks for.
 - **Verification is "does it read correctly and do the cross-references resolve?"**
   Before finalizing an edit, run `scripts/check-convention-links.sh`,
-  `scripts/check-commit-identity.sh`, and `scripts/check-machine-specifics.sh` —
-  checking by hand is what let seven projects reference filenames that don't exist,
-  because macOS is case-insensitive and opened them anyway. **Renaming a file here breaks
+  `scripts/check-commit-identity.sh`, `scripts/check-machine-specifics.sh`, and
+  `scripts/check-core-drift.sh` — checking by hand is what let seven projects reference
+  filenames that don't exist, because macOS is case-insensitive and opened them anyway.
+  **Renaming a file here breaks
   references in other repos that this repo cannot see**, so run the links check after any
   rename, not just after an edit. It scans this repo plus its parent directory by
   default; pass extra workspace directories as arguments. Its own tests are
