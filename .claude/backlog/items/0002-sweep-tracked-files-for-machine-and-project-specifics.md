@@ -128,3 +128,21 @@ constraint is stated once, in `CLAUDE.md`, and nothing checks any instance of it
 - **Fixtures must be independent of the tree** — build them under the scratchpad or a temp dir the
   test creates, not by pointing at a repo file that a later edit will change out from under the
   test.
+- **Scoping decision, not in the FRs: `check-machine-specifics.sh` excludes `.claude/`.** FR4 reads
+  "any tracked file", but `.claude/backlog/items/0002-*.md` and `0006-*.md` quote real absolute
+  paths as part of describing the bugs they're about (this ticket's own Problem section, and 0006's
+  worked example of a machine-specific `@import`) — exactly the content a bug report about paths
+  has to quote. Scanning the whole repo literally would fail AC8 today on that quoting, not on a
+  live leak. Treated `.claude/` as tooling/self-management rather than "the conventions this repo
+  publishes" (`CLAUDE.md`: "This repo *is* the conventions"), the same boundary
+  `check-convention-links.sh` already draws around `.git`/`node_modules`. FR7's documented rule
+  still applies there on manual review; only the automated sweep is scoped out.
+- **The checker also had to exclude itself and its own test.** Both name the patterns and a fixture
+  path (`/Users/someone/x`, `~/.claude/plugins/...`) in prose and test cases in order to prove the
+  guard works, and a blunt `grep` cannot tell that from a real leak — confirmed by running the
+  checker over the whole repo and watching it flag its own lines first.
+- **CLAUDE.md's own new sentence about the guard tripped the guard.** Describing what
+  `check-machine-specifics.sh` catches by writing the literal `~/.claude/plugins/` pattern into the
+  verification bullet made that bullet itself a match. Rephrased to name the mechanism
+  ("an installed-plugin path") rather than the pattern. Same shape as the checker excluding its own
+  source — a guard's prose about itself is not exempt from itself just because it's true.
