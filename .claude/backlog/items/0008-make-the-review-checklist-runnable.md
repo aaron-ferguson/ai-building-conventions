@@ -2,8 +2,8 @@
 id: "0008"
 title: Make the Review Checklist runnable without a human memorising it
 type: feature
-next: develop
-status: in-progress
+next: verify
+status: ready
 qa_level: verify
 size: m
 created: 2026-08-26
@@ -15,11 +15,9 @@ expects:
   - coding-conventions.md
   - CONVENTIONS_CORE.md
   - README.md
-claimed_by: "efa3"
-claimed_at: 2026-09-14T18:16:13Z
+claimed_by:
+claimed_at:
 touches:
-  - coding-conventions.md
-  - CONVENTIONS_CORE.md
 ---
 
 ## Problem
