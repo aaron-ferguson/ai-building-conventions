@@ -2,8 +2,8 @@
 id: "0004"
 title: Enforce the mechanically checkable rules with hooks instead of prose
 type: feature
-next: develop
-status: in-progress
+next: verify
+status: ready
 qa_level: unit
 size: m
 created: 2026-08-26
@@ -20,20 +20,9 @@ expects:
   - git-conventions.md
   - security-conventions.md
   - README.md
-claimed_by: "c425"
-claimed_at: 2026-09-14T17:46:36Z
+claimed_by:
+claimed_at:
 touches:
-  - .claude/settings.json
-  - hooks/block-sweeping-git-stage.sh
-  - hooks/block-sweeping-git-stage.test.sh
-  - hooks/scan-staged-for-secrets.sh
-  - hooks/scan-staged-for-secrets.test.sh
-  - git-conventions.md
-  - security-conventions.md
-  - README.md
-  - data-privacy-conventions.md
-  - dependency-conventions.md
-  - .claude/backlog/config.yml
 ---
 
 ## Problem
