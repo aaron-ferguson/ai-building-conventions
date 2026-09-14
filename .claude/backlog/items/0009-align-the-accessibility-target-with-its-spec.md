@@ -17,6 +17,7 @@ expects:
 claimed_by: "2679"
 claimed_at: 2026-09-14T18:18:35Z
 touches:
+  - accessibility-conventions.md
 ---
 
 ## Problem
