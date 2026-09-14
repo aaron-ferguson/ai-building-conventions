@@ -3,7 +3,7 @@ id: "0002"
 title: Sweep tracked files for machine-specific paths, current state, and real project names
 type: bug
 next: verify
-status: in-progress
+status: done
 qa_level: unit
 size: s
 created: 2026-08-26
@@ -18,9 +18,10 @@ expects:
   - CLAUDE.md
   - scripts/check-machine-specifics.sh
   - scripts/check-machine-specifics.test.sh
-claimed_by: "fc92"
-claimed_at: 2026-09-14T14:39:19Z
-touches: [mcp-conventions.md, git-conventions.md, documentation-conventions.md, CLAUDE.md, scripts/check-machine-specifics.sh, scripts/check-machine-specifics.test.sh]
+claimed_by:
+claimed_at:
+touches:
+closed: 2026-09-14
 ---
 
 ## Problem
@@ -85,22 +86,22 @@ constraint is stated once, in `CLAUDE.md`, and nothing checks any instance of it
 
 ## Acceptance criteria
 
-- [ ] AC1 — Given `mcp-conventions.md`, when `grep -c 'Established Tokens'` is run, then the count
+- [x] AC1 — Given `mcp-conventions.md`, when `grep -c 'Established Tokens'` is run, then the count
       is 0.
-- [ ] AC2 — Given `mcp-conventions.md`, when `grep -ci 'traitors'` is run, then the count is 0.
-- [ ] AC3 — Given `mcp-conventions.md`, when `grep -c 'marketplaces/claude-plugins-official'` is
+- [x] AC2 — Given `mcp-conventions.md`, when `grep -ci 'traitors'` is run, then the count is 0.
+- [x] AC3 — Given `mcp-conventions.md`, when `grep -c 'marketplaces/claude-plugins-official'` is
       run, then the count is 0.
-- [ ] AC4 — Given `git-conventions.md`, when `grep -c 'mandata'` is run, then the count is 0.
-- [ ] AC5 — Given `mcp-conventions.md` after the edit, when the secret-store section is read, then
+- [x] AC4 — Given `git-conventions.md`, when `grep -c 'mandata'` is run, then the count is 0.
+- [x] AC5 — Given `mcp-conventions.md` after the edit, when the secret-store section is read, then
       the storing, rotating and verifying guidance is intact and the file still tells the reader
       where a real token inventory belongs.
-- [ ] AC6 — Given `scripts/check-machine-specifics.sh` run over a fixture containing
+- [x] AC6 — Given `scripts/check-machine-specifics.sh` run over a fixture containing
       `/Users/someone/x`, when it completes, then it exits non-zero and prints that file and line.
-- [ ] AC7 — Given the same script run over a fixture containing only `~/.claude/settings.json`,
+- [x] AC7 — Given the same script run over a fixture containing only `~/.claude/settings.json`,
       when it completes, then it exits zero.
-- [ ] AC8 — Given the whole repo, when `scripts/check-machine-specifics.sh` is run with no
+- [x] AC8 — Given the whole repo, when `scripts/check-machine-specifics.sh` is run with no
       arguments, then it exits zero.
-- [ ] AC9 — Given `CLAUDE.md:49`'s verification bullet, when it is read, then it names
+- [x] AC9 — Given `CLAUDE.md:49`'s verification bullet, when it is read, then it names
       `scripts/check-machine-specifics.sh`.
 
 ## QA plan
