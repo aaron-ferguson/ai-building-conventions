@@ -4,7 +4,17 @@ This file defines accessibility (a11y) expectations for any user-facing interfac
 
 Accessibility is not a feature or a late-stage audit — it's a property of correctly-built UI, the same way validated input is a property of correctly-built server code. Building it in costs almost nothing; retrofitting it costs a rewrite. For government and court products it is frequently a legal requirement, not a nicety.
 
-**Target:** WCAG 2.1 **AA** is the working default. See more details at https://www.w3.org/TR/WCAG22/. A company profile may set a higher bar or a specific legal standard (e.g. Section 508) — that profile target wins (see `companies/_template.md`).
+**Target:** WCAG 2.2 **AA** is the working default — the current W3C Recommendation, matching
+the spec linked below. A company profile may set a higher bar or a specific legal standard
+(e.g. Section 508) — that profile target wins (see `companies/_template.md`). See
+https://www.w3.org/TR/WCAG22/.
+
+**2.2 over 2.1:** four new AA success criteria — focus appearance, dragging movements (give
+pointer-drag actions a single-pointer alternative), target size (minimum 24×24 CSS px, with
+exceptions), and accessible authentication (no cognitive-function test, e.g. no CAPTCHA-only
+login). **Applies to new work from here forward** — a project already built and shipped to
+2.1 AA is not retroactively non-compliant; treat the gap as a backlog item when the project
+is next touched, not an incident.
 
 ---
 

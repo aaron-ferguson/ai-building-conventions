@@ -89,3 +89,12 @@ ambiguous target undercuts a rule that is supposed to be the firmest kind.
 - **Why a one-line fix is queued rather than just done.** It is a target change to a non-negotiable
   principle, and FR3 and FR4 are the parts that make it stick — a session that fixed only the
   visible mismatch would leave the delta undocumented and any second reference unchecked.
+- **Build (2026-09-14): confirmed by repo-wide grep that only this file names a WCAG version** —
+  `CONVENTIONS_CORE.md`'s own reference says "WCAG AA default" with no version number, so it
+  needed no change and AC4 is satisfied by there being nothing else to disagree with. This item's
+  own Problem section still quotes the old "WCAG 2.1" text verbatim as the historical citation of
+  what was wrong — left as-is, same as 0003 left its stale byte figure quoted in Notes rather than
+  edited, since it's documenting the bug rather than asserting a current target.
+- **FR3's four additions** (focus appearance, dragging movements, target size minimum, accessible
+  authentication minimum) are the ones the ticket's own Problem section already named — reused
+  rather than independently re-derived, since the ticket text was itself the citation.
