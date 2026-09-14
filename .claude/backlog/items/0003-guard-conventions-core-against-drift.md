@@ -3,7 +3,7 @@ id: "0003"
 title: Guard CONVENTIONS_CORE.md against drift from the files it restates
 type: debt
 next: design
-status: ready
+status: in-progress
 qa_level: unit
 size: m
 created: 2026-08-26
@@ -17,8 +17,8 @@ expects:
   - documentation-conventions.md
   - scripts/check-core-drift.sh
   - scripts/check-core-drift.test.sh
-claimed_by:
-claimed_at:
+claimed_by: "d99b"
+claimed_at: 2026-09-14T14:17:01Z
 touches:
 ---
 
