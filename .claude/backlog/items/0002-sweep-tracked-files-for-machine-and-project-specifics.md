@@ -146,3 +146,24 @@ constraint is stated once, in `CLAUDE.md`, and nothing checks any instance of it
   verification bullet made that bullet itself a match. Rephrased to name the mechanism
   ("an installed-plugin path") rather than the pattern. Same shape as the checker excluding its own
   source — a guard's prose about itself is not exempt from itself just because it's true.
+
+## QA evidence
+
+| AC/NFR | Check | Result |
+|---|---|---|
+| Unit suite | `bash -c 'for t in scripts/*.test.sh; do "$t" || exit 1; done'` | All green: check-commit-identity.test.sh 2/2, check-convention-links.test.sh 11/11, check-machine-specifics.test.sh 3/3 |
+| AC1 | `grep -c 'Established Tokens' mcp-conventions.md` | 0 |
+| AC2 | `grep -ci 'traitors' mcp-conventions.md` | 0 |
+| AC3 | `grep -c 'marketplaces/claude-plugins-official' mcp-conventions.md` | 0 |
+| AC4 | `grep -c 'mandata' git-conventions.md` | 0 — example is now `Rename package to widget-utils` |
+| AC5 | Read `mcp-conventions.md`'s secret-store section | Storing, rotating (delete-before-readd) and verifying (shape + identity-endpoint call) guidance intact; file states real token inventory belongs in "the private repo that owns that integration" |
+| AC6 | `check-machine-specifics.sh` against a fixture dir containing `/Users/someone/x` | Exits 1, prints `./f.md:1:see /Users/someone/x for details` |
+| AC7 | `check-machine-specifics.sh` against a fixture dir containing only `~/.claude/settings.json` | Exits 0, "No machine-specific paths found." |
+| AC8 | `check-machine-specifics.sh` with no arguments (whole repo) | Exits 0, "No machine-specific paths found." |
+| AC9 | `grep -n check-machine-specifics CLAUDE.md` | Line 55, in the same verification bullet as check-commit-identity.sh |
+| Mutation | Replaced the `/Users/` alternative in the checker's grep pattern with a non-matching one, ran `check-machine-specifics.test.sh` | Reddened as expected ("flags an absolute home path" FAIL, 2 passed/1 failed); restored via `git checkout -- scripts/check-machine-specifics.sh`, control run green (3/3) |
+| Documentation NFR | `sed -n '90,106p' documentation-conventions.md` | FR7 landed as its own bullet ("A real project's name, or a machine-specific path...") citing the state rule above rather than restating it |
+| Security NFR | Read the Token Security section | Storing/rotating/verifying subsections untouched by the table removal |
+| Links check | `scripts/check-convention-links.sh` | "All convention links resolve." — FR1/FR2's deletions left no dangling reference |
+
+Advisory check: dirty set at Step 2 was only the untracked `.claude/backlog/runs/` directory (unrelated tooling artifact, not in `expects:`/`touches:`). Intersection with this ticket's evidence set is empty.
