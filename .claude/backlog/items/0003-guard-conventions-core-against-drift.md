@@ -2,8 +2,8 @@
 id: "0003"
 title: Guard CONVENTIONS_CORE.md against drift from the files it restates
 type: debt
-next: design
-status: in-progress
+next: develop
+status: ready
 qa_level: unit
 size: m
 created: 2026-08-26
@@ -17,8 +17,8 @@ expects:
   - documentation-conventions.md
   - scripts/check-core-drift.sh
   - scripts/check-core-drift.test.sh
-claimed_by: "d99b"
-claimed_at: 2026-09-14T14:17:01Z
+claimed_by:
+claimed_at:
 touches:
 ---
 
@@ -47,25 +47,33 @@ repo's git history shows the sources being sharpened repeatedly — five of the 
 convention files — with no corresponding mechanism to notice when a sharpening leaves the core
 behind.
 
-## Open design question  *(only while `next: design`)*
+## Design decision — 2026-09-14
 
-- **Question:** does `CONVENTIONS_CORE.md` stop restating rules and become a pure trigger index
-  (name + when-to-load + pointer, no rule text), or does it keep the restatements and earn them
-  with an automated drift guard?
-- **Why it blocks specification:** the two answers produce different tickets with no overlap. The
-  index answer is a rewrite of the core with an acceptance criterion about what the file no longer
-  contains, and it trades away the thing the core is *for* — a session that has loaded nothing else
-  still knows not to `git add .`. The guard answer keeps the core as-is and the deliverable is a
-  script, with the open sub-question of what a script can actually assert about two prose
-  statements saying the same thing. No acceptance criterion can be written until that is settled.
-- **A third option worth pricing before choosing:** keep the restatements but make them *cheap to
-  check* — each core bullet carries the source file **and an anchor** (a heading or a stable rule
-  id), and the guard asserts only that the anchor still exists and that the source file has not
-  been edited more recently than the core's line for it. That is mechanically checkable without
-  needing to compare meanings, and it converts an unbounded semantic problem into a staleness
-  signal. It is the option the item's estimate assumes.
-- **Settle it with:** `/design`. This is a reasoned trade-off between context cost and drift risk,
-  not something that needs to be seen, so `/prototype` is the wrong tool.
+**Decided: keep the restatements; earn them with the anchor + staleness guard (the third
+option). Rejected: the pure-index rewrite.**
+
+- `README.md:13` defines `CONVENTIONS_CORE.md` as *"the always-loaded summary — the essential
+  rules plus an index"* — the pure-index rewrite contradicts the file's stated job everywhere
+  else in this repo, not only in this ticket's framing. The repo already commits to the opposite
+  pattern on purpose: `README.md`'s "Critical invariants" guidance restates a hard rule inline
+  precisely because an agent can violate it *before* it thinks to open the linked file. `git add
+  -A` is that shape — nothing prompts a session to go read `git-conventions.md` first.
+- Feasibility confirmed, not assumed: `git-conventions.md`, `discovery-conventions.md`, and
+  `testing-conventions.md` all carry stable `##`/`###` headings for the rules the core restates,
+  so "anchor = heading text, checked by grep" is real. Per-bullet staleness is a `git blame` on
+  the core's line vs. `git log -1` on the source file — no semantic diffing required.
+- **Sizing gap FR2 doesn't call out:** roughly 15 bullets (Code lines 20–29, Security lines
+  50–53, Testing lines 35–38) restate rules from `coding-conventions.md` /
+  `security-conventions.md` / `testing-conventions.md` with **no pointer at all** today — not an
+  anchor to add, a pointer to create from scratch. FR2 as written already covers this; `develop`
+  should size the retrofit against all restating bullets, not just the ones already in
+  parentheses.
+- **AC6's number is stale, independent of this ticket.** 16,415 bytes was the file's exact size
+  at the commit before this ticket was created (`d1b2d9f`, 2026-08-26). Two unrelated commits
+  since (`ae730bc` 2026-08-29, `260ac0d` 2026-09-08) grew it to 17,290 bytes — 875 over that cap
+  before this ticket changes anything, and FR2's retrofit of ~15 missing pointers will add bytes
+  on top. Re-baseline AC6 against the size measured at the start of `develop`, not the figure
+  below.
 
 ## Functional requirements
 
@@ -93,8 +101,9 @@ answer is the pure-index rewrite, FR2–FR4 are replaced wholesale.
 
 ## Acceptance criteria
 
-Written against the third option; re-derive with the design answer, and un-tick anything the
-re-specification touches.
+Confirmed against the design decision above — AC1–AC5 and AC7 stand as written. AC6's byte
+figure is corrected below; it was accurate at ticket creation and went stale from unrelated
+edits before this ticket started (see Notes & decisions).
 
 - [ ] AC1 — Given `README.md`, when its guidance on editing these files is read, then it states
       whether the core restates rules or indexes them, and why.
@@ -106,8 +115,9 @@ re-specification touches.
       stale, when it completes, then it exits zero.
 - [ ] AC5 — Given the real repo after the change, when `scripts/check-core-drift.sh` is run, then
       it exits zero.
-- [ ] AC6 — Given `CONVENTIONS_CORE.md` before and after, when byte counts are compared, then the
-      file is no larger than 16,415 bytes.
+- [ ] AC6 — Given `CONVENTIONS_CORE.md`'s byte count measured at the start of `develop` (**not**
+      16,415 — that figure is stale, see Notes & decisions), when the same file is measured after
+      this change, then it is no larger than that starting count.
 - [ ] AC7 — Given `scripts/check-core-drift.test.sh`, when it is run, then it passes and contains a
       distinct case for AC2 and AC3.
 
@@ -134,5 +144,23 @@ re-specification touches.
 - **Why this ranks above the enforcement work in 0004** despite being smaller and less visible: a
   drifted core rule is silently wrong output governing every session in every project, and nobody
   is counting the damage. 0004 prevents specific bad acts that are at least noticeable afterwards.
+- **Design decision (2026-09-14):** kept the restatements, rejected the pure-index rewrite — full
+  reasoning in "Design decision" above. FR1–FR5 stand unchanged; AC1–AC5 and AC7 confirmed
+  unchanged; AC6 corrected in place (byte figure re-baselined, same intent) rather than added to,
+  since it's the same criterion with a stale number rather than a new one.
+- **AC6's number was never wrong, only aged.** 16,415 bytes matched `CONVENTIONS_CORE.md` exactly
+  at commit `d1b2d9f` (2026-08-16), the last edit before this ticket was created (2026-08-26).
+  Two later commits unrelated to this ticket — `ae730bc` (2026-08-29, rule/reasoning layering) and
+  `260ac0d` (2026-09-08, knowledge-vs-shape duplication) — added core bullets and grew the file to
+  17,290 bytes, 875 over the pinned cap, before this ticket's own work starts. A ticket that pins
+  an absolute count against a file other tickets also edit needs that count re-measured at
+  build time, not trusted from the ticket text — the same staleness this ticket exists to guard
+  against, just not yet automated.
+- **Sizing note for `develop`:** FR2 requires a pointer on *every* restating bullet, not just the
+  ones that already have one. About 15 bullets in Code (lines 20–29), Security (lines 50–53), and
+  Testing (lines 35–38) restate rules from `coding-conventions.md`, `security-conventions.md`, and
+  `testing-conventions.md` respectively with no pointer today. Budget for creating those, not only
+  adding anchors to existing ones — this is very likely to push the file up against AC6's cap
+  rather than hold it flat, which is exactly why AC6 needed re-baselining above.
 - **AC6 pins an absolute byte count, not a percentage.** The core is a file other tickets in this
   queue also edit, and a target expressed against a moving baseline cannot be closed.
