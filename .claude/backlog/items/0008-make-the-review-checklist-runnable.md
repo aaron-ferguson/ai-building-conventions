@@ -18,6 +18,8 @@ expects:
 claimed_by: "efa3"
 claimed_at: 2026-09-14T18:16:13Z
 touches:
+  - coding-conventions.md
+  - CONVENTIONS_CORE.md
 ---
 
 ## Problem
