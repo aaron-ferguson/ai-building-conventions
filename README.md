@@ -90,6 +90,23 @@ That last one is the point: macOS is case-insensitive, so a wrong-case path work
 
 ---
 
+## Adopting the hooks
+
+`hooks/block-sweeping-git-stage.sh` and `hooks/scan-staged-for-secrets.sh` enforce the
+mechanically checkable rules from `git-conventions.md` and `security-conventions.md` — a
+`PreToolUse` hook on `Bash` that refuses `git add .`/`-A`/`--all`, `git commit -a`/`--all`,
+a bare `git stash`, and a commit whose staged diff contains secret-shaped content. This
+repo wires them in its own `.claude/settings.json`, so it enforces its own rules on
+itself.
+
+To adopt them in another project: copy the `hooks/` directory into that project, then
+merge (don't overwrite) the `PreToolUse` block from this repo's `.claude/settings.json`
+into the project's own. **Claude Code loads hooks at session start** — they don't
+hot-swap into a running session, so start a new session after wiring them in to pick
+them up.
+
+---
+
 ## Working on the conventions themselves
 
 - **`CONVENTIONS_CORE.md` restates rules rather than only indexing them, on purpose.** An

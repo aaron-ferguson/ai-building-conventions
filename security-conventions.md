@@ -9,7 +9,7 @@ This file defines security expectations for all projects. It is loaded into AI c
 - No token, key, password, or connection string appears in source, config, commit history, or AI conversation context — ever. Not "temporarily," not in a comment, not in an example.
 - Secrets live in a secure OS secret store (macOS Keychain, Windows Credential Manager, Linux Secret Service, or a dedicated secrets manager) and reach processes as environment variables — see `mcp-conventions.md` for the pattern.
 - `.env` and `.env.*` are gitignored in every project (see `git-conventions.md`). Provide a committed `.env.example` with variable names only.
-- Before any commit that touched config: scan the staged diff for anything that looks like a credential.
+- Before any commit that touched config: scan the staged diff for anything that looks like a credential. Enforced by `hooks/scan-staged-for-secrets.sh` where that hook is wired in (see `README.md` → "Adopting the hooks").
 - If a secret leaks: rotate at the source first, then clean up. Removing it from the code does not un-leak it — and **preserve the evidence of scope before tidying anything**, because a leaked credential is a security incident with its own path (`incident-conventions.md`).
 
 ## Validate at Trust Boundaries
