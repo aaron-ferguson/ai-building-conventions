@@ -20,7 +20,7 @@ expects:
   - scripts/check-machine-specifics.test.sh
 claimed_by: "5d70"
 claimed_at: 2026-09-14T14:25:02Z
-touches:
+touches: [mcp-conventions.md, git-conventions.md, documentation-conventions.md, CLAUDE.md, scripts/check-machine-specifics.sh, scripts/check-machine-specifics.test.sh]
 ---
 
 ## Problem
