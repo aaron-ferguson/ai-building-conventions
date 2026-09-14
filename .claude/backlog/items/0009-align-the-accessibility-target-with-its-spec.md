@@ -3,7 +3,7 @@ id: "0009"
 title: Align the accessibility target with the spec version it links
 type: bug
 next: develop
-status: ready
+status: in-progress
 qa_level: verify
 size: s
 created: 2026-08-26
@@ -14,8 +14,8 @@ relates: []
 expects:
   - accessibility-conventions.md
   - CONVENTIONS_CORE.md
-claimed_by:
-claimed_at:
+claimed_by: "2679"
+claimed_at: 2026-09-14T18:18:35Z
 touches:
 ---
 

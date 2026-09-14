@@ -55,7 +55,7 @@ the path is not worth a column — it was the bulk of every row.
 | 0006 | Decide how the conventions are distributed and make them machine-portable | design | ready |  |
 | 0007 | Restructure on-demand rule loading as Claude Skills | design | blocked |  |
 | 0008 | Make the Review Checklist runnable without a human memorising it | verify | ready |  |
-| 0009 | Align the accessibility target with the spec version it links | develop | ready |  |
+| 0009 | Align the accessibility target with the spec version it links | develop | in-progress |  |
 | 0010 | Add conventions for working with Claude itself | design | ready |  |
 | 0011 | Add a legal and acceptable-use convention for AI-assisted work | design | ready |  |
 | 0012 | Decide whether TDD keeps its "no exceptions" framing | design | ready |  |
