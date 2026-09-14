@@ -3,7 +3,7 @@ id: "0001"
 title: Stop publishing the corporate identity in this repo's commit metadata
 type: bug
 next: develop
-status: ready
+status: in-progress
 qa_level: unit
 size: s
 created: 2026-08-26
@@ -15,8 +15,8 @@ expects:
   - CLAUDE.md
   - scripts/check-commit-identity.sh
   - scripts/check-commit-identity.test.sh
-claimed_by:
-claimed_at:
+claimed_by: "4c3b"
+claimed_at: 2026-09-14T14:19:19Z
 touches:
 ---
 
