@@ -2,8 +2,8 @@
 id: "0003"
 title: Guard CONVENTIONS_CORE.md against drift from the files it restates
 type: debt
-next: develop
-status: in-progress
+next: verify
+status: ready
 qa_level: unit
 size: m
 created: 2026-08-26
@@ -17,8 +17,8 @@ expects:
   - documentation-conventions.md
   - scripts/check-core-drift.sh
   - scripts/check-core-drift.test.sh
-claimed_by: "968b"
-claimed_at: 2026-09-14T17:26:44Z
+claimed_by:
+claimed_at:
 touches:
 ---
 
@@ -164,3 +164,27 @@ edits before this ticket started (see Notes & decisions).
   rather than hold it flat, which is exactly why AC6 needed re-baselining above.
 - **AC6 pins an absolute byte count, not a percentage.** The core is a file other tickets in this
   queue also edit, and a target expressed against a moving baseline cannot be closed.
+- **Build (2026-09-14): anchor syntax settled on `` `file.md` → "Exact Heading Text" ``.** The
+  filename stays bare-backticked so `check-convention-links.sh` keeps checking it unmodified;
+  fusing an anchor into the same backtick pair (`` `file.md#slug` ``) would have taken it out of
+  that script's regex and silently dropped the existence check. `check-core-drift.sh` greps the
+  literal heading text (any of `#`–`####`) rather than a GitHub-style slug — no slugify function
+  needed, and the design decision's own "no semantic diffing required" already assumed a plain
+  grep.
+- **Staleness is a git-history comparison and only means anything post-commit.** Mid-edit, with
+  the core's changes uncommitted, its `git log -1` timestamp doesn't move, so any source file
+  touched more recently than the *previous* core commit reads as stale even though the working
+  tree already accounts for it. Confirmed clean (exit 0) after committing the retrofit.
+- **Ended at 17,282 bytes, 8 under the 17,290 cap** — held by compressing "Profiles & How
+  Overrides Work" and "Load for More Detail" prose (cutting restated phrasing, not rules) to make
+  room for ~40 added `→ "Heading"` anchors.
+- **Two bullets carry no pointer, on purpose:** Code's "Prefer enforcement over instruction" and AI
+  Workflow's "Verify an API against the installed version, not from memory." Neither rule was
+  found stated in any other convention file — both read as original to the core itself, not a
+  restatement, so FR2 doesn't apply to them. Worth a second pair of eyes at `verify` in case either
+  should instead be pulled out into its own convention file.
+- **A couple of anchors are the closest available heading rather than an exact topical match** —
+  e.g. `environment-conventions.md` → "Which Environments a Project Needs" for the core's staging-
+  promotion bullet, where "Choosing How Much Verification to Do" in the same file is arguably
+  closer. Anchor *resolution* is what `check-core-drift.sh` can verify; anchor *precision* is a
+  judgment call the out-of-scope section already says no script can make.
