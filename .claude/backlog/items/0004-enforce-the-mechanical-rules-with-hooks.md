@@ -3,7 +3,7 @@ id: "0004"
 title: Enforce the mechanically checkable rules with hooks instead of prose
 type: feature
 next: develop
-status: ready
+status: in-progress
 qa_level: unit
 size: m
 created: 2026-08-26
@@ -20,8 +20,8 @@ expects:
   - git-conventions.md
   - security-conventions.md
   - README.md
-claimed_by:
-claimed_at:
+claimed_by: "c425"
+claimed_at: 2026-09-14T17:46:36Z
 touches:
 ---
 
