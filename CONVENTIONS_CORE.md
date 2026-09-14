@@ -141,7 +141,7 @@ Read on demand (all live alongside this file):
 - **Measurement** (success measure, event contracts, reading results) → `measurement-conventions.md`
 
 **Craft**
-- **Coding rules + Review Checklist** → `coding-conventions.md`
+- **Coding rules + Review Checklist** (run it delegated, one subagent per section) → `coding-conventions.md`
 - **Testing** (TDD cycle, isolation, what to test) → `testing-conventions.md`
 - **Architecture** (modular monolith, vertical slices) → `architecture-conventions.md`
 - **API design** (contracts, versioning, compatibility) → `api-conventions.md`

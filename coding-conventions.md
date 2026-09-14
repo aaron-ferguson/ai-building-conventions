@@ -198,7 +198,14 @@ When triggered, adopt the practices where they live:
 
 ## Review Checklist
 
-Run this before finalizing any change — new code, edit, or refactor.
+Run this before finalizing any change — new code, edit, or refactor. **42 items across 15
+sections is too much for one pass from memory, so delegate it**: dispatch one subagent per
+section, scoped only to the tools that section needs (read + grep covers all of them; none
+need write access), run them in parallel, and read back a pass/fail-with-reason from each
+before finalizing. Use judgment on which sections apply — a one-line doc fix doesn't need a
+RELEASE or PERSISTED DATA pass, and running all 15 regardless of change size is the ceremony
+this delegation exists to cut. An item marked "→ automated" below is already checked by a
+committed guard; don't re-run it by hand.
 
 ```
 NAMING
@@ -216,7 +223,8 @@ SAFETY
   [ ] Fixing a defect in logic that exists in more than one copy? → siblings fixed, or the work filed
 
 SECURITY
-  [ ] No secrets in the diff — not even "temporarily"
+  [ ] No secrets in the diff — not even "temporarily" → automated where a staged-diff
+      secret scan is wired up (e.g. `hooks/scan-staged-for-secrets.sh`)
   [ ] External input validated server-side, not just in the UI
   [ ] Change touches auth/credentials/data visibility? → run security-conventions.md security pass
 
