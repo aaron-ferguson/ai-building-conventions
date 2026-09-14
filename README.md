@@ -92,6 +92,14 @@ That last one is the point: macOS is case-insensitive, so a wrong-case path work
 
 ## Working on the conventions themselves
 
+- **`CONVENTIONS_CORE.md` restates rules rather than only indexing them, on purpose.** An
+  always-loaded file needs the hard-and-fast rules inline, not just a link to them — an agent
+  can act on a rule before it ever thinks to open the file a bare index would point to. Each
+  restatement ends in a pointer, `` `file.md` → "Heading" ``, checked by
+  `scripts/check-core-drift.sh` for two kinds of drift: an anchor that no longer resolves, and a
+  source file committed more recently than the core. Run it, and keep the core at or under its
+  current byte count, whenever you touch it (`CONVENTIONS_CORE.md` — "Every rule pays rent in
+  context").
 - `companies/` holds **only `_template.md`**, the documented interface. Real profiles live in each company's own private repo, so this one can be shared (consulting, handoff, a future employer) without leaking anyone's constraints. Onboard a company by copying `companies/_template.md` into their repo. The ignore rule on `companies/*/` stays as a regression guard.
 - Keep general files **company-agnostic** — no company name, product, or tooling in a tracked file. Company specifics live only in that company's profile.
 - When adding a rule, decide if it's a **principle** (non-negotiable) or a **preference** (has a default, overridable) and, if a preference, say so in the file. Assume principle unless tagged otherwise.
