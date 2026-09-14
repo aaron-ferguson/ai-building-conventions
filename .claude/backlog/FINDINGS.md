@@ -29,3 +29,14 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
 
 ---
 
+- 2026-09-14 — `[for tools repo]` The `/design` skill's Step 1/Step 4 instructions call
+  `./claim <id>` and `./handoff <id> <token> <stage>`, but this project's vendored
+  `.claude/backlog/` only ships `claim`, `close`, and `next` — no `handoff` script exists.
+  Released 0003 manually by replicating `claim`'s lock → edit QUEUE.md (by header-resolved
+  column, not position — a first attempt at this by fixed index clobbered the Title column)
+  → edit item frontmatter → commit → unlock sequence. Either this project's toolkit predates
+  a `handoff` script the skill now assumes, or `handoff` was never vendored for projects set up
+  before it existed — worth checking whether other projects on this backlog toolkit have the
+  same gap. `tools.path` is unset in `.claude/backlog/config.yml`, so this couldn't route to
+  the tools repo's own buffer directly (pointer: `.claude/backlog/claim`, item 0003).
+
