@@ -3,7 +3,7 @@ id: "0001"
 title: Stop publishing the corporate identity in this repo's commit metadata
 type: bug
 next: verify
-status: in-progress
+status: done
 qa_level: unit
 size: s
 created: 2026-08-26
@@ -15,9 +15,10 @@ expects:
   - CLAUDE.md
   - scripts/check-commit-identity.sh
   - scripts/check-commit-identity.test.sh
-claimed_by: "235f"
-claimed_at: 2026-09-14T14:34:54Z
-touches: [CLAUDE.md, scripts/check-commit-identity.sh, scripts/check-commit-identity.test.sh]
+claimed_by:
+claimed_at:
+touches:
+closed: 2026-09-14
 ---
 
 ## Problem
@@ -76,17 +77,17 @@ following the rule as written would make the same mistake again.
 
 ## Acceptance criteria
 
-- [ ] AC1 — Given a commit newly made in this repo, when `git log -1 --format='%ae %ce'` is read,
+- [x] AC1 — Given a commit newly made in this repo, when `git log -1 --format='%ae %ce'` is read,
       then neither address is on a company domain.
-- [ ] AC2 — Given `CLAUDE.md`, when the `company: none` paragraph is read, then it names commit
+- [x] AC2 — Given `CLAUDE.md`, when the `company: none` paragraph is read, then it names commit
       author and committer metadata as published output, not only tracked files.
-- [ ] AC3 — Given `scripts/check-commit-identity.sh` run against a history containing a commit on a
+- [x] AC3 — Given `scripts/check-commit-identity.sh` run against a history containing a commit on a
       disallowed domain, when it completes, then it exits non-zero and prints that commit's SHA.
-- [ ] AC4 — Given `scripts/check-commit-identity.sh` run against a history where every commit is on
+- [x] AC4 — Given `scripts/check-commit-identity.sh` run against a history where every commit is on
       an allowed domain, when it completes, then it exits zero.
-- [ ] AC5 — Given `scripts/check-commit-identity.test.sh`, when it is run, then it passes, and the
+- [x] AC5 — Given `scripts/check-commit-identity.test.sh`, when it is run, then it passes, and the
       file contains a case asserting the non-zero exit of AC3.
-- [ ] AC6 — Given `CLAUDE.md`'s Environments block, when the verification bullet is read, then it
+- [x] AC6 — Given `CLAUDE.md`'s Environments block, when the verification bullet is read, then it
       names `scripts/check-commit-identity.sh`.
 
 ## QA plan
