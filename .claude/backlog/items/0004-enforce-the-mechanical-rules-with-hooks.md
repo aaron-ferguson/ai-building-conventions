@@ -150,3 +150,36 @@ suite keeps growing rules faster than it grows ways to hold them.
 - **Why refuse rather than warn.** The rule already exists in prose and is already being ignored;
   a warning adds a second prose channel. The reviewer's point is that unenforced rules decay, and
   a non-blocking hook is unenforced.
+- **Build (2026-09-14): verified the hook JSON contract against the installed CLI (2.1.270)
+  rather than recalling it** — `~/.claude/plugins/marketplaces/claude-plugins-official/plugins/
+  plugin-dev/skills/hook-development/` ships a full reference plus a working
+  `examples/validate-bash.sh` this repo doesn't have its own copy of. Confirmed: stdin JSON with
+  `tool_name`/`tool_input.command`; exit 2 = blocking refusal with stderr fed back to Claude;
+  `.claude/settings.json` uses the direct (unwrapped) format, `{"hooks": {"PreToolUse": [...]}}`.
+- **Refusal exit code is 2 for both hooks**, matching Claude Code's own "blocking error" code —
+  not a value this ticket invented.
+- **Neither hook is a shell parser.** Both split/match on the command string's tokens and shell
+  chaining operators (`;`, `&&`, `||`, `|`) rather than a real AST, so a sufficiently obfuscated
+  command (nested subshells, `eval`, unusual quoting) could evade either check. That's judged
+  acceptable for what this ticket asks — catching the ordinary sweeping/secret-leaking shapes a
+  session actually types — not for defeating deliberate evasion, which is a different (and much
+  larger) problem than "the rule already exists in prose and is being ignored."
+- **`git stash push`/`save` with only flags (no path token) is treated as bare** — e.g. `git
+  stash push -u` alone still refuses, since `-u` without a path stashes everything untracked too.
+  Only an actual pathspec (a bare token, or anything after `--`) counts as scoped.
+- **The secret scanner's pattern set is deliberately small (three shapes)** — an AWS key ID, a
+  generic `key|secret|token|password = "..."` assignment, and a PEM header — not an exhaustive
+  scanner. `security-conventions.md`'s own rule is a floor ("scan the staged diff for anything
+  that looks like a credential"), and a giant fragile pattern list would fail differently (false
+  positives eroding trust in the hook) than a small honest one (some real secrets pass through).
+- **A missing `jq` or `git` fails open (allow, with a stderr warning) on the secret scanner, same
+  as an absent trigger.** This means a machine without `jq` gets a secrets gate that silently
+  no-ops rather than blocking every commit — flagged for a human call rather than decided
+  unilaterally, since "fail open" and "fail closed" are both defensible and this ticket's own
+  FR7 argues for open (a hook that hard-fails on what it can't run gets the whole mechanism
+  disabled by a frustrated user).
+- **Two more mechanically-checkable rules noticed while scoping this ticket, not built here**
+  (out of these ACs; parked in `.claude/backlog/FINDINGS.md` 2026-09-14): `git-conventions.md`'s
+  enumerable "Destructive Commands" list (`git push --force`, `git reset --hard`, `git commit
+  --amend`, `git rebase` on shared branches, `--no-verify`) has no hook at all yet; its
+  ".gitignore Essentials" list has nothing checking a project's actual `.gitignore` against it.
