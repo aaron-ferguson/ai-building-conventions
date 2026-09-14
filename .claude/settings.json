@@ -1,0 +1,13 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/hooks/block-sweeping-git-stage.sh" },
+          { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/hooks/scan-staged-for-secrets.sh" }
+        ]
+      }
+    ]
+  }
+}

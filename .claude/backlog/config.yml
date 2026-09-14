@@ -11,11 +11,12 @@ next_id: 13
 findings_threshold: 8
 
 # This repo has no build, no runtime and no test framework. What it does have is the
-# sibling-`.test.sh` pattern: every script under `scripts/` carries `<name>.test.sh` next
-# to it, and `unit` runs all of them. Levels the repo genuinely does not have are omitted,
-# so `verify` refuses an item that names one rather than silently skipping it.
+# sibling-`.test.sh` pattern: every script under `scripts/` and `hooks/` carries
+# `<name>.test.sh` next to it, and `unit` runs all of them. Levels the repo genuinely
+# does not have are omitted, so `verify` refuses an item that names one rather than
+# silently skipping it.
 commands:
-  unit: bash -c 'for t in scripts/*.test.sh; do "$t" || exit 1; done'
+  unit: bash -c 'for t in scripts/*.test.sh hooks/*.test.sh; do "$t" || exit 1; done'
 
 # No tracker, no cost tracking, no external feedback source. This is a solo public repo;
 # the skills never touch the network.
