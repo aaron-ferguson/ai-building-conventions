@@ -50,7 +50,7 @@ the path is not worth a column — it was the bulk of every row.
 | ID | Title | Next | Status | Parent |
 |------|-------|------|--------|--------|
 | 0001 | Stop publishing the corporate identity in this repo's commit metadata | verify | ready |  |
-| 0002 | Sweep tracked files for machine-specific paths, current state, and real project names | develop | ready |  |
+| 0002 | Sweep tracked files for machine-specific paths, current state, and real project names | develop | in-progress |  |
 | 0003 | Guard CONVENTIONS_CORE.md against drift from the files it restates | develop | ready |  |
 | 0004 | Enforce the mechanically checkable rules with hooks instead of prose | develop | ready |  |
 | 0005 | Fix the default that makes every unlabeled rule non-negotiable | design | ready |  |

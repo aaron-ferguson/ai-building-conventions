@@ -3,7 +3,7 @@ id: "0002"
 title: Sweep tracked files for machine-specific paths, current state, and real project names
 type: bug
 next: develop
-status: ready
+status: in-progress
 qa_level: unit
 size: s
 created: 2026-08-26
@@ -18,8 +18,8 @@ expects:
   - CLAUDE.md
   - scripts/check-machine-specifics.sh
   - scripts/check-machine-specifics.test.sh
-claimed_by:
-claimed_at:
+claimed_by: "5d70"
+claimed_at: 2026-09-14T14:25:02Z
 touches:
 ---
 
