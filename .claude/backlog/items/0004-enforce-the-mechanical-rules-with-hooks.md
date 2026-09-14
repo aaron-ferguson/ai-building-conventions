@@ -23,6 +23,17 @@ expects:
 claimed_by: "c425"
 claimed_at: 2026-09-14T17:46:36Z
 touches:
+  - .claude/settings.json
+  - hooks/block-sweeping-git-stage.sh
+  - hooks/block-sweeping-git-stage.test.sh
+  - hooks/scan-staged-for-secrets.sh
+  - hooks/scan-staged-for-secrets.test.sh
+  - git-conventions.md
+  - security-conventions.md
+  - README.md
+  - data-privacy-conventions.md
+  - dependency-conventions.md
+  - .claude/backlog/config.yml
 ---
 
 ## Problem
