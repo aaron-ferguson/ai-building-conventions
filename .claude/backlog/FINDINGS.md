@@ -29,6 +29,34 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
 
 ---
 
+- 2026-09-14 — `[for tools repo]` `/sprint` Step 3 dispatches with
+  `--json-schema "$(cat skills/sprint/outcome.schema.json)"`, but that file's
+  `"$schema": "https://json-schema.org/draft/2020-12/schema"` key is unresolvable by the
+  installed CLI: every dispatch dies instantly with *"--json-schema is not a valid JSON Schema:
+  no schema with key or ref …"*, before the stage session starts. Two dispatches lost this way.
+  Deleting that one key fixes it. **Step 1's probe cannot catch this** — its inline schema has no
+  `$schema` key, so the premise check passes while every real dispatch fails. Either strip the key
+  from the shipped schema or make the probe use the real one (pointer:
+  `skills/sprint/outcome.schema.json`, `skills/sprint/SKILL.md` Steps 1 and 3).
+
+- 2026-09-14 — `[for tools repo]` `/sprint` Step 3 pre-assigns `--session-id "$RUN_STAGE_UUID"`
+  so "the transcript path is a dispatch-time fact in the run log rather than something a dead
+  supervisor has to hunt for". It does not hold: the CLI minted its own ids, and none of the three
+  dispatched ids appears in any transcript. Recovered the real ones by mtime instead. This breaks
+  Step 6's ledger attribution — `sprint-ledger.sh record` pins its harvest to the dispatch events'
+  session ids, so every GATE and DESIGN row came back `observed USD 0.00` and had to be annotated
+  by hand. One stage also returned an all-zero uuid in its own outcome envelope, so the envelope
+  is not a fallback (pointer: `skills/sprint/SKILL.md` Step 3, `tools/sprint-ledger.sh`).
+
+- 2026-09-14 — `scripts/check-commit-identity.sh` prints `134 disallowed commit identity
+  reference(s)` and still **exits 0**. That may be deliberate — history on a public remote is
+  forward-only and cannot be rewritten, so failing on it would make the guard permanently red —
+  but a guard that reports violations without failing is one nobody notices going stale, and
+  nothing states the intent either way. Worth deciding explicitly: fail on *new* commits only,
+  or document why exit 0 is correct and what the 134 are. Verify passed 0001 on it, so this is a
+  question about the guard's contract, not about that verdict (pointer:
+  `scripts/check-commit-identity.sh`, item 0001).
+
 - 2026-09-14 — `[for tools repo]` The `/design` skill's Step 1/Step 4 instructions call
   `./claim <id>` and `./handoff <id> <token> <stage>`, but this project's vendored
   `.claude/backlog/` only ships `claim`, `close`, and `next` — no `handoff` script exists.
