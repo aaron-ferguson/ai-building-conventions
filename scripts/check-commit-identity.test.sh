@@ -59,7 +59,7 @@ $out"
 }
 
 run_case "flags a commit whose author/committer email is on a disallowed domain" 1 \
-  "aaron.ferguson@neumo.com" "yes"
+  "someone@disallowed.example" "yes"
 
 run_case "passes a commit whose author/committer email is on an allowed domain" 0 \
   "aaron@newheights.coach" "no"
