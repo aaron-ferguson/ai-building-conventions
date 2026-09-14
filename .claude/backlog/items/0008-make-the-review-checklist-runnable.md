@@ -122,3 +122,33 @@ to happen while making the document look more thorough.
 - **Why FR3 argues for the smallest version first.** The repo's own YAGNI rule and the reviewer's
   note about newer models point the same way: an elaborate per-item procedure is speculative until
   the blurb has been shown to fail. FR5 is what turns that from a preference into a decision.
+- **FR5 measurement (2026-09-14).** Real diff, `50945d88` (`hooks/scan-staged-for-secrets.sh` +
+  its test file, ~287 lines). Ran the checklist two ways over the same diff:
+  - **Manual** (this session, reading the whole diff at once, 8 applicable sections — skipped
+    ENVIRONMENT & CONFIG/RELEASE/PERSISTED DATA/TIER 2/TIER 3 as plainly not applicable): caught
+    the COMPLEXITY nesting issue (`while` → `case` → `if`, 3 levels in the diff-parsing loop, one
+    over the limit). Missed: the duplicated JSON-stdin-extraction boilerplate between this hook
+    and its sibling `block-sweeping-git-stage.sh` (a real SAFETY/DRY finding); the
+    `match_secret_shape` comment explaining *what* the function returns rather than *why*
+    (COMMENTS); and assumed a plain PASS on TESTING without noticing that "tests written before
+    implementation" isn't answerable from a diff/snapshot at all.
+  - **Delegated** (one Haiku subagent per section, same 8 sections, run in parallel, each given
+    only its section's items and the relevant code — not the whole checklist or the other
+    sections' framing): caught the same COMPLEXITY issue independently, **plus** the duplicated
+    boilerplate, **plus** the comment-explains-what finding, **and** correctly flagged TESTING as
+    unconfirmable from a snapshot rather than assuming compliance.
+  - **Verdict: the delegated run found strictly more than the manual run in this trial**, and got
+    the one item requiring epistemic honesty (TESTING) right where the manual pass didn't. n=1,
+    one diff, one session's manual attempt — not a controlled study, but enough to clear FR5's
+    bar of *measured rather than assumed*, and the direction is the one this ticket bet on.
+  - **The ticket's own FR4 premise was partly wrong, corrected rather than carried forward as
+    written.** 0004's hooks were assumed to cover "SAFETY and SECURITY" broadly; checked against
+    the actual checklist items, only one — SECURITY's "No secrets in the diff" — is genuinely
+    automated by a committed guard (`hooks/scan-staged-for-secrets.sh`). None of SAFETY's four
+    items are covered by anything that exists. Marked only the one real match rather than
+    fabricating three more to match the ticket's framing.
+- **Why README.md wasn't touched despite being in `expects:`.** `expects:` is a prediction made
+  at queue time with the file closed; none of FR1–FR6 as written require a README change, and
+  this ticket's own Out of scope excludes writing the subagent definitions as shipped
+  artifacts — there's nothing here that's README-shaped. Narrowed `touches:` to the two files
+  actually changed at claim time.
