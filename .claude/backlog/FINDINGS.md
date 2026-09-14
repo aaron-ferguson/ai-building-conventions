@@ -78,6 +78,24 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
   `DONE.md` up front, the same way it creates `QUEUE.md` (pointer: `.claude/backlog/close`,
   item 0001).
 
+- 2026-09-14 — `git-conventions.md`'s "Destructive Commands" list (`git push --force`/`-f`,
+  `git reset --hard`, `git commit --amend` on published commits, `git rebase` on shared
+  branches, any `--no-verify`) is a closed, fully enumerable set of command shapes — exactly
+  the kind of rule 0004 just proved a `PreToolUse`/`Bash` hook can enforce — and none of it is
+  covered by either hook 0004 built (those only refuse sweeping `add`/`commit`/bare `stash`).
+  A hook matching these five shapes could refuse or `ask` before Claude ever runs one. Noticed
+  while scoping 0004; not built there since it's outside that ticket's own ACs — a candidate
+  for its own ticket (pointer: `git-conventions.md` "Destructive Commands",
+  `hooks/block-sweeping-git-stage.sh`, item 0004).
+
+- 2026-09-14 — `git-conventions.md`'s ".gitignore Essentials" list (`node_modules/`, `dist/`,
+  `build/`, `.env`, `.env.*`, `coverage/`, `.DS_Store`, `*.log`) is stated as a minimum every
+  project should have, but nothing checks a project's actual `.gitignore` against it — a
+  `SessionStart` hook (or a `scripts/`-style check script) could diff a new project's
+  `.gitignore` against this list and warn on anything missing. Noticed while scoping 0004;
+  lower value than the Destructive Commands gap above since a missing `.gitignore` entry is
+  self-correcting the first time it causes a problem, so parking rather than building
+  (pointer: `git-conventions.md` ".gitignore Essentials").
 
 - 2026-09-14 — **a long unattended run is illegible to the person watching it, and the turn budget is' why.** The `sprint` skill's cost model (*What this costs, and the one number you can move*) sets "a budget of three turns per cycle — dispatch, read back, route" and rules that "the report turn is conditional on a state change, never automatic". Optimising the supervisor's own context that hard traded away the only signal a watching human has: with one develop gate running 36+ minutes across four tickets, the user had to ask "are the agents actually still working" because nothing was printed between dispatch and the run's end. A stage boundary IS a state change — a session finishing and the next being dispatched is exactly the condition that clause already permits a report on, so the skill's own rule allows what its turn budget discourages. Worth stating positively in Step 9: report at every stage boundary, naming what finished, what it produced, and what was dispatched next. One turn per boundary is a few hundred tokens against a run that costs dollars, and the alternative is a person polling the supervisor, which costs a full floor per question and yields less (pointer: `sprint/SKILL.md` *What this costs*, Step 9 *Report*; observed in run-20260914T144927Z).
 
