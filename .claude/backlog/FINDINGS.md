@@ -40,3 +40,13 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
   same gap. `tools.path` is unset in `.claude/backlog/config.yml`, so this couldn't route to
   the tools repo's own buffer directly (pointer: `.claude/backlog/claim`, item 0003).
 
+- 2026-09-14 — `[for tools repo]` `./close` refuses with "no DONE.md at ... — nowhere to move
+  the row to" if `DONE.md` doesn't already exist, but nothing in `queue`'s scaffolding or
+  `develop`'s vendoring creates it — this repo had `QUEUE.md`, `claim`, `close`, `next` and
+  `config.yml` but no `DONE.md` until the first ticket (0001) actually closed. Created it by
+  hand with the `| ID | Title | Type | QA | Closed | Item |` header `close` expects (matched
+  against the plugin's own installed template for this backlog toolkit). Worth having whichever
+  script first sets up a project's backlog directory create an empty
+  `DONE.md` up front, the same way it creates `QUEUE.md` (pointer: `.claude/backlog/close`,
+  item 0001).
+
