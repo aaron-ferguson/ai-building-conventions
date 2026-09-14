@@ -17,7 +17,7 @@ expects:
   - scripts/check-commit-identity.test.sh
 claimed_by: "4c3b"
 claimed_at: 2026-09-14T14:19:19Z
-touches:
+touches: [CLAUDE.md, scripts/check-commit-identity.sh, scripts/check-commit-identity.test.sh]
 ---
 
 ## Problem
