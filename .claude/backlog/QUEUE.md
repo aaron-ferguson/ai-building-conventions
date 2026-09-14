@@ -49,7 +49,7 @@ the path is not worth a column — it was the bulk of every row.
 
 | ID | Title | Next | Status | Parent |
 |------|-------|------|--------|--------|
-| 0003 | Guard CONVENTIONS_CORE.md against drift from the files it restates | develop | ready |  |
+| 0003 | Guard CONVENTIONS_CORE.md against drift from the files it restates | develop | in-progress |  |
 | 0004 | Enforce the mechanically checkable rules with hooks instead of prose | develop | ready |  |
 | 0005 | Fix the default that makes every unlabeled rule non-negotiable | design | ready |  |
 | 0006 | Decide how the conventions are distributed and make them machine-portable | design | ready |  |
