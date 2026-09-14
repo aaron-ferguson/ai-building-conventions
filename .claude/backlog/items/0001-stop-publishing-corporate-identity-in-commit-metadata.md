@@ -118,3 +118,15 @@ following the rule as written would make the same mistake again.
   repo's whole complaint (0006) is that it assumes one machine. A script in `scripts/` runs
   anywhere the repo is cloned. If 0004 lands hook infrastructure, wiring this script into it is
   cheap and belongs to that item.
+- **The test fixture almost repeated the exact defect this ticket fixes.** The first draft of
+  `check-commit-identity.test.sh` used the real corporate domain as its disallowed-domain fixture —
+  publishing the company association in a tracked file on this public remote, which is precisely
+  what `CLAUDE.md`'s widened `company: none` paragraph (FR2) now forbids. Caught before commit and
+  replaced with `disallowed.example`; AC3 only requires *a* disallowed domain, not the real one.
+  Worth a grep (`grep -rn '<company>' --exclude-dir=.git`) on any future ticket that has to
+  construct a "bad" example of something this repo's own rules forbid.
+- **FR1 (local git identity) is config, not a commit** — `git config --local user.name/user.email`
+  in this checkout, verified by `git log -1 --format='%ae %ce'` on the commit that landed FR2/FR5
+  (`a09caa8`). It only protects commits made from this machine; a clone with its own global
+  identity still needs the same local override, which `check-commit-identity.sh` cannot enforce —
+  it can only catch a corporate identity that already landed in history.
