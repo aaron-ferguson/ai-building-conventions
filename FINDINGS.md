@@ -75,3 +75,12 @@ outside the bold. Entries name the repo when they point outside this one.
   to give the *decision* a return value and drive that. Worth a clause where line 16 names decision
   sites — after extracting a seam, ask which branch the control now misses (pointer:
   testing-conventions.md lines 16 and 18, ai-building-tools items/0148 FR3).
+- 2026-09-20 — **A presence grep scoped to a section is satisfied by prose that EXPLAINS the thing,
+  not only by the thing.** A guard asserted that a skill's command line passes a new flag, scoped to
+  the section holding that command. The same section also documents the flag in a paragraph, so
+  deleting the flag from the command left the guard green — caught only by mutating it, never by
+  reading it. The shape is general: on a file that both carries an artifact and describes it, a
+  presence assertion must be bound to the artifact (the fenced block, the line), never to the
+  region containing both. This is the adjacent-prose sibling of the negative-assertion trap already
+  named — same cause, opposite sign (pointer: testing-conventions.md, anchor an assertion to the
+  claim; ai-building-tools items/0168 AC7, commit 13ac559).
