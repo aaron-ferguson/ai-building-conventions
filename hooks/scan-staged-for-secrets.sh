@@ -16,29 +16,30 @@
 #   2. generic key/secret/token/password assignment to a quoted 12+ char value
 #   3. a PEM private key header
 #
-# Exit codes: 0 = allow (no trigger, no match, or a missing dependency — see below).
-# 2 = refuse. On refusal, stderr names the file and line of the match and never the
-# matched text itself, so the refusal message can't itself leak the secret into the
-# transcript.
+# Exit codes: 0 = allow (no trigger, or no match found). 2 = refuse — either a secret-
+# shaped match (stderr names the file and line, never the matched text itself, so the
+# refusal message can't leak the secret into the transcript), or a dependency this
+# script needs to do the scan being unavailable.
 #
-# A missing `jq` or `git` is treated as "allow, with a warning" rather than "block the
-# commit" — a repo without jq shouldn't have its whole git workflow wedged by a scanner
-# that can't run. This is a deliberate fail-open tradeoff for a missing dependency,
-# distinct from "no match found" (also allow) and "trigger absent" (also allow); a human
-# should weigh whether a security control that can silently no-op is acceptable here.
+# FAILS CLOSED: a missing `jq` or `git`, or a cwd this hook cannot scan, blocks the
+# commit rather than allowing it through with a warning. Owner ruling, 2026-09-21 (see
+# 0004's Notes & decisions and security-conventions.md — "A Security Control That
+# Cannot Run Blocks"): a silent no-op gate is worse than no gate, because the team
+# believes it is covered. This replaces the original fail-open behavior.
 
 set -uo pipefail
 
 REFUSE=2
 ALLOW=0
 
-warn_allow() {
-  printf 'scan-staged-for-secrets.sh: %s, allowing\n' "$1" >&2
-  exit "$ALLOW"
+block_missing_dependency() {
+  printf 'Refused: scan-staged-for-secrets.sh cannot run without %s — %s, then retry.\n' "$1" "$2" >&2
+  printf 'A security control that cannot run blocks rather than allowing an unscanned commit (security-conventions.md).\n' >&2
+  exit "$REFUSE"
 }
 
-command -v jq >/dev/null 2>&1 || warn_allow "jq not found (cannot inspect command)"
-command -v git >/dev/null 2>&1 || warn_allow "git not found (cannot scan staged diff)"
+command -v jq >/dev/null 2>&1 || block_missing_dependency "jq" "install it via 'brew install jq' on macOS or 'apt install jq' on Debian/Ubuntu"
+command -v git >/dev/null 2>&1 || block_missing_dependency "git" "install it via 'brew install git' on macOS, 'apt install git' on Debian/Ubuntu, or https://git-scm.com/downloads"
 
 input="$(cat)"
 
@@ -57,7 +58,11 @@ printf '%s' "$command_str" | grep -qE '(^|[;&|]+[[:space:]]*)git[[:space:]]+comm
 cwd="$(printf '%s' "$input" | jq -r '.cwd // empty' 2>/dev/null || true)"
 repo_dir="${cwd:-${CLAUDE_PROJECT_DIR:-$(pwd)}}"
 
-[ -d "$repo_dir" ] || warn_allow "cwd '$repo_dir' does not exist (cannot scan staged diff)"
+if [ ! -d "$repo_dir" ]; then
+  printf "Refused: scan-staged-for-secrets.sh cannot scan the staged diff — cwd '%s' does not exist.\n" "$repo_dir" >&2
+  printf 'A security control that cannot run blocks rather than allowing an unscanned commit (security-conventions.md).\n' >&2
+  exit "$REFUSE"
+fi
 
 diff_output="$(git -C "$repo_dir" diff --cached --unified=0 2>/dev/null || true)"
 [ -n "$diff_output" ] || exit "$ALLOW"

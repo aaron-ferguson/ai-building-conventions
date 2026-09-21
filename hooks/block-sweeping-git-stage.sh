@@ -9,9 +9,15 @@
 #     branch, show) never sweep anything and are always permitted.
 #
 # Reads the tool-call JSON on stdin (see Claude Code PreToolUse hook contract). Exits 0
-# (allow) whenever the trigger isn't present at all — wrong tool, no command, jq missing
-# — per the rule that a hook must never hard-fail on a command it doesn't understand.
-# Exits 2 (refuse) only for the exact shapes above, with the reason on stderr.
+# (allow) whenever the trigger genuinely isn't present — wrong tool, no command — since
+# that's not a command this hook needs to act on. Exits 2 (refuse) for the sweeping
+# shapes above, with the reason on stderr.
+#
+# FAILS CLOSED: a missing `jq` blocks the command rather than allowing it through with a
+# warning. Owner ruling, 2026-09-21 (see 0004's Notes & decisions and
+# security-conventions.md — "A Security Control That Cannot Run Blocks"): a silent
+# no-op gate is worse than no gate, because the team believes it is covered. This
+# replaces the original fail-open behavior.
 #
 # Scope note: this is a word-splitting check, not a shell parser. It splits on `;`,
 # `&&`, `||` and `|` to look at each command in a chain, and does not handle quoting,
@@ -24,8 +30,9 @@ REFUSE=2
 ALLOW=0
 
 if ! command -v jq >/dev/null 2>&1; then
-  printf 'block-sweeping-git-stage.sh: jq not found, allowing (cannot inspect command)\n' >&2
-  exit "$ALLOW"
+  printf "Refused: block-sweeping-git-stage.sh cannot run without jq — install it via 'brew install jq' on macOS or 'apt install jq' on Debian/Ubuntu, then retry.\n" >&2
+  printf 'A security control that cannot run blocks rather than allowing an uninspected command (security-conventions.md).\n' >&2
+  exit "$REFUSE"
 fi
 
 input="$(cat)"
