@@ -51,6 +51,7 @@ Essential rules for every session. No exceptions. Read the files listed at the b
 - All external input is validated server-side. The client is never the authority (`security-conventions.md` → "Validate at Trust Boundaries").
 - LLM output is untrusted input — validate it like anything user-supplied (`security-conventions.md` → "AI-Specific Rules").
 - Nothing holds standing production access it doesn't currently need — including an AI session. MFA on every account that can reach production (`security-conventions.md` → "Production Access Is Least-Privilege").
+- **A security control that cannot run blocks rather than allows** — a silent no-op gate is worse than no gate, because the team believes it is covered (`security-conventions.md` → "A Security Control That Cannot Run Blocks").
 
 ## Environments & Data
 

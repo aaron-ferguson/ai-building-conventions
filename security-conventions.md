@@ -12,6 +12,12 @@ This file defines security expectations for all projects. It is loaded into AI c
 - Before any commit that touched config: scan the staged diff for anything that looks like a credential. Enforced by `hooks/scan-staged-for-secrets.sh` where that hook is wired in (see `README.md` → "Adopting the hooks").
 - If a secret leaks: rotate at the source first, then clean up. Removing it from the code does not un-leak it — and **preserve the evidence of scope before tidying anything**, because a leaked credential is a security incident with its own path (`incident-conventions.md`).
 
+## A Security Control That Cannot Run Blocks
+
+- **A security control that cannot run BLOCKS rather than allows.** If a secrets scanner, an auth gate, a policy check, or any other control can't execute — a missing dependency, an unreachable service, input it can't parse — it refuses the operation and says why, rather than letting it through with a warning.
+- **A silent no-op gate is worse than no gate**, because the team believes it is covered. No gate is a known, visible risk; a gate that quietly stops enforcing is an invisible one — nobody investigates a control that never fires an alarm.
+- Name what's missing and how to resolve it in the refusal message, so the fix is obvious rather than another debugging session. `hooks/scan-staged-for-secrets.sh` and `hooks/block-sweeping-git-stage.sh` are the worked examples: a missing `jq` or `git` refuses the operation rather than silently letting it through (owner ruling, 2026-09-21, ticket 0004 — "Security is much more important than frustration, and someone who does not want to take security seriously can use a different toolkit").
+
 ## Validate at Trust Boundaries
 
 - All external input is hostile until validated: user input, URL params, request bodies, webhook payloads, file uploads, LLM output.
