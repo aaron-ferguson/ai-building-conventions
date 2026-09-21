@@ -80,9 +80,12 @@ suite keeps growing rules faster than it grows ways to hold them.
 - FR6 — `README.md` gains a section telling another project how to adopt the hooks, and each
   enforced rule's own convention file states that a hook enforces it and names the script. A rule
   whose enforcement is invisible from where the rule is written gets re-litigated.
-- FR7 — Every hook exits successfully when its trigger is absent, and never blocks on its own
-  failure to run. A hook that hard-fails on an unrelated command turns the whole convention suite
-  into something people disable.
+- FR7 — Every hook exits successfully when its trigger is genuinely absent (wrong tool, no
+  command, no match). **It FAILS CLOSED on anything that stops it from completing its check** — a
+  missing dependency (`jq`, `git`) or a condition it cannot evaluate (e.g. an unscannable cwd):
+  the hook blocks the operation with a clear stderr message naming what's missing and how to
+  install or resolve it. It never allows-with-a-warning. Overruled from the original fail-open
+  framing on 2026-09-21 — see Notes & decisions.
 
 ## Non-functional requirements
 
@@ -113,6 +116,9 @@ suite keeps growing rules faster than it grows ways to hold them.
       FR1–FR3 delivers.
 - [ ] AC9 — Given `git-conventions.md` and `security-conventions.md`, when the rules named above
       are read, then each names the script that enforces it.
+- [ ] AC10 — Given either hook, when `jq` (or, for `scan-staged-for-secrets.sh`, `git`) is
+      unavailable on `PATH`, then the hook exits non-zero and names the missing dependency and how
+      to install it on stderr — never allow-with-a-warning.
 
 ## QA plan
 
@@ -168,12 +174,20 @@ suite keeps growing rules faster than it grows ways to hold them.
   scanner. `security-conventions.md`'s own rule is a floor ("scan the staged diff for anything
   that looks like a credential"), and a giant fragile pattern list would fail differently (false
   positives eroding trust in the hook) than a small honest one (some real secrets pass through).
-- **A missing `jq` or `git` fails open (allow, with a stderr warning) on the secret scanner, same
-  as an absent trigger.** This means a machine without `jq` gets a secrets gate that silently
-  no-ops rather than blocking every commit — flagged for a human call rather than decided
-  unilaterally, since "fail open" and "fail closed" are both defensible and this ticket's own
-  FR7 argues for open (a hook that hard-fails on what it can't run gets the whole mechanism
-  disabled by a frustrated user).
+- **Superseded 2026-09-21 — see the entry below.** This ticket originally shipped a fail-open
+  secret scanner (a missing `jq` or `git` allowed the commit with a stderr warning, same as an
+  absent trigger) and escalated the fail-open-vs-fail-closed question to the repo owner rather
+  than deciding it unilaterally. The owner ruled fail-closed; both hooks were rewritten
+  accordingly.
+- **Owner overruled the original FR7 on 2026-09-21.** Their words: "Security is much more
+  important than frustration, and someone who does not want to take security seriously can use
+  a different toolkit." FR7 now requires both `hooks/scan-staged-for-secrets.sh` and
+  `hooks/block-sweeping-git-stage.sh` to fail closed — block with a clear message naming the
+  missing dependency and how to install it — whenever `jq`, `git`, or any other dependency the
+  hook needs is unavailable, rather than allowing the operation through with a warning. The
+  general principle (a security control that cannot run blocks rather than allows, since a
+  silent no-op gate is worse than no gate) is now recorded in `security-conventions.md` and
+  `CONVENTIONS_CORE.md`.
 - **Two more mechanically-checkable rules noticed while scoping this ticket, not built here**
   (out of these ACs; parked in `.claude/backlog/FINDINGS.md` 2026-09-14): `git-conventions.md`'s
   enumerable "Destructive Commands" list (`git push --force`, `git reset --hard`, `git commit
