@@ -2,7 +2,7 @@
 id: "0004"
 title: Enforce the mechanically checkable rules with hooks instead of prose
 type: feature
-next: verify
+next: develop
 status: ready
 qa_level: unit
 size: m
