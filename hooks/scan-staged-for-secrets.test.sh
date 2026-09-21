@@ -43,6 +43,21 @@ run_hook() {
     | "$HOOK" 2>&1
 }
 
+# Builds a PATH containing symlinks to every real external tool the hook needs except
+# $1, so `command -v $1` fails inside the hook while everything else — including bash
+# itself, resolved via `env`'s PATH per the hook's `#!/usr/bin/env bash` shebang —
+# still works normally.
+stub_path_missing() {
+  local missing="$1" dir tool real
+  dir="$(mktemp -d)"
+  for tool in bash jq git grep sed cat; do
+    [ "$tool" = "$missing" ] && continue
+    real="$(command -v "$tool" 2>/dev/null)" || continue
+    ln -s "$real" "$dir/$tool"
+  done
+  printf '%s' "$dir"
+}
+
 assert_result() {
   local name="$1" expected_status="$2" out="$3" status="$4" expected_substring="${5:-}"
   printf '%s\n' "$name"
@@ -125,6 +140,44 @@ test_clean_staged_content_permitted() {
   rm -rf "$dir"
 }
 
+# --- FR7: fails closed (blocks) when a dependency it needs is unavailable --------------
+
+test_missing_jq_blocks() {
+  local stub out status
+  stub="$(stub_path_missing jq)"
+  printf 'blocks the commit when jq is missing\n'
+  out="$(printf '{"tool_name":"Bash","tool_input":{"command":"git commit -m x"}}' | PATH="$stub" "$HOOK" 2>&1)"
+  status=$?
+  assert_result "blocks when jq is missing" 2 "$out" "$status" "jq"
+  if ! printf '%s' "$out" | grep -qi 'install'; then
+    fail "expected output to say how to install jq. Output:
+$out"
+  fi
+  rm -rf "$stub"
+}
+
+test_missing_git_blocks() {
+  local stub out status
+  stub="$(stub_path_missing git)"
+  printf 'blocks the commit when git is missing\n'
+  out="$(printf '{"tool_name":"Bash","tool_input":{"command":"git commit -m x"}}' | PATH="$stub" "$HOOK" 2>&1)"
+  status=$?
+  assert_result "blocks when git is missing" 2 "$out" "$status" "git"
+  if ! printf '%s' "$out" | grep -qi 'install'; then
+    fail "expected output to say how to install git. Output:
+$out"
+  fi
+  rm -rf "$stub"
+}
+
+test_cwd_missing_blocks() {
+  local out status
+  printf 'blocks the commit when the target cwd does not exist\n'
+  out="$(jq -n --arg cwd "/nonexistent/path/for/0004" '{tool_name: "Bash", tool_input: {command: "git commit -m \"x\""}, cwd: $cwd}' | "$HOOK" 2>&1)"
+  status=$?
+  assert_result "blocks when cwd does not exist" 2 "$out" "$status"
+}
+
 # --- FR7: allows silently when the trigger is absent ------------------------------------
 
 test_non_bash_tool_allowed() {
@@ -157,6 +210,9 @@ test_aws_key_refused
 test_generic_secret_assignment_refused
 test_pem_header_refused
 test_clean_staged_content_permitted
+test_missing_jq_blocks
+test_missing_git_blocks
+test_cwd_missing_blocks
 test_non_bash_tool_allowed
 test_non_commit_command_allowed
 

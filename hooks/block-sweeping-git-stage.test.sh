@@ -44,6 +44,21 @@ $out"
   fi
 }
 
+# Builds a PATH containing symlinks to every real external tool the hook needs except
+# $1, so `command -v $1` fails inside the hook while everything else — including bash
+# itself, resolved via `env`'s PATH per the hook's `#!/usr/bin/env bash` shebang —
+# still works normally.
+stub_path_missing() {
+  local missing="$1" dir tool real
+  dir="$(mktemp -d)"
+  for tool in bash jq sed cat; do
+    [ "$tool" = "$missing" ] && continue
+    real="$(command -v "$tool" 2>/dev/null)" || continue
+    ln -s "$real" "$dir/$tool"
+  done
+  printf '%s' "$dir"
+}
+
 # --- AC1/AC2: sweeping git add / git commit forms are refused --------------------------
 
 test_git_add_dot_refused() {
@@ -114,6 +129,29 @@ test_git_stash_list_always_permitted() {
   assert_command "permits 'git stash list'" "git stash list" 0
 }
 
+# --- FR7: fails closed (blocks) when a dependency it needs is unavailable --------------
+
+test_missing_jq_blocks() {
+  local stub out status
+  stub="$(stub_path_missing jq)"
+  printf 'blocks the command when jq is missing\n'
+  out="$(printf '{"tool_name":"Bash","tool_input":{"command":"git add ."}}' | PATH="$stub" "$HOOK" 2>&1)"
+  status=$?
+  if [ "$status" -ne 2 ]; then
+    fail "expected exit 2, got $status. Output:
+$out"
+  elif ! printf '%s' "$out" | grep -qF "jq"; then
+    fail "expected output to name jq. Output:
+$out"
+  elif ! printf '%s' "$out" | grep -qi 'install'; then
+    fail "expected output to say how to install jq. Output:
+$out"
+  else
+    pass
+  fi
+  rm -rf "$stub"
+}
+
 # --- FR7: hook allows silently when its trigger is absent -------------------------------
 
 test_non_bash_tool_allowed() {
@@ -149,6 +187,7 @@ test_git_stash_push_with_path_permitted
 test_git_stash_push_dashdash_path_permitted
 test_git_stash_pop_always_permitted
 test_git_stash_list_always_permitted
+test_missing_jq_blocks
 test_non_bash_tool_allowed
 test_unrelated_bash_command_allowed
 
