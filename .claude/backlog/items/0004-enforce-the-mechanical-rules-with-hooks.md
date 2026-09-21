@@ -23,6 +23,13 @@ expects:
 claimed_by: "8fa2"
 claimed_at: 2026-09-21T21:41:53Z
 touches:
+  - hooks/scan-staged-for-secrets.sh
+  - hooks/scan-staged-for-secrets.test.sh
+  - hooks/block-sweeping-git-stage.sh
+  - hooks/block-sweeping-git-stage.test.sh
+  - security-conventions.md
+  - CONVENTIONS_CORE.md
+  - .claude/backlog/items/0004-enforce-the-mechanical-rules-with-hooks.md
 ---
 
 ## Problem
