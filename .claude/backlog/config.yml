@@ -6,7 +6,7 @@ conventions:
   path: .
 
 # Monotonic. queue claims this number for a new item, then increments it.
-next_id: 13
+next_id: 18
 
 findings_threshold: 8
 

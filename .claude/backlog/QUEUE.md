@@ -49,12 +49,17 @@ the path is not worth a column — it was the bulk of every row.
 
 | ID | Title | Next | Status | Parent |
 |------|-------|------|--------|--------|
+| 0016 | Fix scan-staged-for-secrets.sh failing open when cwd exists but isn't a git repo | develop | ready |  |
 | 0005 | Fix the default that makes every unlabeled rule non-negotiable | design | ready |  |
 | 0006 | Decide how the conventions are distributed and make them machine-portable | design | ready |  |
+| 0013 | Decide check-commit-identity.sh's contract for pre-existing violations | design | ready |  |
 | 0007 | Restructure on-demand rule loading as Claude Skills | design | blocked |  |
+| 0017 | Audit this repo's scripts for compliance with "a security control that cannot run blocks" | develop | ready |  |
 | 0010 | Add conventions for working with Claude itself | design | ready |  |
+| 0014 | Enforce git-conventions.md's Destructive Commands list with a PreToolUse hook | develop | ready |  |
 | 0011 | Add a legal and acceptable-use convention for AI-assisted work | design | ready |  |
 | 0012 | Decide whether TDD keeps its "no exceptions" framing | design | ready |  |
+| 0015 | Check a project's .gitignore against git-conventions.md's Essentials list | develop | ready |  |
 
 `develop` takes the topmost row that is `next: develop` and takeable — `ready`, or `blocked` with
 nothing left open in `blocked_by`, since the column is only a cache of the graph. If a higher row

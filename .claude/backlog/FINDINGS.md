@@ -29,6 +29,15 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
 
 ---
 
+**Every remaining entry below is `[for tools repo]` — this project's `.claude/backlog/config.yml`
+has no `tools.path` set, so the `ai-building-tools` buffer cannot be resolved from here, and this
+session was explicitly told not to edit that repo. `retro` (2026-09-26) read every entry below,
+confirmed each is genuinely about the tools plugin rather than this project, and left them parked
+rather than guessing a path per `references/CONVENTIONS.md`'s resolution rules. This buffer is at
+8 entries against a `findings_threshold` of 8 — entirely tools-repo-bound findings this project
+cannot drain. Setting `tools.path` (or running the next retro from inside the `ai-building-tools`
+checkout) is the fix; until then this count will not go down.**
+
 - 2026-09-14 — `[for tools repo]` `/sprint` Step 3 dispatches with
   `--json-schema "$(cat skills/sprint/outcome.schema.json)"`, but that file's
   `"$schema": "https://json-schema.org/draft/2020-12/schema"` key is unresolvable by the
@@ -37,7 +46,8 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
   Deleting that one key fixes it. **Step 1's probe cannot catch this** — its inline schema has no
   `$schema` key, so the premise check passes while every real dispatch fails. Either strip the key
   from the shipped schema or make the probe use the real one (pointer:
-  `skills/sprint/outcome.schema.json`, `skills/sprint/SKILL.md` Steps 1 and 3).
+  `skills/sprint/outcome.schema.json`, `skills/sprint/SKILL.md` Steps 1 and 3). _(retro 2026-09-26:
+  reviewed, destination confirmed, not forwarded — see note above.)_
 
 - 2026-09-14 — `[for tools repo]` `/sprint` Step 3 pre-assigns `--session-id "$RUN_STAGE_UUID"`
   so "the transcript path is a dispatch-time fact in the run log rather than something a dead
@@ -46,16 +56,8 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
   Step 6's ledger attribution — `sprint-ledger.sh record` pins its harvest to the dispatch events'
   session ids, so every GATE and DESIGN row came back `observed USD 0.00` and had to be annotated
   by hand. One stage also returned an all-zero uuid in its own outcome envelope, so the envelope
-  is not a fallback (pointer: `skills/sprint/SKILL.md` Step 3, `tools/sprint-ledger.sh`).
-
-- 2026-09-14 — `scripts/check-commit-identity.sh` prints `134 disallowed commit identity
-  reference(s)` and still **exits 0**. That may be deliberate — history on a public remote is
-  forward-only and cannot be rewritten, so failing on it would make the guard permanently red —
-  but a guard that reports violations without failing is one nobody notices going stale, and
-  nothing states the intent either way. Worth deciding explicitly: fail on *new* commits only,
-  or document why exit 0 is correct and what the 134 are. Verify passed 0001 on it, so this is a
-  question about the guard's contract, not about that verdict (pointer:
-  `scripts/check-commit-identity.sh`, item 0001).
+  is not a fallback (pointer: `skills/sprint/SKILL.md` Step 3, `tools/sprint-ledger.sh`). _(retro
+  2026-09-26: reviewed, destination confirmed, not forwarded — see note above.)_
 
 - 2026-09-14 — `[for tools repo]` The `/design` skill's Step 1/Step 4 instructions call
   `./claim <id>` and `./handoff <id> <token> <stage>`, but this project's vendored
@@ -66,7 +68,8 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
   a `handoff` script the skill now assumes, or `handoff` was never vendored for projects set up
   before it existed — worth checking whether other projects on this backlog toolkit have the
   same gap. `tools.path` is unset in `.claude/backlog/config.yml`, so this couldn't route to
-  the tools repo's own buffer directly (pointer: `.claude/backlog/claim`, item 0003).
+  the tools repo's own buffer directly (pointer: `.claude/backlog/claim`, item 0003). _(retro
+  2026-09-26: reviewed, destination confirmed, not forwarded — see note above.)_
 
 - 2026-09-14 — `[for tools repo]` `./close` refuses with "no DONE.md at ... — nowhere to move
   the row to" if `DONE.md` doesn't already exist, but nothing in `queue`'s scaffolding or
@@ -76,33 +79,72 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
   against the plugin's own installed template for this backlog toolkit). Worth having whichever
   script first sets up a project's backlog directory create an empty
   `DONE.md` up front, the same way it creates `QUEUE.md` (pointer: `.claude/backlog/close`,
-  item 0001).
+  item 0001). _(retro 2026-09-26: reviewed, destination confirmed, not forwarded — see note
+  above.)_
 
-- 2026-09-14 — `git-conventions.md`'s "Destructive Commands" list (`git push --force`/`-f`,
-  `git reset --hard`, `git commit --amend` on published commits, `git rebase` on shared
-  branches, any `--no-verify`) is a closed, fully enumerable set of command shapes — exactly
-  the kind of rule 0004 just proved a `PreToolUse`/`Bash` hook can enforce — and none of it is
-  covered by either hook 0004 built (those only refuse sweeping `add`/`commit`/bare `stash`).
-  A hook matching these five shapes could refuse or `ask` before Claude ever runs one. Noticed
-  while scoping 0004; not built there since it's outside that ticket's own ACs — a candidate
-  for its own ticket (pointer: `git-conventions.md` "Destructive Commands",
-  `hooks/block-sweeping-git-stage.sh`, item 0004).
+- 2026-09-14 — `[for tools repo]` **a long unattended run is illegible to the person watching it,
+  and the turn budget is why.** The `sprint` skill's cost model (*What this costs, and the one
+  number you can move*) sets "a budget of three turns per cycle — dispatch, read back, route" and
+  rules that "the report turn is conditional on a state change, never automatic". Optimising the
+  supervisor's own context that hard traded away the only signal a watching human has: with one
+  develop gate running 36+ minutes across four tickets, the user had to ask "are the agents
+  actually still working" because nothing was printed between dispatch and the run's end. A stage
+  boundary IS a state change — a session finishing and the next being dispatched is exactly the
+  condition that clause already permits a report on, so the skill's own rule allows what its turn
+  budget discourages. Worth stating positively in Step 9: report at every stage boundary, naming
+  what finished, what it produced, and what was dispatched next. One turn per boundary is a few
+  hundred tokens against a run that costs dollars, and the alternative is a person polling the
+  supervisor, which costs a full floor per question and yields less (pointer: `sprint/SKILL.md`
+  *What this costs*, Step 9 *Report*; observed in run-20260914T144927Z). _(retro 2026-09-26: `[for
+  tools repo]` tag added — this is about `skills/sprint/SKILL.md`, not this project; reviewed,
+  destination confirmed, not forwarded — see note above.)_
 
-- 2026-09-14 — `git-conventions.md`'s ".gitignore Essentials" list (`node_modules/`, `dist/`,
-  `build/`, `.env`, `.env.*`, `coverage/`, `.DS_Store`, `*.log`) is stated as a minimum every
-  project should have, but nothing checks a project's actual `.gitignore` against it — a
-  `SessionStart` hook (or a `scripts/`-style check script) could diff a new project's
-  `.gitignore` against this list and warn on anything missing. Noticed while scoping 0004;
-  lower value than the Destructive Commands gap above since a missing `.gitignore` entry is
-  self-correcting the first time it causes a problem, so parking rather than building
-  (pointer: `git-conventions.md` ".gitignore Essentials").
+- 2026-09-26 — `[for tools repo]` **the harness's auto-mode "Security Weaken" classifier blocks
+  the exact mutation-test pattern `verify`'s Step 3 asks for on a security hook.** Verifying 0004,
+  Step 3 calls for editing a committed guard to reintroduce the behavior it exists to catch,
+  confirming the test suite goes red, then restoring — standard practice for proving a check isn't
+  wired to nothing. Editing `hooks/scan-staged-for-secrets.sh` in place to reintroduce its
+  pre-amendment fail-open behavior, then running that file's own `.test.sh`, was refused by the
+  classifier as weakening a security control, even though the edit was local, immediately
+  reverted, and never committed. Worked around by black-box testing the *unmodified* shipped hook
+  against a stubbed `PATH` instead (proves current behavior; doesn't prove the test suite would
+  catch a future regression the way a source mutation would). Worth knowing before the next
+  security-hook ticket reaches `verify`: budget for the source-mutation step to be denied and have
+  the stubbed-PATH black-box approach ready as the fallback, rather than discovering the denial
+  mid-verification (pointer: `hooks/scan-staged-for-secrets.sh`, `verify` skill Step 3; observed
+  verifying items/0004; fully reproduced and independently re-verified in that item's own QA
+  evidence, 2026-09-26, token `af71`). _(retro 2026-09-26: `[for tools repo]` tag added — the
+  action item is a change to `skills/verify/SKILL.md` Step 3's guidance, not to this project;
+  reviewed, destination confirmed, not forwarded — see note above.)_
 
-- 2026-09-14 — **a long unattended run is illegible to the person watching it, and the turn budget is why.** The `sprint` skill's cost model (*What this costs, and the one number you can move*) sets "a budget of three turns per cycle — dispatch, read back, route" and rules that "the report turn is conditional on a state change, never automatic". Optimising the supervisor's own context that hard traded away the only signal a watching human has: with one develop gate running 36+ minutes across four tickets, the user had to ask "are the agents actually still working" because nothing was printed between dispatch and the run's end. A stage boundary IS a state change — a session finishing and the next being dispatched is exactly the condition that clause already permits a report on, so the skill's own rule allows what its turn budget discourages. Worth stating positively in Step 9: report at every stage boundary, naming what finished, what it produced, and what was dispatched next. One turn per boundary is a few hundred tokens against a run that costs dollars, and the alternative is a person polling the supervisor, which costs a full floor per question and yields less (pointer: `sprint/SKILL.md` *What this costs*, Step 9 *Report*; observed in run-20260914T144927Z).
+- 2026-09-25 — `[for tools repo]` **`--json-schema` outcome enforcement was unreliable across this
+  run's stage dispatches: 3 of 4 failed to produce a schema-conforming object** — once returning
+  prose instead of JSON, once returning valid JSON of the wrong shape (schema-conforming syntax,
+  non-conforming structure), once returning prose again. `sprint` Step 4 ("Read the outcome, and
+  nothing else") treats the envelope as the sole channel a driven run trusts — FR13's whole
+  contract depends on the CLI actually enforcing `--json-schema` against what the stage prints, not
+  merely accepting the flag. This is a different failure than the `$schema`-key rejection already
+  parked above (that one kills the dispatch before the stage runs; this one is the stage running
+  to completion and still not producing a conforming envelope). Worth a dedicated reliability check
+  in `skills/sprint/SKILL.md` Step 4 or the outcome schema's own handling — an unattended run
+  driving on `./next --drive` has no human to notice a prose reply and route around it (pointer:
+  `skills/sprint/SKILL.md` Step 3–4, `skills/sprint/outcome.schema.json`; observed this run,
+  flagged directly by the repo owner as a lesson that must not be lost). _(retro 2026-09-25:
+  parked directly by `retro` at the dispatching supervisor's request — `tools.path` unresolved,
+  not forwarded.)_
 
-- 2026-09-14 — **`check-commit-identity.sh` reports 134 pre-existing violations and nothing owns fixing them.** The script works: it correctly flags that 134 commits reachable from `main` carry a corporate committer/author email (e.g. `d7d9826`) on what `CLAUDE.md` *Environments* states is a **public** remote. The local git config is right (`aaron@newheights.coach`) and every commit this run made is clean, so the guard is doing its job for new work — but it was added without remediating the history it was built to catch, so it now fails on every run and a permanently-failing check is one people learn to ignore. The general shape: **a guard introduced against an already-dirty baseline needs a remediation ticket created in the same change, or it trains the team to skip it.** Remediation is a decision, not a task — history rewrite on a public remote vs. accepting the baseline vs. a `.mailmap` — and no agent should pick (pointer: `scripts/check-commit-identity.sh`, `CLAUDE.md` *Environments*; observed in run-20260914T144927Z).
-
-- 2026-09-21 — **a security control fails closed; user frustration is not a reason to weaken it.** Ticket 0004 implemented the secret-scan hook to fail OPEN when `jq` or `git` is missing, on the reasoning in its own FR7 that "a hook that hard-fails on what it cannot run gets the whole mechanism disabled by a frustrated user". The owner overruled this: *"Security is much more important than frustration, and someone who does not want to take security seriously can use a different toolkit."* The general rule, which belongs in `security-conventions.md` as a principle rather than in one ticket: **when a security control cannot run, it blocks — it never allows with a warning.** A silent no-op gate is worse than no gate, because the team believes it is covered; the failure mode of fail-closed is a loud, fixable interruption, and the failure mode of fail-open is a published credential nobody knew about. Adoption friction is explicitly not a counter-argument: the conventions already say "cut scope under pressure, never quality", and a toolkit that trades a secrets gate for convenience is not the toolkit this repo describes. **Scope beyond 0004:** every guard in this suite needs auditing against this rule, and any dependency a security hook needs becomes a hard prerequisite rather than an optional enhancement (pointer: `security-conventions.md`, `CONVENTIONS_CORE.md` *Security*, items/0004 FR7; decided by owner 2026-09-21 in run-20260914T144927Z).
-
-- 2026-09-26 — **`scan-staged-for-secrets.sh` fails closed on a missing dependency and on a nonexistent `cwd`, but not on the narrower case of a `cwd` that exists and simply isn't a git working tree.** Verifying 0004 against the amended, fail-closed FR7: fed the hook a real temp directory (exists, no `.git`) as `cwd` alongside a `git commit` command envelope — `git diff --cached` fails inside the hook, is swallowed by `2>/dev/null || true`, and the empty result reads as "nothing staged", so the hook exits 0 silently rather than refusing. FR7's own text names "a condition it cannot evaluate (e.g. an unscannable cwd)" as a fail-closed trigger, and this is one shape of that the hook doesn't cover (it only checks `[ -d "$repo_dir" ]`, not whether `git` can actually produce a diff there). Judged not to block 0004's close: this coincides with cases where the guarded `git commit` itself would also fail (no repo to commit into), so it doesn't look like an exploitable bypass of the secrets gate on its own — but it's the one sub-case of "unscannable cwd" the current code doesn't handle, and it's cheap to close (treat any non-zero/empty result from `git diff --cached` as "cannot evaluate" → refuse, the same way a missing `jq`/`git` refuses) (pointer: `hooks/scan-staged-for-secrets.sh`, items/0004 FR7/AC10).
-
-- 2026-09-26 — **the harness's auto-mode "Security Weaken" classifier blocks the exact mutation-test pattern `verify`'s Step 3 asks for on a security hook.** Verifying 0004, Step 3 calls for editing a committed guard to reintroduce the behavior it exists to catch, confirming the test suite goes red, then restoring — standard practice for proving a check isn't wired to nothing. Editing `hooks/scan-staged-for-secrets.sh` in place to reintroduce its pre-amendment fail-open behavior, then running that file's own `.test.sh`, was refused by the classifier as weakening a security control, even though the edit was local, immediately reverted, and never committed. Worked around by black-box testing the *unmodified* shipped hook against a stubbed `PATH` instead (proves current behavior; doesn't prove the test suite would catch a future regression the way a source mutation would). Worth knowing before the next security-hook ticket reaches `verify`: budget for the source-mutation step to be denied and have the stubbed-PATH black-box approach ready as the fallback, rather than discovering the denial mid-verification (pointer: `hooks/scan-staged-for-secrets.sh`, `verify` skill Step 3; observed verifying items/0004).
+- 2026-09-25 — `[for tools repo]` **a supervisor dispatch prompt that over-constrains a stage's
+  output can stop the stage from doing its job at all.** A dispatch that appended an instruction
+  like "print only JSON, nothing else" to a `verify` invocation produced a session that returned a
+  report and performed zero backlog action — no claim, no close, no commit — even though the
+  `--json-schema` envelope is a separate, structured channel that does not require suppressing the
+  stage's normal work. `sprint/SKILL.md` Step 3's dispatch already carries the schema as its own
+  flag; an added prose instruction narrowing "what may be printed" apparently read as narrowing
+  "what may be done." Worth an explicit warning in Step 3 (alongside its existing `--json-schema`,
+  `--session-id`, and `< /dev/null` gotchas): a stage's own slash-command invocation should not be
+  wrapped in supervisor instructions about its output shape beyond the `--json-schema` flag itself
+  — the schema is the contract; anything layered in the prompt on top of it risks crowding out the
+  stage's actual job (pointer: `skills/sprint/SKILL.md` Step 3; observed this run, flagged
+  directly by the repo owner as a lesson that must not be lost). _(retro 2026-09-25: parked
+  directly by `retro` at the dispatching supervisor's request — `tools.path` unresolved, not
+  forwarded.)_
