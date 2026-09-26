@@ -3,7 +3,7 @@ id: "0003"
 title: Guard CONVENTIONS_CORE.md against drift from the files it restates
 type: debt
 next: verify
-status: in-progress
+status: done
 qa_level: unit
 size: m
 created: 2026-08-26
@@ -17,9 +17,10 @@ expects:
   - documentation-conventions.md
   - scripts/check-core-drift.sh
   - scripts/check-core-drift.test.sh
-claimed_by: "4239"
-claimed_at: 2026-09-26T00:15:56Z
+claimed_by:
+claimed_at:
 touches:
+closed: 2026-09-26
 ---
 
 ## Problem
@@ -105,20 +106,20 @@ Confirmed against the design decision above — AC1–AC5 and AC7 stand as writt
 figure is corrected below; it was accurate at ticket creation and went stale from unrelated
 edits before this ticket started (see Notes & decisions).
 
-- [ ] AC1 — Given `README.md`, when its guidance on editing these files is read, then it states
+- [x] AC1 — Given `README.md`, when its guidance on editing these files is read, then it states
       whether the core restates rules or indexes them, and why.
-- [ ] AC2 — Given `scripts/check-core-drift.sh` run against a fixture where a core bullet's anchor
+- [x] AC2 — Given `scripts/check-core-drift.sh` run against a fixture where a core bullet's anchor
       is absent from its source file, when it completes, then it exits non-zero naming that bullet.
-- [ ] AC3 — Given the same script run against a fixture where a source file's last modification is
+- [x] AC3 — Given the same script run against a fixture where a source file's last modification is
       newer than the core's, when it completes, then it exits non-zero naming that file.
-- [ ] AC4 — Given the same script run against a fixture where anchors resolve and the core is not
+- [x] AC4 — Given the same script run against a fixture where anchors resolve and the core is not
       stale, when it completes, then it exits zero.
-- [ ] AC5 — Given the real repo after the change, when `scripts/check-core-drift.sh` is run, then
+- [x] AC5 — Given the real repo after the change, when `scripts/check-core-drift.sh` is run, then
       it exits zero.
-- [ ] AC6 — Given `CONVENTIONS_CORE.md`'s byte count measured at the start of `develop` (**not**
+- [x] AC6 — Given `CONVENTIONS_CORE.md`'s byte count measured at the start of `develop` (**not**
       16,415 — that figure is stale, see Notes & decisions), when the same file is measured after
       this change, then it is no larger than that starting count.
-- [ ] AC7 — Given `scripts/check-core-drift.test.sh`, when it is run, then it passes and contains a
+- [x] AC7 — Given `scripts/check-core-drift.test.sh`, when it is run, then it passes and contains a
       distinct case for AC2 and AC3.
 
 ## QA plan
@@ -188,3 +189,52 @@ edits before this ticket started (see Notes & decisions).
   promotion bullet, where "Choosing How Much Verification to Do" in the same file is arguably
   closer. Anchor *resolution* is what `check-core-drift.sh` can verify; anchor *precision* is a
   judgment call the out-of-scope section already says no script can make.
+
+## QA evidence
+
+Verified 2026-09-26, token `4239`.
+
+- **AC1** — `README.md:112-119` ("Working on the conventions themselves") states the core restates
+  rules on purpose, why (an always-loaded file needs hard rules inline, not just a link), names
+  `scripts/check-core-drift.sh` as the guard, and tells an editor to keep the file at or under its
+  current byte count.
+- **AC2/AC3/AC4/AC7** — `scripts/check-core-drift.test.sh` run directly:
+  `flags an anchor that no longer resolves in its source file` / `flags a source file committed
+  more recently than the core` / `passes when anchors resolve and the core is not stale` /
+  `errors cleanly on a missing conventions dir` — **4 passed, 0 failed**. Read the fixtures: the
+  broken-anchor case builds a real temp file with a renamed heading (no git repo, so only anchor
+  resolution applies); the staleness case stands up a real throwaway git repo with two commits at
+  explicit, distinct `GIT_AUTHOR_DATE`/`GIT_COMMITTER_DATE` timestamps so ordering isn't racing the
+  clock. Both are genuine red-path fixtures, not trivial assertions. Distinct cases for AC2 and AC3
+  confirmed by name.
+- **Mutation, run against the real repo (not just the test fixtures) to confirm the check isn't
+  wired to nothing:** backed up `CONVENTIONS_CORE.md`, renamed the heading text an anchor points at
+  (`"Committing"` → `"Committing-BROKEN-ANCHOR"` in `git-conventions.md`'s heading target — done by
+  breaking three core pointers that cite it), ran `scripts/check-core-drift.sh` → **exit 1**,
+  reported all three broken pointers by name. Restored the file from backup, re-ran → **exit 0**,
+  "All anchors resolve and no cited source is newer than the core." Control-green after the
+  restore licenses the red.
+- **AC5** — `scripts/check-core-drift.sh` against the real repo (current `HEAD`): exit 0, "All
+  anchors resolve and no cited source is newer than the core."
+- **AC6** — Re-baselined per this item's own Notes (the pinned 16,415 figure predates the ticket).
+  `git show 5f25893^:CONVENTIONS_CORE.md | wc -c` → 17290 (start of this ticket's own `develop`);
+  `git show 5f25893:CONVENTIONS_CORE.md | wc -c` → 17282 — 8 bytes **under** the starting count, so
+  this ticket's own diff satisfies AC6. (Two unrelated tickets landed after 5f25893 — 0008's
+  Review Checklist bullet and 0004's fail-closed principle — and grew the file further to 17,558
+  bytes measured today; that growth is outside AC6's scope, which is this ticket's before/after,
+  not a permanent ceiling on a file other tickets also edit — see this item's own Notes on why
+  AC6 "pins an absolute byte count" against a moving baseline.)
+- **Full `unit` command** (`config.yml`: `for t in scripts/*.test.sh hooks/*.test.sh; do "$t" ||
+  exit 1; done`) — exit 0. All six suites green: `check-commit-identity.test.sh` (2/2),
+  `check-convention-links.test.sh` (11/11), `check-core-drift.test.sh` (4/4),
+  `check-machine-specifics.test.sh` (3/3), `hooks/block-sweeping-git-stage.test.sh` (19/19),
+  `hooks/scan-staged-for-secrets.test.sh` (9/9). Confirms the runner reaches `hooks/` as well as
+  `scripts/`.
+- **`scripts/check-convention-links.sh`** afterwards (FR2 touched every core pointer): exit 0, "All
+  convention links resolve."
+- **NFRs** — Documentation: README cites the rule (`documentation-conventions.md`'s own no-second-
+  copy rule) rather than restating it; the drift guard itself is the enforcement, not new prose.
+  Performance: confirmed above — this ticket's own diff shrank the file by 8 bytes net, not grew
+  it.
+- **Working tree at verdict**: only this item's own frontmatter/body edits were dirty throughout;
+  no unrelated in-progress work intersected the evidence set.
