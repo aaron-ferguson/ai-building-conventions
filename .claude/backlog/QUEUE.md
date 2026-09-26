@@ -49,7 +49,7 @@ the path is not worth a column — it was the bulk of every row.
 
 | ID | Title | Next | Status | Parent |
 |------|-------|------|--------|--------|
-| 0004 | Enforce the mechanically checkable rules with hooks instead of prose | verify | ready |  |
+| 0004 | Enforce the mechanically checkable rules with hooks instead of prose | verify | in-progress |  |
 | 0005 | Fix the default that makes every unlabeled rule non-negotiable | design | ready |  |
 | 0006 | Decide how the conventions are distributed and make them machine-portable | design | ready |  |
 | 0007 | Restructure on-demand rule loading as Claude Skills | design | blocked |  |
