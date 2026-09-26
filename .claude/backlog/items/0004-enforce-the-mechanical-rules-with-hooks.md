@@ -3,7 +3,7 @@ id: "0004"
 title: Enforce the mechanically checkable rules with hooks instead of prose
 type: feature
 next: verify
-status: in-progress
+status: done
 qa_level: unit
 size: m
 created: 2026-08-26
@@ -20,9 +20,10 @@ expects:
   - git-conventions.md
   - security-conventions.md
   - README.md
-claimed_by: "af71"
-claimed_at: 2026-09-26T00:18:53Z
+claimed_by:
+claimed_at:
 touches:
+closed: 2026-09-26
 ---
 
 ## Problem
@@ -91,25 +92,25 @@ suite keeps growing rules faster than it grows ways to hold them.
 
 ## Acceptance criteria
 
-- [ ] AC1 — Given the hook installed, when a session runs `git add .`, then the command is refused
+- [x] AC1 — Given the hook installed, when a session runs `git add .`, then the command is refused
       and the message names `git-conventions.md`.
-- [ ] AC2 — Given the hook installed, when a session runs `git add -A` or `git commit -a`, then
+- [x] AC2 — Given the hook installed, when a session runs `git add -A` or `git commit -a`, then
       each is refused.
-- [ ] AC3 — Given the hook installed, when a session runs `git add path/to/file.md`, then it is
+- [x] AC3 — Given the hook installed, when a session runs `git add path/to/file.md`, then it is
       permitted.
-- [ ] AC4 — Given the hook installed, when a session runs bare `git stash`, then it is refused;
+- [x] AC4 — Given the hook installed, when a session runs bare `git stash`, then it is refused;
       when it runs `git stash push -u some/path`, then it is permitted.
-- [ ] AC5 — Given a staged file containing secret-shaped content, when the secret scan runs, then
+- [x] AC5 — Given a staged file containing secret-shaped content, when the secret scan runs, then
       it exits non-zero, names the file and line, and does not print the matched value.
-- [ ] AC6 — Given a staged change with no secret-shaped content, when the scan runs, then it exits
+- [x] AC6 — Given a staged change with no secret-shaped content, when the scan runs, then it exits
       zero.
-- [ ] AC7 — Given each hook's `.test.sh`, when the `unit` command is run, then all pass, and each
+- [x] AC7 — Given each hook's `.test.sh`, when the `unit` command is run, then all pass, and each
       test file contains a case asserting a refusal.
-- [ ] AC8 — Given `.claude/settings.json` in this repo, when it is read, then it wires every hook
+- [x] AC8 — Given `.claude/settings.json` in this repo, when it is read, then it wires every hook
       FR1–FR3 delivers.
-- [ ] AC9 — Given `git-conventions.md` and `security-conventions.md`, when the rules named above
+- [x] AC9 — Given `git-conventions.md` and `security-conventions.md`, when the rules named above
       are read, then each names the script that enforces it.
-- [ ] AC10 — Given either hook, when `jq` (or, for `scan-staged-for-secrets.sh`, `git`) is
+- [x] AC10 — Given either hook, when `jq` (or, for `scan-staged-for-secrets.sh`, `git`) is
       unavailable on `PATH`, then the hook exits non-zero and names the missing dependency and how
       to install it on stderr — never allow-with-a-warning.
 
@@ -186,3 +187,83 @@ suite keeps growing rules faster than it grows ways to hold them.
   enumerable "Destructive Commands" list (`git push --force`, `git reset --hard`, `git commit
   --amend`, `git rebase` on shared branches, `--no-verify`) has no hook at all yet; its
   ".gitignore Essentials" list has nothing checking a project's actual `.gitignore` against it.
+
+## QA evidence
+
+Verified 2026-09-26, token `af71`. Verified specifically against the **amended, fail-closed**
+FR7/AC10 per the owner's 2026-09-21 ruling — this is a re-verification after the 2026-09-21
+rewrite, not a re-trust of the original (now-superseded) fail-open build.
+
+- **AC1/AC2** — Live, direct invocation of the installed hook (not just its own test suite):
+  `git add .` → exit 2, "Refused: 'git add .' stages the whole index … (git-conventions.md — …)."
+  `git add -A` → exit 2, same message shape. `git commit -a -m x` → exit 2, names
+  `git-conventions.md`.
+- **AC3** — `git add path/to/file.md` → exit 0 (permitted), live.
+- **AC4** — Bare `git stash` → exit 2, refused, names `git-conventions.md`. `git stash push -u
+  some/path` → exit 0, permitted. Both live.
+- **AC5** — Built a real throwaway git repo, staged `config.yml` containing an AWS-shaped key,
+  ran the hook live: exit 2, "Refused: staged content matches a secret-shaped pattern
+  (security-conventions.md …)", `Matching file(s): config.yml:1`. Grepped the hook's own stdout
+  for the literal secret value (`AKIAABCDEFGHIJKLMNOP`) — **absent**. Only file:line reported.
+- **AC6** — Same repo, staged an ordinary line instead: exit 0, no output.
+- **AC7** — Full `config.yml` `unit` command (`for t in scripts/*.test.sh hooks/*.test.sh; do "$t"
+  || exit 1; done`) — **exit 0**. `hooks/block-sweeping-git-stage.test.sh`: 19 passed, 0 failed.
+  `hooks/scan-staged-for-secrets.test.sh`: 9 passed, 0 failed. Both files contain refusal cases
+  (`test_git_add_dot_refused`, `test_aws_key_refused`, etc.) and each also contains a dedicated
+  `test_missing_jq_blocks` (and, for the secrets scanner, `test_missing_git_blocks` and
+  `test_cwd_missing_blocks`) — read the fixtures rather than trusting the names: both use a
+  `stub_path_missing` helper that symlinks every *other* required tool into a throwaway `PATH`,
+  genuinely making `command -v jq` (or `git`) fail inside the hook, rather than asserting against
+  a mocked function. Not trivial.
+- **AC8** — `.claude/settings.json`: `PreToolUse` on matcher `Bash` wires both
+  `hooks/block-sweeping-git-stage.sh` and `hooks/scan-staged-for-secrets.sh` — the two hooks
+  FR1–FR3 deliver.
+- **AC9** — `git-conventions.md:19,21` name `hooks/block-sweeping-git-stage.sh` for both the
+  sweep-add and bare-stash rules; `security-conventions.md:12` names
+  `hooks/scan-staged-for-secrets.sh` for the secret-scan rule.
+- **AC10 — the amended FR7, independently re-verified beyond the test suite.** Built a real
+  stubbed `PATH` (symlinks to the genuine `bash`/`git`/`sed`/`cat`/`grep` binaries, `jq` excluded)
+  and ran **both hooks live** against it, feeding real `git add .` / `git commit` command
+  envelopes — not the test harness, the actual shipped scripts:
+  - `block-sweeping-git-stage.sh` with `jq` missing → **exit 2**, "Refused: … cannot run without
+    jq — install it via 'brew install jq' … ." Blocks; does not warn-and-allow.
+  - `scan-staged-for-secrets.sh` with `jq` missing → **exit 2**, same shape, names `jq`.
+  - `scan-staged-for-secrets.sh` with `git` missing (separate stub, `jq` present) → **exit 2**,
+    "cannot run without git — install it via 'brew install git' … ."
+  All three block with an install path named on stderr, never allow-with-a-warning. This
+  independently confirms the fixed behavior on the actual installed scripts, not merely a read of
+  the source or a re-run of the authors' own test file.
+- **Dependencies NFR re-checked, not assumed from training-era knowledge**: `dependency-
+  conventions.md` requires tools "already present on a stock macOS and Linux." `jq` was
+  historically a Homebrew-only tool on macOS, which would have made this NFR questionable — but
+  checked against the *actual installed machine* (`jq --version` → `jq-1.7.1-apple`, binary at
+  `/usr/bin/jq`, owned by `root:wheel`): Apple now ships `jq` as a base-OS tool on current macOS.
+  NFR holds on the verified environment; noting this explicitly since it's exactly the kind of
+  thing "verify an API against the installed version, not from memory" exists to catch.
+- **Mutation, attempted per Step 3, partially blocked by the harness's own safety layer**: edited
+  `hooks/scan-staged-for-secrets.sh` in place to reintroduce the original fail-open behavior
+  (`block_missing_dependency` warns and `exit 0` instead of refusing) to prove the test suite
+  would catch a regression — the harness's auto-mode classifier refused running the mutated
+  hook's test suite as a "Security Weaken" action. Reverted the edit immediately
+  (`diff` against a pre-edit backup confirms byte-identical restoration, `git status` clean).
+  Substituted independent black-box verification instead (the three live stubbed-PATH runs
+  above, against the unmodified, shipped hook code) — this proves the *current* code fails
+  closed, which is the claim AC10 makes; it does not additionally prove the test file would
+  catch a future regression, which the source-level mutation would have shown. Recorded here
+  rather than silently substituting one form of evidence for the other.
+- **Residual scope gap found while probing, not a new AC failure**: `scan-staged-for-secrets.sh`'s
+  cwd handling blocks when the reported `cwd` **does not exist** (AC10/FR7's explicit example),
+  but not the narrower case where `cwd` **exists yet is not a git working tree** — there,
+  `git diff --cached` fails, is swallowed by `2>/dev/null || true`, and the hook falls through to
+  "no staged changes" → exit 0, silently. Reproduced live: a real (non-repo) temp directory fed
+  as `cwd` with a `git commit` command → exit 0, no message. This is a different condition than
+  AC10 tests (a present-but-non-repo directory, not a missing dependency or a missing directory),
+  and in practice it coincides with cases where the guarded `git commit` itself would also fail
+  identically (no repo, nothing can be committed) — so it does not appear to be an exploitable
+  bypass of the secrets gate. Flagging it because FR7's own text ("a condition it cannot
+  evaluate") is broader than the dependency case AC10 names, and this is the one sub-case not
+  covered. Not filed as a new item per *A stage writes only the ticket it holds* — recorded here
+  for `develop` or a future `queue` pass to pick up if judged worth a fix.
+- **Working tree at verdict**: only this item's own frontmatter/body edits were dirty; no
+  unrelated in-progress work intersected the evidence set. The one mutation attempt was reverted
+  before this evidence was written, confirmed via `diff` against a pre-edit backup.
