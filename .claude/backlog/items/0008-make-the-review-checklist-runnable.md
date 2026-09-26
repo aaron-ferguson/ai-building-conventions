@@ -3,7 +3,7 @@ id: "0008"
 title: Make the Review Checklist runnable without a human memorising it
 type: feature
 next: verify
-status: in-progress
+status: done
 qa_level: verify
 size: m
 created: 2026-08-26
@@ -15,9 +15,10 @@ expects:
   - coding-conventions.md
   - CONVENTIONS_CORE.md
   - README.md
-claimed_by: "981c"
-claimed_at: 2026-09-26T00:17:52Z
+claimed_by:
+claimed_at:
 touches:
+closed: 2026-09-26
 ---
 
 ## Problem
@@ -80,18 +81,18 @@ to happen while making the document look more thorough.
 
 ## Acceptance criteria
 
-- [ ] AC1 — Given `coding-conventions.md`'s Review Checklist, when its opening is read, then it
+- [x] AC1 — Given `coding-conventions.md`'s Review Checklist, when its opening is read, then it
       states how the checklist is run, not only that it must be.
-- [ ] AC2 — Given that statement, when it is read by a session facing a real diff, then it is
+- [x] AC2 — Given that statement, when it is read by a session facing a real diff, then it is
       actionable without further instruction from the user.
-- [ ] AC3 — Given a section whose items are covered by an automated check, when that section is
+- [x] AC3 — Given a section whose items are covered by an automated check, when that section is
       read, then it names the check rather than asking for the same review by hand.
-- [ ] AC4 — Given the same real diff reviewed both ways, when the results are compared, then both
+- [x] AC4 — Given the same real diff reviewed both ways, when the results are compared, then both
       lists are recorded in *Notes & decisions*, including anything the delegated run missed that
       the manual run caught.
-- [ ] AC5 — Given `CONVENTIONS_CORE.md`, when its pointer to the Review Checklist is read, then it
+- [x] AC5 — Given `CONVENTIONS_CORE.md`, when its pointer to the Review Checklist is read, then it
       matches the mechanism `coding-conventions.md` now states.
-- [ ] AC6 — Given `coding-conventions.md` before and after, when byte counts are compared, then the
+- [x] AC6 — Given `coding-conventions.md` before and after, when byte counts are compared, then the
       file has not grown by more than 1,500 bytes. The fix is a mechanism, not more checklist.
 
 ## QA plan
@@ -150,3 +151,44 @@ to happen while making the document look more thorough.
   this ticket's own Out of scope excludes writing the subagent definitions as shipped
   artifacts — there's nothing here that's README-shaped. Narrowed `touches:` to the two files
   actually changed at claim time.
+
+## QA evidence
+
+Verified 2026-09-26, token `981c`.
+
+- **AC1** — `coding-conventions.md`'s Review Checklist (line ~197) opens: "42 items across 15
+  sections is too much for one pass from memory, so delegate it: dispatch one subagent per
+  section, scoped only to the tools that section needs … run them in parallel, and read back a
+  pass/fail-with-reason from each before finalizing." States the mechanism, not only the mandate.
+- **AC2** — The statement names a concrete unit of work (one subagent per section), a tool scope
+  (read + grep), an execution mode (parallel), and an output contract (pass/fail-with-reason) —
+  actionable by a session facing a real diff without asking the user how to proceed.
+- **AC3** — `grep -n "automated" coding-conventions.md` → one hit: SECURITY's "No secrets in the
+  diff" item names `hooks/scan-staged-for-secrets.sh` as the automated check. Confirmed this is
+  the only genuinely automated item in the checklist right now (SAFETY's four items and the rest
+  of SECURITY have no committed guard) — the item's own Notes already correct an earlier premise
+  that assumed broader coverage; verified the corrected claim rather than the original one.
+- **AC4** — *Notes & decisions* → "FR5 measurement (2026-09-14)" records a real diff (`50945d88`),
+  a manual run (8 applicable sections, caught 1 issue) and a delegated run (same 8 sections, one
+  Haiku subagent each, caught the same issue plus 3 more the manual pass missed — duplicated
+  boilerplate, a what-comment, and an unconfirmable TESTING item flagged rather than assumed
+  clean). Both lists are recorded, including what the delegated run caught that the manual run
+  didn't, which is the harder direction to report honestly and is exactly what's here.
+- **AC5** — `CONVENTIONS_CORE.md:145`: "Coding rules + Review Checklist (run it delegated, one
+  subagent per section) → `coding-conventions.md`" — matches the mechanism stated in the checklist
+  itself.
+- **AC6** — `git show 2725a8f^:coding-conventions.md | wc -c` → 18524;
+  `git show 2725a8f:coding-conventions.md | wc -c` → 19244. Growth = 720 bytes, under the 1,500
+  cap.
+- **`scripts/check-convention-links.sh`** (AC5's specific check): exit 0, "All convention links
+  resolve."
+- **NFRs** — Security: the FR5 measurement itself is the evidence the delegated version isn't
+  weaker — it found strictly more in the one trial run, including the one item requiring epistemic
+  honesty (TESTING) that the manual pass got wrong. Documentation: mechanism and measurement both
+  live in this file, in the same change. Performance: the checklist text tells a session to scope
+  to applicable sections ("a one-line doc fix doesn't need a RELEASE or PERSISTED DATA pass") so a
+  small edit doesn't pay for all 15.
+- **No mutation applicable** — `qa_level: verify`, and the deliverable is prose plus a measurement
+  record; there is no guarded behaviour with a runner to break and restore. AC3's "automated"
+  marker was cross-checked against the actual hook (`hooks/scan-staged-for-secrets.sh` exists and
+  its own tests were re-run and passed under 0003/0004's verification in this same session).
