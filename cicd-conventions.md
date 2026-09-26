@@ -17,6 +17,8 @@ The value of CI is a consistent, un-skippable gate that runs the same way regard
 
 CI runs the same checks you're supposed to run locally. It exists because "supposed to" fails silently and CI doesn't.
 
+**A check introduced against an already-dirty codebase gets a remediation decision in the same change, not silence.** A guard is allowed to find pre-existing violations it didn't create — but if nothing decides what happens to them (fix the baseline, scope the check to new work only, or accept it and say so), the check reports the same count forever, and a permanently red or permanently-warning check is one people learn to route around. The decision is often not the guard-writer's to make alone (rewriting shared history, say), so escalate it rather than picking silently — but escalate it now, while the gap is understood, not later when nobody remembers why it's there.
+
 ## By Collaboration Mode
 
 **Solo:**
