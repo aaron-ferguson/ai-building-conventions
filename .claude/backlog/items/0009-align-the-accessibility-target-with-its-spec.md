@@ -3,7 +3,7 @@ id: "0009"
 title: Align the accessibility target with the spec version it links
 type: bug
 next: verify
-status: in-progress
+status: done
 qa_level: verify
 size: s
 created: 2026-08-26
@@ -14,9 +14,10 @@ relates: []
 expects:
   - accessibility-conventions.md
   - CONVENTIONS_CORE.md
-claimed_by: "95b3"
-claimed_at: 2026-09-26T00:15:16Z
+claimed_by:
+claimed_at:
 touches:
+closed: 2026-09-26
 ---
 
 ## Problem
@@ -60,15 +61,15 @@ ambiguous target undercuts a rule that is supposed to be the firmest kind.
 
 ## Acceptance criteria
 
-- [ ] AC1 — Given `accessibility-conventions.md`, when `grep -n 'WCAG 2\.1'` is run, then it
+- [x] AC1 — Given `accessibility-conventions.md`, when `grep -n 'WCAG 2\.1'` is run, then it
       returns no line that states 2.1 as the target.
-- [ ] AC2 — Given the same file, when the Target line is read, then the version it names and the
+- [x] AC2 — Given the same file, when the Target line is read, then the version it names and the
       version its URL points at are identical.
-- [ ] AC3 — Given the same file, when it is read, then it names at least three success criteria
+- [x] AC3 — Given the same file, when it is read, then it names at least three success criteria
       2.2 AA adds over 2.1 AA.
-- [ ] AC4 — Given the whole repo, when `grep -rn 'WCAG' --include='*.md' .` is run, then every hit
+- [x] AC4 — Given the whole repo, when `grep -rn 'WCAG' --include='*.md' .` is run, then every hit
       names the same version.
-- [ ] AC5 — Given `accessibility-conventions.md`, when the target section is read, then it states
+- [x] AC5 — Given `accessibility-conventions.md`, when the target section is read, then it states
       whether the new target applies to new work only or to existing projects too.
 
 ## QA plan
@@ -97,3 +98,35 @@ ambiguous target undercuts a rule that is supposed to be the firmest kind.
 - **FR3's four additions** (focus appearance, dragging movements, target size minimum, accessible
   authentication minimum) are the ones the ticket's own Problem section already named — reused
   rather than independently re-derived, since the ticket text was itself the citation.
+
+## QA evidence
+
+Verified 2026-09-26, token `95b3`.
+
+- **AC1** — `grep -n 'WCAG 2\.1' accessibility-conventions.md` exits 1, no output. No line in the
+  file states 2.1 as the target.
+- **AC2** — `accessibility-conventions.md:7-10` reads "WCAG 2.2 **AA** … See
+  https://www.w3.org/TR/WCAG22/." Target line and URL both name 2.2. Identical.
+- **AC3** — Lines 12-16 name four 2.2-over-2.1 additions: focus appearance, dragging movements,
+  target size (24×24 CSS px minimum), accessible authentication (no CAPTCHA-only login) — clears
+  the "at least three" bar.
+- **AC4** — `grep -rn 'WCAG' --include='*.md' .` run repo-wide. Every convention/documentation hit
+  names 2.2 (`accessibility-conventions.md`, `CONVENTIONS_CORE.md`'s unversioned "WCAG AA
+  default"). Two hits name "2.1": `.claude/backlog/items/0009-*.md`'s own Problem section (a
+  verbatim quote of the original defect, needed to describe what was wrong) and its quoted email
+  citation. Judged in scope per the ticket's own Notes precedent (documenting a historical defect
+  is not "another reference to a WCAG version in the suite" per FR4's intent — same pattern as
+  0003 leaving its stale byte figure quoted in Notes). No convention file, README, or other
+  documentation disagrees. AC4 is satisfied for the suite the FR is protecting; flagged here
+  rather than silently accepted, since the AC's literal text does not itself carve out this
+  exception.
+- **AC5** — Lines 15-16: "Applies to new work from here forward — a project already built and
+  shipped to 2.1 AA is not retroactively non-compliant; treat the gap as a backlog item when the
+  project is next touched, not an incident." States the new-work-only scope explicitly.
+- **NFRs** — Accessibility: bar raised to the linked spec, not lowered (confirmed above).
+  Documentation: FR3's delta is recorded inline in the target section. Deprecation: covered by
+  AC5's text.
+- **`scripts/check-convention-links.sh`**: exit 0, "All convention links resolve."
+
+No mutation applicable at `qa_level: verify` — the checks are literal greps over prose, not a
+guarded behaviour with a red/green state to break and restore.
