@@ -2,7 +2,7 @@
 id: "0013"
 title: Decide check-commit-identity.sh's contract for pre-existing violations
 type: bug
-next: design
+next: verify
 status: ready
 qa_level: unit
 size: s
@@ -23,7 +23,7 @@ touches:
 ## Problem
 
 `scripts/check-commit-identity.sh` prints `134 disallowed commit identity reference(s)` against
-this repo's history and still **exits 0** — verified while item 0001 was being verified, and again
+this repo's history and (at filing time, believed to **exit 0**; it exits 1, see Notes) — verified while item 0001 was being verified, and again
 while scoping this ticket. The script correctly flags that 134 commits reachable from `main` carry
 a corporate committer/author email on what `CLAUDE.md`'s *Environments* block states is a
 **public** remote, and the local git config is already correct going forward (every commit made
@@ -71,7 +71,7 @@ Re-derived once the decision lands.
 
 Re-derive with the design answer.
 
-- [ ] AC1 — Given the script's header comment, when a reader who has not seen this ticket reads
+- [x] AC1 — Given the script's header comment, when a reader who has not seen this ticket reads
       it, then they can state whether exit 0 on pre-existing violations is intended and why.
 
 ## QA plan
@@ -87,6 +87,15 @@ Re-derive with the design answer.
 - Rewriting or squashing this repo's history to remove the 134 existing violations.
 
 ## Notes & decisions
+
+- 2026-10-10 — **Decided: baseline (option 2).** `check-commit-identity.sh` reads
+  `scripts/commit-identity-baseline.txt` (SHAs only, 67 commits = the 134 references). Baselined
+  commits are reported, not failing; any other violation exits 1; a stale entry is reported; an
+  unreadable baseline exits 2. Contract is in the script header. The premise above was wrong:
+  the script exited 1 all along. History rewrite was measured in a throwaway clone and declined
+  for now (187 of 189 SHAs change, six cited SHAs break, old SHAs stay reachable on the remote).
+  Tests: baselined passes, non-baselined still reds, stale reported, unreadable baseline blocks.
+  Also scrubbed the corporate address and name from item 0001's tracked text.
 
 - 2026-09-26 — Filed by `retro`, draining two related `.claude/backlog/FINDINGS.md` entries dated
   2026-09-14 (the exit-0 observation from verifying item 0001, and the "no remediation ticket"

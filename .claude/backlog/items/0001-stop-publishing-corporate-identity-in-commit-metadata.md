@@ -34,7 +34,7 @@ Verified 2026-08-26:
 ```
 $ git log --format='%an <%ae>' | sort -u
 aaron-ferguson <aaron@newheights.coach>
-aaronferguson-neumo <aaron.ferguson@neumo.com>
+<work-account> <work-address>  (corporate identity; redacted)
 ```
 
 So the repo's own headline constraint is violated by the mechanism it does not cover, and nothing
@@ -144,7 +144,7 @@ following the rule as written would make the same mistake again.
 | AC5 | Ran `scripts/check-commit-identity.test.sh` directly | 2 passed, 0 failed; contains the AC3 case |
 | AC6 | `grep -n "check-commit-identity" CLAUDE.md` | Line 55, in the Environments verification bullet |
 | Mutation | Widened `ALLOWED_DOMAINS` to include `disallowed.example` in `check-commit-identity.sh`, ran test | Reddened as expected (1 passed, 1 failed, "expected exit 1, got 0"); restored via `git checkout -- scripts/check-commit-identity.sh`, control run green (2/2) |
-| Privacy NFR | `grep -n "newheights\|neumo\|allowlist"` over the script and its test | Only the permitted personal domain appears; no corporate domain recorded anywhere tracked |
+| Privacy NFR | `grep -n "newheights\|allowlist"` plus a grep for the corporate domain (not recorded here) over the script and its test | Only the permitted personal domain appears; no corporate domain recorded anywhere tracked |
 | Documentation NFR | `git log --oneline` for FR2/FR5 landing | `73dda77` (script) then `a09caa8` (CLAUDE.md widening), same change set as this ticket |
 
 Advisory check: dirty set at Step 2 was only the untracked `.claude/backlog/runs/` directory (unrelated tooling artifact, not in `expects:`/`touches:`). Intersection with this ticket's evidence set is empty.
