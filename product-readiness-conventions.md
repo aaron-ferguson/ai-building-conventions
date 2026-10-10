@@ -56,6 +56,8 @@ Assume an external identity provider will eventually be mandatory, because for a
 - **A code path named for a customer is a permanent liability.** So is a branch, a per-customer build, and a hardcoded threshold that one customer needed changed.
 - **Variation lives in data**: settings with sane defaults, feature entitlements, templates, terminology, workflow options. Adding a customer should never mean adding code.
 - **Every setting is a supported permutation.** Each one multiplies what "working" means, so add them deliberately and delete the ones nobody uses (YAGNI applied to configuration).
+- **Configure where customers legitimately differ; decide everything else once.** A setting earns its place when the difference comes from law, contract, or the customer's own policy; where it is only preference, pick the default and ship one behavior. Give the customer the policy choice (is this break paid?) and have the product apply one consistent rule to whatever they choose.
+- **Settings are layered when customers are.** Where a customer has an organization above its locations, a setting has an organization default each location inherits unless it overrides it. Show inherited versus overridden, offer reset to the default, and log every change. A "copy settings from another location" feature is the sign this layer is missing — copies drift. Build the layering once as a shared pattern, not per setting.
 - **Entitlements are not release flags.** A release flag rolls a change out and is deleted after (`progressive-delivery-conventions.md`); an entitlement is durable product state that says what a customer bought. Conflating them means deleting a flag turns a paying customer's feature off.
 
 ## Give Everything a Stable External Identifier
