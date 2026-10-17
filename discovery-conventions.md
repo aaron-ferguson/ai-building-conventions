@@ -36,7 +36,7 @@ A request is one requester's solution to a problem others probably share. Before
 
 - **Find the capability behind the ask.** A lunch field for one customer is recording breaks for every customer. A proposal that serves exactly one requester is either a one-off to decline or a capability not yet generalized (`product-readiness-conventions.md` → "Per-Customer Difference Is Configuration, Never a Fork").
 - **Check whether it already exists** — in the backlog, the idea board, and earlier proposals, and in the product itself, where it may be built but switched off by configuration. A second requester is evidence for the existing item, not a reason for a parallel one.
-- **Trace today's behavior in the code before proposing a change.** The ask describes symptoms; the code shows the mechanism, and the mechanism often reframes the work.
+- **Trace today's behavior in the code before proposing a change.** The ask describes symptoms; the code shows the mechanism, and the mechanism often reframes the work. Trace every place that already shows or decides the same thing, not only the one the ask names — another surface may have settled the question already, turning a decision into prior art.
 - **Propose assertively when the ask is thin.** Waiting for a complete request is how requests fall through the cracks. Write the best-judgment proposal, mark which parts are intuition (rung 5), list the questions that would change it, and let the requester correct it.
 
 ## Test the Riskiest Assumption First
