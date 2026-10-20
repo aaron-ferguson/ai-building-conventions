@@ -162,6 +162,17 @@ Re-run the full eval suite against a new version before promoting it. A newer or
 
 ---
 
+## Be Able to Answer the Buyer's Vendor Evaluation
+
+Regulated buyers evaluate AI vendors with a written intake before they pilot or purchase. An AI feature whose answers are reconstructed from memory when that intake arrives gets answered wrong, or slowly, and a wrong attested answer is a contract problem.
+
+- **Keep a disclosure record for every AI feature, from discovery onward.** It lives with the feature, holds no customer data, and is updated in the same change that alters any of its facts: models and providers (name, version, hosting), what data reaches each, whether anything leaves the boundary, what is retained and for how long, whether customer data trains or tunes anything, subprocessors and human reviewers, human-override and audit-trail behavior, agentic permissions, known failure modes, and how customers are told about changes.
+- **An unanswerable field is a design finding.** If the record can't say where data goes or who can override an output, the feature isn't ready for a pilot. Record `Unknown`, an owner, and a date. Never fill a field by guess.
+- **A change to any field is a customer-notifiable change.** Swapping a model, adding a provider, widening data use or adding an agent capability is a release (see "Model Versions Are Releases"), and buyers commonly require notice of it.
+- The company profile names the template, the sign-off owner, and which customer-facing forms the record must satisfy.
+
+---
+
 ## Handle Non-Determinism Explicitly
 
 LLM outputs vary across identical inputs. Design for this.
