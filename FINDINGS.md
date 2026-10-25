@@ -84,3 +84,11 @@ outside the bold. Entries name the repo when they point outside this one.
   region containing both. This is the adjacent-prose sibling of the negative-assertion trap already
   named — same cause, opposite sign (pointer: testing-conventions.md, anchor an assertion to the
   claim; ai-building-tools items/0168 AC7, commit 13ac559).
+
+- 2026-10-25 — **a "change one, change all" comment is a rule with nothing enforcing it, and it
+  ages with its count.** In ai-building-tools four declared copies had one guard between them; the
+  comments said "both" and "all three" over a block that had reached four files, and a fifth file
+  carried copies with no comment at all. The general rule belongs beside the guards-that-cannot-fail
+  material: a copy whose divergence would be silent is declared by a machine-readable marker and
+  byte-compared by one suite, never by a per-change comparison (pointer: testing-conventions.md;
+  ai-building-tools items/0146).
