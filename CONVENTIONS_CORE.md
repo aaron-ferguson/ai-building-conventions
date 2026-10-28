@@ -29,7 +29,7 @@ Essential rules for every session. No exceptions. Read the files listed at the b
 - Functions either return a value or cause a side effect — not both (`coding-conventions.md` → "Command-Query Separation").
 - Don't mutate inputs. Return new values (`coding-conventions.md` → "Immutability Preference").
 - One concept, one definition. Duplicated *knowledge* — a rule, value, type, calculation — is fixed immediately; duplicated *shape* waits for the third use. Derive types from the schema that validates them; never restate them beside it (`coding-conventions.md` → "One Concept, One Definition").
-- **Prefer enforcement over instruction.** A rule in a doc asks the next session to remember it; a type, a schema, a lint rule, or a test makes the system prove it. Where a rule is mechanically checkable, add the check rather than another sentence — a rule broken twice was never enforceable as prose.
+- **Prefer enforcement over instruction.** A rule in a doc asks the next session to remember it; a type, a schema, a lint rule, or a test makes the system prove it. Where a rule is mechanically checkable, add the check rather than another sentence — a rule broken twice was never enforceable as prose. A test that greps prose is not that check — it checks words, not behaviour; enforce in a script, type or schema (`testing-conventions.md` → "Philosophy").
 
 ## Testing
 
