@@ -79,6 +79,18 @@ Write a decision record when a decision is **expensive to reverse** or **was gen
 
 Why this matters for AI-driven development: an AI session can read the code but not the reasoning. Without decision records, every session risks helpfully "fixing" a deliberate choice.
 
+## Business Decision Records
+
+An ADR records a *technical* choice. A BDR records a *product* one: how the product behaves and why, such as where a control lives, what a dashboard answers, or when a notification counts as read. These are the decisions a prototype exists to test, and the ones that get quietly undone when the reasoning never left the session.
+
+- **When:** a decision important enough to revisit or refine, one that reverses an earlier decision, or one someone will later ask "why is it like this?" about. **Not every decision.** Routine build choices stay in the code, and a log of everything buries the few entries that matter.
+- **The reason is the decision-maker's, in their words.** If none was given, ask once, while the decision is fresh. If there's still none, record the decision with *No reason given*. **Never write a reason on their behalf.** A plausible invented reason is worse than none, because it reads as settled.
+- **Mark who decided.** *Decided* means the user said so. *Assumed* means a call made while building that nobody confirmed. *Open* means a question raised but not settled. Assumed and Open entries are the list to confirm before the real build.
+- **Location:** `bdr/<module>/<topic>.md`, one folder per product module (navigation counts as a module), plus `bdr/principles/` for decisions that apply across modules. Add a folder when a module gets its first BDR. Keep an index and the format in `bdr/README.md`.
+- **One file per topic, and it keeps its history.** A refinement updates the decision and adds a dated History line. Nothing is deleted, so the file shows how the thinking moved. This differs from an ADR's supersede-by-new-record on purpose: product decisions are refined many times, and the trail belongs in one place.
+- **Same change, prototype or production.** What a prototype teaches is recorded when it's learned, because the prototype gets thrown away and the BDR doesn't.
+- **Best effort, not enforced.** A BDR only earns its place by being worth reading, and a check can force an entry but not a good one. The payoff is that tickets start from recorded reasons, rework is smaller or better informed, and a later session doesn't "fix" a deliberate choice.
+
 ## CLAUDE.md Is Living Documentation
 
 - Each project's CLAUDE.md carries: the stack, the key invariants, and project-specific overrides of these conventions. It is the first thing an AI session reads — keep it current.

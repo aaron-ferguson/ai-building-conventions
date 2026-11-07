@@ -14,6 +14,7 @@ Essential rules for every session. No exceptions. Read the files listed at the b
 - **Deploy ≠ release ≠ launch** — code in production, users exposed, world told. Three decisions; nobody outside the team learns about a launch from a customer (`launch-conventions.md` → "Launch Conventions").
 - Some decisions can't be retrofitted once real customer data exists: tenant isolation, identity shape, authorization as data, the audit trail, stable identifiers, and how time and money are stored. Deferring is fine; deferring silently is not (`product-readiness-conventions.md` → "Retrofit Cost Is the Test").
 - **Customer data must be able to get in and out.** A conversion from another product is a tested, idempotent product with provenance and reconciliation — never a one-off script — and nothing is ever silently dropped. Export is a feature, not a retention lever (`data-conversion-conventions.md` → "Conversion Is a Product, Not a Script").
+- **Record the product decisions worth revisiting, with the decider's reason.** If no reason was given, ask once. If there's still none, record the decision without one, and never invent it. Skip routine choices. Best effort, not enforced (`documentation-conventions.md` → "Business Decision Records").
 - Nothing is removed without a replacement path, notice proportional to switching cost, and a recorded owner and date (`deprecation-conventions.md` → "Nothing Is Removed Without a Path or an Explicit Decision").
 
 ## Code
@@ -161,7 +162,7 @@ Read on demand (all live alongside this file):
 - **Migrations** (expand/contract, forward-only, backfills) → `migration-conventions.md`
 - **Progressive delivery** (deploy ≠ release; flags, kill switches) → `progressive-delivery-conventions.md`
 - **Incidents** (**load only during/right after one**) → `incident-conventions.md`
-- **Documentation** (README, layering, decision records) → `documentation-conventions.md`
+- **Documentation** (README, layering, decision records, business decision records) → `documentation-conventions.md`
 - **Git** (destructive commands, branch management) → `git-conventions.md`
 - **CI/CD & code review** (checks, branch protection, PR process) → `cicd-conventions.md`
 - **Deployment** (topology, rollback, readiness) → `deployment-conventions.md`
