@@ -20,8 +20,8 @@ companies/*.md
 *.swp
 
 # Backlog lock — transient, held for seconds during a claim or close
-.claude/backlog/.lock/
+.backlog/.lock/
 
 # Sprint run logs — local per-run traces; the durable record is LEDGER.md / FINDINGS.md,
 # and they carry absolute home paths that must not reach this public remote
-.claude/backlog/runs/
+.backlog/runs/
