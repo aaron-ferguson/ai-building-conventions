@@ -29,7 +29,7 @@ Format: `- YYYY-MM-DD — what happened, why it might matter (pointer: file, ite
 
 ---
 
-**Every remaining entry below is `[for tools repo]` — this project's `.claude/backlog/config.yml`
+**Every remaining entry below is `[for tools repo]` — this project's `.backlog/config.yml`
 has no `tools.path` set, so the `ai-building-tools` buffer cannot be resolved from here, and this
 session was explicitly told not to edit that repo. `retro` (2026-09-26) read every entry below,
 confirmed each is genuinely about the tools plugin rather than this project, and left them parked

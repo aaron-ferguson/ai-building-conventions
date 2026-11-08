@@ -3,7 +3,7 @@
 Things a session noticed **while working in another repo** that turn out to be gaps in *these*
 files, and could not be fixed from where they were found.
 
-**This file is for gaps found from outside; `.claude/backlog/FINDINGS.md` is for gaps found from
+**This file is for gaps found from outside; `.backlog/FINDINGS.md` is for gaps found from
 inside.** This file said, until 2026-09-07, that the repo had no backlog and that the answer if it
 grew was a backlog rather than a longer file. The backlog exists now, so that sentence has been
 corrected rather than left to read as current — a stale rule is followed.
