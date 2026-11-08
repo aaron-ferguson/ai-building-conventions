@@ -55,7 +55,7 @@ run_case "does not flag the documented settings paths" 0 \
   'Global settings live in `~/.claude/settings.json`; project overrides in `.claude/settings.local.json`.'
 
 # The backlog's bug reports sometimes have to quote the path they complain about, so the
-# backlog directory is skipped wherever it lives — `.backlog/` now, `.claude/` before it.
+# backlog directory is skipped wherever it lives — `.tickets/` now, `.claude/` before it.
 run_excluded_dir_case() {
   local dir="$1" tmp out status
   tmp="$(mktemp -d)"
@@ -75,7 +75,7 @@ $out"
   rm -rf "$tmp"
 }
 
-run_excluded_dir_case ".backlog"
+run_excluded_dir_case ".tickets"
 run_excluded_dir_case ".claude"
 
 printf '\n%d passed, %d failed\n' "$PASSED" "$FAILED"
